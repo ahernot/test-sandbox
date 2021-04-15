@@ -12,6 +12,7 @@ public class MeshGenerator : MonoBehaviour
 
     Vector3[] vertices;
     int[] triangles;
+    Vector2[] uvs;
 
     public int xSize;
     public int zSize;
@@ -34,15 +35,17 @@ public class MeshGenerator : MonoBehaviour
     void CreateShape ()
     {
         this.vertices = new Vector3[(this.xSize + 1) * (this.zSize + 1)];
+        this.uvs = new Vector2[vertices.Length]; // uvs unwrap the shape to map it to a 2D plane in [0,1]**2 for texture-mapping
 
-        // Create vertices
+        // Create vertices & uvs
         int i = 0;
         for (int z = 0; z <= this.zSize; z++)
         {
             for (int x = 0; x <= this.xSize; x++)
             {
                 float y = Mathf.PerlinNoise(x * .3f, z * .3f) * 2f;
-                this.vertices [i] = new Vector3 (x, y, z);
+                this.vertices [i] = new Vector3 (x, y, z); // add vertex
+                this.uvs [i] = new Vector2 ((float)x / this.xSize, (float)z / this.zSize); // add uv
                 i++;
             }
         }
@@ -69,6 +72,7 @@ public class MeshGenerator : MonoBehaviour
 
             vert++;
         }
+
     }
 
 
@@ -79,6 +83,7 @@ public class MeshGenerator : MonoBehaviour
 
         mesh.vertices = this.vertices;
         mesh.triangles = this.triangles;
+        mesh.uv = this.uvs;
 
         mesh.RecalculateNormals();
     }

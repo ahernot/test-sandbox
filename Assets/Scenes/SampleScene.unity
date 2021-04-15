@@ -819,7 +819,7 @@ GameObject:
   - component: {fileID: 670852738}
   - component: {fileID: 670852742}
   m_Layer: 8
-  m_Name: SandMeshGenerator
+  m_Name: SandChunk-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -837,8 +837,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5674f72a21c842ebb1f9ba7ce7e4d17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSize: 20
-  zSize: 20
+  xSize: 16
+  zSize: 16
 --- !u!23 &670852739
 MeshRenderer:
   m_ObjectHideFlags: 0
