@@ -16,10 +16,20 @@ public class ChunkBuilder : MonoBehaviour
     public int xChunkSize = 16;
     public int zChunkSize = 16;
 
-    void Awake()
+    // Noise
+    public Vector2 offset = Vector2.zero;
+    public int seed = 0;
+    public float scale;
+    public int octaves = 4;
+    public float persistence;
+    public float lacunarity;
+    public float multiplier;
+
+    void Awake ()
     {
 
         GameObject chunkPrefab = new GameObject();
+        chunkPrefab.name = "_SampleChunk";
         chunkPrefab.AddComponent<MeshFilter>();
         chunkPrefab.AddComponent<MeshCollider>();
         chunkPrefab.AddComponent<MeshRenderer>();
@@ -28,8 +38,10 @@ public class ChunkBuilder : MonoBehaviour
         // Set layer
         chunkPrefab.layer = 8;
 
-        // noiseMap = Noise().GenerateNoiseMap(this.xChunkSize * this.xSize, this.zChunkSize * this.zSize, 0, 0.5, 4, 0.2, 0.1, Vector2.null);
+        // Vector2 offset = new Vector2 (this.xChunk * xSize, this.zChunk * zSize);
+        
 
+        float[,] noiseMap = Noise.GenerateNoiseMap(this.xSize * this.xChunkSize + 1, this.zSize * this.zChunkSize + 1, seed, scale, octaves, persistence, lacunarity, offset);
 
         for (int x = 0; x < this.xSize; x++) {
             for (int z = 0; z < this.zSize; z++) {
@@ -39,16 +51,21 @@ public class ChunkBuilder : MonoBehaviour
 
                 GameObject chunk = (GameObject)Instantiate(chunkPrefab, chunkPosition, chunkRotation);
                 chunk.transform.parent = this.gameObject.transform;
-                chunk.name = "chunk" + x.ToString() + "-" + z.ToString();
+                chunk.name = "Chunk" + x.ToString() + "-" + z.ToString();
 
                 // Add Mesh Generator script
-                chunk.AddComponent<MeshGenerator>();
+                MeshGenerator meshGenerator = chunk.AddComponent<MeshGenerator>();
+
+                meshGenerator.xChunk = x;
+                meshGenerator.zChunk = z;
+                meshGenerator.noiseMap = noiseMap;
+                meshGenerator.noiseMultiplier = this.multiplier;
 
                 MeshRenderer meshRenderer = chunk.GetComponent<MeshRenderer>();
                 meshRenderer.material = (Material)Instantiate(this.material);
 
             }
         }
-
     }
+
 }

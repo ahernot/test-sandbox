@@ -15,6 +15,14 @@ public class MeshGenerator : MonoBehaviour
     int[] triangles;
     Vector2[] uvs;
 
+    public float[,] noiseMap;
+    public float noiseMultiplier;
+
+    // Chunk coordinates
+    public int xChunk = 0;
+    public int zChunk = 0;
+
+    // Chunk size
     public int xSize = 16;
     public int zSize = 16;
 
@@ -23,13 +31,6 @@ public class MeshGenerator : MonoBehaviour
     {
         this.mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = this.mesh;
-        //meshCollider.sharedMesh = meshToCollide;
-        
-
-        // this.renderer = GetComponent<Renderer>();
-        // Material mat = Resources.Load("Assets/Materials/Sand-test-HD") as Material;
-        // this.renderer.material = mat;
-
         this.CreateShape();
         this.UpdateMesh();
         
@@ -46,9 +47,12 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= this.xSize; x++)
             {
-                float xReal = transform.position.x + x;
-                float zReal = transform.position.z + z;
-                float y = Mathf.PerlinNoise(xReal * .3f, zReal * .3f) * 2f;
+                // float xReal = transform.position.x + x;
+                // float zReal = transform.position.z + z;
+                // float y = Mathf.PerlinNoise(xReal * .3f, zReal * .3f) * 5f;
+                int xRealChunk = this.xChunk * this.xSize + x;
+                int zRealChunk = this.zChunk * this.zSize + z;
+                float y = this.noiseMap[xRealChunk, zRealChunk] * this.noiseMultiplier;
                 this.vertices [i] = new Vector3 (x, y, z); // add vertex
                 this.uvs [i] = new Vector2 ((float)x / this.xSize, (float)z / this.zSize); // add uv
                 i++;
