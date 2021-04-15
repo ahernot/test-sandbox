@@ -15,8 +15,8 @@ public class MeshGenerator : MonoBehaviour
     int[] triangles;
     Vector2[] uvs;
 
-    public int xSize;
-    public int zSize;
+    public int xSize = 16;
+    public int zSize = 16;
 
     // Start is called before the first frame update
     void Start ()
@@ -46,7 +46,9 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= this.xSize; x++)
             {
-                float y = Mathf.PerlinNoise(x * .3f, z * .3f) * 2f;
+                float xReal = transform.position.x + x;
+                float zReal = transform.position.z + z;
+                float y = Mathf.PerlinNoise(xReal * .3f, zReal * .3f) * 2f;
                 this.vertices [i] = new Vector3 (x, y, z); // add vertex
                 this.uvs [i] = new Vector2 ((float)x / this.xSize, (float)z / this.zSize); // add uv
                 i++;
@@ -91,8 +93,8 @@ public class MeshGenerator : MonoBehaviour
         this.mesh.RecalculateNormals();
 
         // Generate the mesh collider maybe
-        MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
-        meshCollider.sharedMesh = meshToCollide;
+        // MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
+        // meshCollider.sharedMesh = meshToCollide;
         GetComponent<MeshCollider>().sharedMesh = this.mesh;
     }
 
