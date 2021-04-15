@@ -22,6 +22,8 @@ public class MeshGenerator : MonoBehaviour
     {
         this.mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = this.mesh;
+        //meshCollider.sharedMesh = meshToCollide;
+        
 
         // this.renderer = GetComponent<Renderer>();
         // Material mat = Resources.Load("Assets/Materials/Sand-test-HD") as Material;
@@ -79,13 +81,15 @@ public class MeshGenerator : MonoBehaviour
     void UpdateMesh ()
     {
         // Clear current mesh
-        mesh.Clear();
+        this.mesh.Clear();
 
-        mesh.vertices = this.vertices;
-        mesh.triangles = this.triangles;
-        mesh.uv = this.uvs;
+        this.mesh.vertices = this.vertices;
+        this.mesh.triangles = this.triangles;
+        this.mesh.uv = this.uvs;
 
-        mesh.RecalculateNormals();
+        this.mesh.RecalculateNormals();
+
+        GetComponent<MeshCollider>().sharedMesh = this.mesh;
     }
 
 
