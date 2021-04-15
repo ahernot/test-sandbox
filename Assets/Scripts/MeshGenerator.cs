@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(MeshFilter))] // Require a mesh filter component in the object
+// [RequireComponent(typeof(MeshCollider))]
 public class MeshGenerator : MonoBehaviour
 {
 
@@ -89,6 +90,9 @@ public class MeshGenerator : MonoBehaviour
 
         this.mesh.RecalculateNormals();
 
+        // Generate the mesh collider maybe
+        MeshCollider meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = meshToCollide;
         GetComponent<MeshCollider>().sharedMesh = this.mesh;
     }
 
