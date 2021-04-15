@@ -39,7 +39,7 @@ public class MeshGenerator : MonoBehaviour
     void CreateShape ()
     {
         this.vertices = new Vector3[(this.xSize + 1) * (this.zSize + 1)];
-        this.uvs = new Vector2[vertices.Length]; // uvs unwrap the shape to map it to a 2D plane in [0,1]**2 for texture-mapping
+        this.uvs = new Vector2[this.vertices.Length]; // uvs unwrap the shape to map it to a 2D plane in [0,1]**2 for texture-mapping
 
         // Create vertices & uvs
         int i = 0;
