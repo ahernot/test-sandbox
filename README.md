@@ -7,3 +7,12 @@
 
 
 Shaders & materials: https://forum.unity.com/threads/shaders-vs-materials.628672/
+
+Texture help:
+* https://forum.unity.com/threads/shaders-vs-materials.628672/
+* https://answers.unity.com/questions/12835/how-to-automatically-apply-different-textures-on-t.html
+* https://www.red-gate.com/simple-talk/dotnet/c-programming/creating-a-shader-in-unity/
+* Blending (example): https://forum.unity.com/threads/blend-between-textures-based-on-height.210221/
+* Get angle: https://answers.unity.com/questions/1682486/how-do-i-texture-a-procedural-mesh-based-on-its-an.html
+
+Lighting seams: https://forum.unity.com/threads/lighting-seam-on-tileable-mesh.533407/
