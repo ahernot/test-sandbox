@@ -13,16 +13,22 @@ public class ChunkManager : MonoBehaviour
     [HideInInspector]
     public GameObject[] chunks;
 
+    // Number of chunks
     public int xHalfNbChunks = 64;
     public int zHalfNbChunks = 64;
 
+    // Size of a chunk
     public int xChunkSize = 16;
     public int zChunkSize = 16;
+    // Chunk mesh dimensions
+    public float xMeshSize = 0.5f;
+    public float zMeshSize = 0.5f;
 
-    // Player chunk
+    // Player chunk position
     int xChunkPlayer;
     int zChunkPlayer;
 
+    // Chunks to load (square of side 2x+1)
     public int loadHighRadius = 8;
 
     public Material material;
@@ -61,6 +67,10 @@ public class ChunkManager : MonoBehaviour
                 ChunkMesh chunkMesh = this.chunks[i] .AddComponent<ChunkMesh>();
                 chunkMesh.xChunk = xChunk;
                 chunkMesh.zChunk = zChunk;
+                chunkMesh.xChunkSize = this.xChunkSize;
+                chunkMesh.zChunkSize = this.zChunkSize;
+                chunkMesh.xMeshSize = this.xMeshSize;
+                chunkMesh.zMeshSize = this.zMeshSize;
 
                 i++;
             }
