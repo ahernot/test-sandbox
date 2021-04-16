@@ -27,14 +27,6 @@ public class ChunkManager : MonoBehaviour
 
     public Material material;
 
-
-    void DestroyChunks ()
-    {
-        foreach (Transform child in transform) {
-            GameObject.Destroy(child.gameObject);
-        }
-    }
-
     void Start ()
     {
 
@@ -66,21 +58,29 @@ public class ChunkManager : MonoBehaviour
                 MeshRenderer meshRenderer = this.chunks[i] .GetComponent<MeshRenderer>();
                 meshRenderer.material = (Material)Instantiate(this.material);
 
-                this.chunks[i] .AddComponent<ChunkMesh>();
+                ChunkMesh chunkMesh = this.chunks[i] .AddComponent<ChunkMesh>();
+                chunkMesh.xChunk = xChunk;
+                chunkMesh.zChunk = zChunk;
 
                 i++;
             }
         }
     }
 
+    void DestroyChunks ()
+    {
+        foreach (Transform child in transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+
     void Update ()
     {
-        this.UpdatePlayerChunk();
+        this.GetPlayerChunk();
         this.UpdateResolutions();
     }
 
-
-    void UpdatePlayerChunk ()
+    void GetPlayerChunk ()
     {
         float x = this.player .transform.position.x;
         float z = this.player .transform.position.z;
@@ -89,9 +89,8 @@ public class ChunkManager : MonoBehaviour
         this.zChunkPlayer = (int) Mathf.Floor((float)z / this.zChunkSize);
     }
 
-
-    void UpdateResolutions () {
-
+    void UpdateResolutions ()
+    {
         int i = 0;
         for (int xChunk = -1 * this.xHalfNbChunks; xChunk < this.xHalfNbChunks; xChunk++)
         {

@@ -8,15 +8,14 @@ public class ChunkMesh : MonoBehaviour
 {
 
     // Chunk coordinates
-    int xChunk = 0;
-    int zChunk = 0;
-    int x;
-    int z;
+    [HideInInspector]
+    public int xChunk = 0;
+    [HideInInspector]
+    public int zChunk = 0;
 
     // Chunk size (determined by ChunkManager)
     int xChunkSize = 16;
     int zChunkSize = 16;
-
 
     public enum MeshResolution {Low, Medium, High};
     public MeshResolution meshResolution;
@@ -42,18 +41,20 @@ public class ChunkMesh : MonoBehaviour
     int[] trianglesHigh;
     Vector2[] uvsHigh;
 
-
-    // public float[,] noiseMap;
-    // public float noiseMultiplier;
+    float[,] noiseMap;
+    public float noiseMultiplier = 20f;//5f;
 
 
     // Start is called before the first frame update
     void Start ()
     {
+        // Generate noise map
+        this.GenerateNoiseMap();
+
         // Generate all meshes
         this.GenerateMeshLow();
         this.GenerateMeshMed();
-        this.GenerateMeshHigh();   
+        this.GenerateMeshHigh();
     }
 
     void Update ()
@@ -62,7 +63,24 @@ public class ChunkMesh : MonoBehaviour
         this.SetMesh();
     }
 
-    public void SetMesh ()
+
+    void GenerateNoiseMap ()
+    {
+        int mapWidth = this.xChunkSize + 1;
+        int mapHeight = this.zChunkSize + 1;
+        int seed = 0;
+        float scale = 0.2f; //4f;
+        int octaves = 4;
+        float persistence = 1f;
+        float lacunarity = 0.3f;
+        Vector2 offset = new Vector2 (this.xChunk * this.xChunkSize, this.zChunk * this.zChunkSize);
+
+        Noise noise = new Noise();
+        // this.noiseMap = noise.GenerateNoiseMap (mapWidth, mapHeight, seed, scale, octaves, persistence, lacunarity, offset);
+        this.noiseMap = noise.GenerateNoiseMapTest (mapWidth, mapHeight, seed, scale, offset);
+    }
+    
+    void SetMesh ()
     {
         if (this.meshResolution == MeshResolution.Low) {
             GetComponent<MeshFilter>().mesh = this.meshLow;
@@ -87,17 +105,17 @@ public class ChunkMesh : MonoBehaviour
         this.verticesLow = new Vector3 [4];
         this.uvsLow = new Vector2 [4];
         int i = 0;
-        for (int zVertex = this.z; zVertex <= this.z + this.zChunkSize; zVertex += this.zChunkSize) // increment to only select bounds
+        for (int zVertexRel = 0; zVertexRel <= this.zChunkSize; zVertexRel += this.zChunkSize) // increment to only select bounds
         {
-            for (int xVertex = this.x; xVertex <= this.x + this.xChunkSize; xVertex += this.xChunkSize) // increment to only select bounds
+            for (int xVertexRel = 0; xVertexRel <= this.xChunkSize; xVertexRel += this.xChunkSize) // increment to only select bounds
             {
                 // Add vertex
-                this.verticesLow [i] = new Vector3 (xVertex, 0, zVertex);
+                this.verticesLow [i] = new Vector3 (xVertexRel, 0, zVertexRel);
 
                 // Add uv
                 this.uvsLow [i] = new Vector2 (
-                    (float) xVertex / this.xChunkSize,
-                    (float) zVertex / this.zChunkSize
+                    (float) xVertexRel / this.xChunkSize,
+                    (float) zVertexRel / this.zChunkSize
                 );
 
                 i ++;
@@ -128,57 +146,61 @@ public class ChunkMesh : MonoBehaviour
         int xPoints = (int)Mathf.Ceil(this.xChunkSize / xStep) + 1; // nb of points to plot
         int zPoints = (int)Mathf.Ceil(this.zChunkSize / zStep) + 1;
 
+        float yNoise;
+
         // Generate vertices and uvs
         this.verticesMed = new Vector3 [xPoints * zPoints];
         this.uvsMed = new Vector2 [this.verticesMed .Length];
         int i = 0;
 
-        for (int zVertex = this.z; zVertex < this.z + this.zChunkSize; zVertex += zStep)
+        for (int zVertexRel = 0; zVertexRel < this.zChunkSize; zVertexRel += zStep)
         {
-            for (int xVertex = this.x; xVertex < this.x + this.xChunkSize; xVertex += xStep)
+            for (int xVertexRel = 0; xVertexRel < this.xChunkSize; xVertexRel += xStep)
             {
                 // Add vertex
-                this.verticesMed [i] = new Vector3 (xVertex, 0, zVertex);
+                yNoise = this.noiseMap[xVertexRel, zVertexRel];
+                this.verticesMed [i] = new Vector3 (xVertexRel, yNoise * this.noiseMultiplier, zVertexRel);
 
                 // Add uv
                 this.uvsMed [i] = new Vector2 (
-                    (float) xVertex / this.xChunkSize,
-                    (float) zVertex / this.zChunkSize
+                    (float) xVertexRel / this.xChunkSize,
+                    (float) zVertexRel / this.zChunkSize
                 );
 
                 i ++;
             }
 
             // Add end vertices and uvs for x=MAX
-            // Add end vertex
-            this.verticesMed [i] = new Vector3 (this.x + this.xChunkSize, 0, zVertex);
-            // Add end uv
+            yNoise = this.noiseMap[this.xChunkSize, zVertexRel];
+            this.verticesMed [i] = new Vector3 (this.xChunkSize, yNoise * this.noiseMultiplier, zVertexRel);
             this.uvsMed [i] = new Vector2 (
-                (float) (this.x + this.xChunkSize) / this.xChunkSize,
-                (float) zVertex / this.zChunkSize
+                (float) this.xChunkSize / this.xChunkSize,
+                (float) zVertexRel / this.zChunkSize
             );
             i ++;
         }
 
         // Add end vertices and uvs for z=MAX
-        for (int xVertex = this.x; xVertex < this.x + this.xChunkSize; xVertex += xStep)
+        for (int xVertexRel = 0; xVertexRel < this.xChunkSize; xVertexRel += xStep)
         {
             // Add end vertex
-            this.verticesMed [i] = new Vector3 (xVertex, 0, this.z + this.zChunkSize);
+            yNoise = this.noiseMap[xVertexRel, this.zChunkSize];
+            this.verticesMed [i] = new Vector3 (xVertexRel, yNoise * this.noiseMultiplier, this.zChunkSize);
             // Add end uv
             this.uvsMed [i] = new Vector2 (
-                (float) xVertex / this.xChunkSize,
-                (float) (this.z + this.zChunkSize) / this.zChunkSize
+                (float) xVertexRel / this.xChunkSize,
+                (float) this.zChunkSize / this.zChunkSize
             );
             i ++;
         }
 
         // Add final vertex
-        this.verticesMed [i] = new Vector3 (this.x + this.xChunkSize, 0, this.z + this.zChunkSize);
+        yNoise = this.noiseMap[this.xChunkSize, this.zChunkSize];
+        this.verticesMed [i] = new Vector3 (this.xChunkSize, yNoise * this.noiseMultiplier, this.zChunkSize);
         // Add end uv
         this.uvsMed [i] = new Vector2 (
-            (float) (this.x + this.xChunkSize) / this.xChunkSize,
-            (float) (this.z + this.zChunkSize) / this.zChunkSize
+            (float) this.xChunkSize / this.xChunkSize,
+            (float) this.zChunkSize / this.zChunkSize
         );
 
 
@@ -216,21 +238,24 @@ public class ChunkMesh : MonoBehaviour
         // Initialise mesh
         this.meshHigh = new Mesh();
 
+        float yNoise;
+
         // Generate vertices and uvs
         this.verticesHigh = new Vector3 [(this.xChunkSize + 1) * (this.zChunkSize + 1)];
         this.uvsHigh = new Vector2 [this.verticesHigh .Length];
         int i = 0;
-        for (int zVertex = this.z; zVertex <= this.z + this.zChunkSize; zVertex ++)
+        for (int zVertexRel = 0; zVertexRel <= this.zChunkSize; zVertexRel ++)
         {
-            for (int xVertex = this.x; xVertex <= this.x + this.xChunkSize; xVertex ++)
+            for (int xVertexRel = 0; xVertexRel <= this.xChunkSize; xVertexRel ++)
             {
                 // Add vertex
-                this.verticesHigh [i] = new Vector3 (xVertex, 0, zVertex);
+                yNoise = this.noiseMap[xVertexRel, zVertexRel];
+                this.verticesHigh [i] = new Vector3 (xVertexRel, yNoise * this.noiseMultiplier, zVertexRel);
 
                 // Add uv
                 this.uvsHigh [i] = new Vector2 (
-                    (float) xVertex / this.xChunkSize,
-                    (float) zVertex / this.zChunkSize
+                    (float) xVertexRel / this.xChunkSize,
+                    (float) zVertexRel / this.zChunkSize
                 );
 
                 i ++;

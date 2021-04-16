@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Noise // static because no need for multiple instances of this script
+public class Noise // static because no need for multiple instances of this script
 {
     // returns a 2D array of floats
-    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
+    public float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
@@ -76,6 +76,26 @@ public static class Noise // static because no need for multiple instances of th
             for (int x = 0; x < mapWidth; x++)
             {
                 noiseMap [x, y] = Mathf.InverseLerp (minNoiseHeight, maxNoiseHeight, noiseMap [x, y]); // cast to range [0, 1]
+            }
+        }
+
+        return noiseMap;
+    }
+
+
+
+    public float[,] GenerateNoiseMapTest (int mapWidth, int mapHeight, int seed, float scale, Vector2 offset)
+    {
+        float[,] noiseMap = new float[mapWidth, mapHeight];
+
+        float perlinValue;
+        for (int yRel = 0; yRel < mapHeight; yRel ++)
+        {
+            for (int xRel = 0; xRel < mapWidth; xRel ++)
+            {
+                perlinValue = Mathf.PerlinNoise ((xRel + offset.x) * .3f, (yRel + offset.y) * .3f);
+                // Debug.Log(perlinValue);
+                noiseMap[xRel, yRel] = perlinValue * scale;
             }
         }
 
