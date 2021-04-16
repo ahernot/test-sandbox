@@ -7,6 +7,7 @@ public class ChunkManager : MonoBehaviour
 
     // This
     public GameObject gameObject;
+    public GameObject player;
 
     // List of chunks
     [HideInInspector]
@@ -17,6 +18,12 @@ public class ChunkManager : MonoBehaviour
 
     public int xChunkSize = 16;
     public int zChunkSize = 16;
+
+    // Player chunk
+    int xChunkPlayer;
+    int zChunkPlayer;
+
+    public int loadHighRadius = 8;
 
     public Material material;
 
@@ -66,5 +73,49 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
+    void Update ()
+    {
+        this.UpdatePlayerChunk();
+        this.UpdateResolutions();
+    }
+
+
+    void UpdatePlayerChunk ()
+    {
+        float x = this.player .transform.position.x;
+        float z = this.player .transform.position.z;
+
+        this.xChunkPlayer = (int) Mathf.Floor((float)x / this.xChunkSize);
+        this.zChunkPlayer = (int) Mathf.Floor((float)z / this.zChunkSize);
+    }
+
+
+    void UpdateResolutions () {
+
+        int i = 0;
+        for (int xChunk = -1 * this.xHalfNbChunks; xChunk < this.xHalfNbChunks; xChunk++)
+        {
+            for (int zChunk = -1 * this.zHalfNbChunks; zChunk < this.zHalfNbChunks; zChunk++)
+            {
+
+                ChunkMesh chunkMesh = this.chunks[i] .GetComponent<ChunkMesh>();
+
+                if ((zChunk >= this.zChunkPlayer - this.loadHighRadius) && (zChunk <= this.zChunkPlayer + this.loadHighRadius))
+                {
+                    if ((xChunk >= this.xChunkPlayer - this.loadHighRadius) && (xChunk <= this.xChunkPlayer + this.loadHighRadius))
+                    {
+                        chunkMesh.meshResolution = ChunkMesh.MeshResolution.High;
+                    } else {
+                        chunkMesh.meshResolution = ChunkMesh.MeshResolution.Medium;
+                    };
+                } else {
+                    chunkMesh.meshResolution = ChunkMesh.MeshResolution.Medium;
+                };
+
+                i ++;
+            }
+        }
+
+    }
 
 }
