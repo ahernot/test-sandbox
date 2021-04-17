@@ -5,7 +5,7 @@ using UnityEngine;
 public class Noise // static because no need for multiple instances of this script
 {
     // returns a 2D array of floats
-    public float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
+    public float[,] GenerateNoiseMap (int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
@@ -82,6 +82,48 @@ public class Noise // static because no need for multiple instances of this scri
         return noiseMap;
     }
 
+
+    public float[,] GenerateNoiseMapNew (int xPoints, int yPoints, int seed, float scale, int octaves, float amplitudeMult, float frequencyMult, Vector2 offset)
+    {
+        float[,] noiseMap = new float [xPoints, yPoints];
+
+        // Initialise min and max noise height values
+        float maxNoiseHeight = float.MinValue;
+        float minNoiseHeight = float.MaxValue;
+
+        // Loop through map pixels
+        for (int yId = 0; yId < yPoints; yId ++)
+        {
+            for (int xId = 0; xId < xPoints; xId ++)
+            {
+
+                float amplitude = 1;
+                float frequency = 1;
+                float noiseHeight = 0;
+
+                float xSampling;
+                float ySampling;
+                float noiseValue;
+
+                for (int octaveId = 0; octaveId < octaves; octaveId ++)
+                {
+                    xSampling = (offset.x + xId) / scale * frequency;
+                    ySampling = (offset.y + yId) / scale * frequency;
+                    noiseValue = Mathf.PerlinNoise (xSampling, ySampling) * 2 - 1; // cast to range [-1, 1]
+
+                    noiseHeight += noiseValue * amplitude;
+
+                    amplitude *= amplitudeMult; // increment (decrement) persistence after each octave
+                    frequency *= frequencyMult; // increment frequency
+                }
+                
+                // Apply to noiseMap
+                noiseMap [xId, yId] = noiseHeight;
+            }
+        }
+
+        return noiseMap;
+    }
 
 
     public float[,] GenerateNoiseMapTest (int mapWidth, int mapHeight, int seed, float scale, Vector2 offset)

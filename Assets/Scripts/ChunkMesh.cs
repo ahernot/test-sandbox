@@ -20,7 +20,7 @@ public class ChunkMesh : MonoBehaviour
     // Chunk mesh dimensions
     public float xMeshSize = 1f;
     public float zMeshSize = 1f;
-    // Chunk vertex dimensions (vertices per side = x + 1)
+    // Chunk vertex number (vertices per side = x + 1)
     int xVerticesHigh;
     int zVerticesHigh;
 
@@ -48,7 +48,13 @@ public class ChunkMesh : MonoBehaviour
     Vector2[] uvsHigh;
 
     float[,] noiseMap;
-    public float noiseMultiplier = 20f;//5f;
+    public float noiseMultiplier = 1f; //20f;//5f;
+
+    // Noise settings
+    public float noiseScale = 3f;
+    public int noiseOctaves = 4;
+    public float noiseAmplitudeMult = 2f;
+    public float noiseFrequencyMult = 10f;
 
 
     // Start is called before the first frame update
@@ -105,14 +111,11 @@ public class ChunkMesh : MonoBehaviour
         Vector2 offset = new Vector2 (xOffset, zOffset);
 
         int seed = 0;
-        float scale = 0.2f * Mathf.Min(this.xMeshSize, this.zMeshSize);
-        int octaves = 4;
-        float persistence = 1f;
-        float lacunarity = 0.3f;
-
         Noise noise = new Noise();
+        this.noiseMap = noise.GenerateNoiseMapNew (mapWidth, mapHeight, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
+        
         // this.noiseMap = noise.GenerateNoiseMap (mapWidth, mapHeight, seed, scale, octaves, persistence, lacunarity, offset);
-        this.noiseMap = noise.GenerateNoiseMapTest (mapWidth, mapHeight, seed, scale, offset);
+        // this.noiseMap = noise.GenerateNoiseMapTest (mapWidth, mapHeight, seed, scale, offset);
     }
     
     void SetMesh ()

@@ -33,6 +33,12 @@ public class ChunkManager : MonoBehaviour
     // Chunks to load (square of side 2x+1)
     public int loadHighRadius = 8;
 
+    // Noise settings
+    public float noiseScale = 3f;
+    public int noiseOctaves = 4;
+    public float noiseAmplitudeMult = 2f;
+    public float noiseFrequencyMult = 10f;
+
     void Start ()
     {
         this.DestroyChunks();
@@ -74,6 +80,11 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.zChunkSize = this.zChunkSize;
                 chunkMesh.xMeshSize = this.xMeshSize;
                 chunkMesh.zMeshSize = this.zMeshSize;
+
+                chunkMesh.noiseScale = this.noiseScale;
+                chunkMesh.noiseOctaves = this.noiseOctaves;
+                chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
+                chunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
 
                 i++;
             }
