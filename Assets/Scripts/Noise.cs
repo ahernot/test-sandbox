@@ -91,15 +91,29 @@ public class Noise // static because no need for multiple instances of this scri
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
+        float amplitudeStart = 1f;
+        float frequencyStart = 1f;
+
+        float a = amplitudeStart;
+        float heightRangeHalf = 0f;
+        for (int octaveId = 0; octaveId < octaves; octaveId ++)
+        {
+            heightRangeHalf += a; // 1 * a
+            a *= amplitudeMult; // increment (decrement) persistence after each octave
+        }
+
+
+        float amplitude;
+        float frequency;
+        float noiseHeight;
         // Loop through map pixels
         for (int yId = 0; yId < yPoints; yId ++)
         {
             for (int xId = 0; xId < xPoints; xId ++)
             {
-
-                float amplitude = 1;
-                float frequency = 1;
-                float noiseHeight = 0;
+                amplitude = amplitudeStart;
+                frequency = frequencyStart;
+                noiseHeight = 0;
 
                 float xSampling;
                 float ySampling;
@@ -118,7 +132,7 @@ public class Noise // static because no need for multiple instances of this scri
                 }
                 
                 // Apply to noiseMap
-                noiseMap [xId, yId] = noiseHeight;
+                noiseMap [xId, yId] = noiseHeight / (2 * heightRangeHalf);
             }
         }
 

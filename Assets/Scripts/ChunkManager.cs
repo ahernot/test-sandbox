@@ -39,6 +39,8 @@ public class ChunkManager : MonoBehaviour
     public float noiseAmplitudeMult = 2f;
     public float noiseFrequencyMult = 10f;
 
+    public float noiseMultiplier = 1f;
+
     void Start ()
     {
         this.DestroyChunks();
@@ -85,6 +87,7 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.noiseOctaves = this.noiseOctaves;
                 chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
                 chunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
+                chunkMesh.noiseMultiplier = this.noiseMultiplier;
 
                 i++;
             }
