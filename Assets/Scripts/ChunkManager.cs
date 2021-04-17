@@ -8,6 +8,7 @@ public class ChunkManager : MonoBehaviour
     // This
     public GameObject gameObject;
     public GameObject player;
+    public Material material;
 
     // List of chunks
     [HideInInspector]
@@ -17,10 +18,11 @@ public class ChunkManager : MonoBehaviour
     public int xHalfNbChunks = 64;
     public int zHalfNbChunks = 64;
 
-    // Size of a chunk
+    // Size of a chunk (affects texture size)
     public int xChunkSize = 16;
     public int zChunkSize = 16;
-    // Chunk mesh dimensions
+
+    // Chunk mesh fineness (affects poly count)
     public float xMeshSize = 0.5f;
     public float zMeshSize = 0.5f;
 
@@ -30,8 +32,6 @@ public class ChunkManager : MonoBehaviour
 
     // Chunks to load (square of side 2x+1)
     public int loadHighRadius = 8;
-
-    public Material material;
 
     void Start ()
     {
