@@ -88,6 +88,7 @@ public class Noise // static because no need for multiple instances of this scri
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
+        float edgeValue;
         float perlinValue;
         for (int yRel = 0; yRel < mapHeight; yRel ++)
         {
@@ -95,7 +96,8 @@ public class Noise // static because no need for multiple instances of this scri
             {
                 perlinValue = Mathf.PerlinNoise ((xRel + offset.x) * .3f, (yRel + offset.y) * .3f);
                 // Debug.Log(perlinValue);
-                noiseMap[xRel, yRel] = perlinValue * scale;
+                edgeValue = Mathf.Exp(Mathf.Max(Mathf.Abs(offset.x + xRel), Mathf.Abs(offset.y + yRel)) * 0.002f) - 1;
+                noiseMap[xRel, yRel] = perlinValue * scale + edgeValue;
             }
         }
 
