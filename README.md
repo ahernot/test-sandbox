@@ -16,3 +16,4 @@ Texture help:
 * Get angle: https://answers.unity.com/questions/1682486/how-do-i-texture-a-procedural-mesh-based-on-its-an.html
 
 Lighting seams: https://forum.unity.com/threads/lighting-seam-on-tileable-mesh.533407/
+Free sand texture: https://3dtextures.me/2020/02/14/sand-005/
