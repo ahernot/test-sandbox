@@ -35,9 +35,12 @@ public class ChunkManager : MonoBehaviour
 
     void Start ()
     {
-
         this.DestroyChunks();
+        this.GenerateChunks();        
+    }
 
+    public void GenerateChunks ()
+    {
         // Initialise chunks array
         this.chunks = new GameObject[this.xHalfNbChunks * this.zHalfNbChunks * 4];
 
@@ -77,7 +80,7 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
-    void DestroyChunks ()
+    public void DestroyChunks ()
     {
         foreach (Transform child in transform) {
             GameObject.Destroy(child.gameObject);

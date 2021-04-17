@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,6 +71,27 @@ public class ChunkMesh : MonoBehaviour
     {
         // Set chosen mesh
         this.SetMesh();
+    }
+
+    ~ChunkMesh ()
+    {
+        this.meshLow.Clear();
+        this.meshMed.Clear();
+        this.meshHigh.Clear();
+
+        Array.Clear(this.verticesLow, 0, this.verticesLow.Length);
+        Array.Clear(this.trianglesLow, 0, this.trianglesLow.Length);
+        Array.Clear(this.uvsLow, 0, this.uvsLow.Length);
+
+        Array.Clear(this.verticesMed, 0, this.verticesMed.Length);
+        Array.Clear(this.trianglesMed, 0, this.trianglesMed.Length);
+        Array.Clear(this.uvsMed, 0, this.uvsMed.Length);
+
+        Array.Clear(this.verticesHigh, 0, this.verticesHigh.Length);
+        Array.Clear(this.trianglesHigh, 0, this.trianglesHigh.Length);
+        Array.Clear(this.uvsHigh, 0, this.uvsHigh.Length);
+
+        Array.Clear(this.noiseMap, 0, this.noiseMap.Length);
     }
 
 
