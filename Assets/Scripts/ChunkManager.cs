@@ -109,7 +109,10 @@ public class ChunkManager : MonoBehaviour
         {
             for (int zChunk = -1 * this.zHalfNbChunks; zChunk < this.zHalfNbChunks; zChunk++)
             {
+                // Continue if chunk out of bounds (nb of chunks was increased but not yet generated)
+                if (i >= this.chunks.Length) { continue; }
 
+                // Get chunk's mesh script
                 ChunkMesh chunkMesh = this.chunks[i] .GetComponent<ChunkMesh>();
 
                 if ((zChunk >= this.zChunkPlayer - this.loadHighRadius) && (zChunk <= this.zChunkPlayer + this.loadHighRadius))
