@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Noise // static because no need for multiple instances of this script
 {
+
+    float xPerlinOffset = 1000000f;
+    float yPerlinOffset = 1000000f;
+
     // returns a 2D array of floats
     public float[,] GenerateNoiseMap (int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
     {
@@ -87,10 +91,6 @@ public class Noise // static because no need for multiple instances of this scri
     {
         float[,] noiseMap = new float [xPoints, yPoints];
 
-        // Initialise min and max noise height values
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
-
         float amplitudeStart = 1f;
         float frequencyStart = 1f;
 
@@ -121,8 +121,8 @@ public class Noise // static because no need for multiple instances of this scri
 
                 for (int octaveId = 0; octaveId < octaves; octaveId ++)
                 {
-                    xSampling = (offset.x + xId) / scale * frequency;
-                    ySampling = (offset.y + yId) / scale * frequency;
+                    xSampling = this.xPerlinOffset + (offset.x + xId) / scale * frequency;
+                    ySampling = this.yPerlinOffset + (offset.y + yId) / scale * frequency;
                     noiseValue = Mathf.PerlinNoise (xSampling, ySampling) * 2 - 1; // cast to range [-1, 1]
 
                     noiseHeight += noiseValue * amplitude;
