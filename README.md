@@ -17,3 +17,5 @@ Texture help:
 
 Lighting seams: https://forum.unity.com/threads/lighting-seam-on-tileable-mesh.533407/
 Free sand texture: https://3dtextures.me/2020/02/14/sand-005/
+
+Create chunk noise manager which normalises noise value
