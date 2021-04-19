@@ -41,7 +41,7 @@ For more information on materials & shaders: https://docs.unity3d.com/Manual/Sta
   * height map (`Sand_005_height`)
   * occlusion map (`Sand_005_ambientOcclusion.jpg`)
   * smoothness map (`Sand_005_roughness.jpg`)
-* Cliff Rock (`Assets/Resources/Objects/Cliff Rock Two` – ?px)
+* Cliff Rock (`Assets/Resources/Objects/Cliff Rock Two` – 4096px)
   * albedo map (`Cliff_Rock_Two_BaseColor.png`)
   * normal map (`Cliff_Rock_Two_Normal.png`)
   * height map (`Cliff_Rock_Two_Height.png`)
