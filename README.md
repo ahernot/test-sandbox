@@ -24,3 +24,7 @@ Make a HeightMap class
 * with multiple Noise layers for seafloor, hills, cliffs
 * with constant roughness regardless of mesh size (not more granularity of closer-spaced vertices)
 * Create chunk noise manager which normalises noise value
+
+
+# Packages
+* Shader Graph 7.5.3
