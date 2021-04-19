@@ -25,10 +25,13 @@ Make a HeightMap class
 * with constant roughness regardless of mesh size (not more granularity of closer-spaced vertices)
 * Create chunk noise manager which normalises noise value
 
+<br><br>
 
 # Packages
 * Shader Graph 7.5.3
 * ProBuilder 4.4.0
+
+<br><br>
 
 # Assets
 For more information on materials & shaders: https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
