@@ -35,13 +35,13 @@ Make a HeightMap class
 
 # Assets
 For more information on materials & shaders: https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
-* Sand (`Assets/Resources/Objects/Sand_005_SD` — 1024px)
+* Sand 005 SD (`Assets/Resources/Objects/Sand_005_SD` — 1024px)
   * albedo map (`Sand_005_baseColor.jpg`)
   * normal map (`Sand_005_normal.jpg`)
   * height map (`Sand_005_height`)
   * occlusion map (`Sand_005_ambientOcclusion.jpg`)
   * smoothness map (`Sand_005_roughness.jpg`)
-* Cliff Rock (`Assets/Resources/Objects/Cliff Rock Two` – 4096px)
+* Cliff Rock Two (`Assets/Resources/Objects/Cliff Rock Two` – 4096px)
   * albedo map (`Cliff_Rock_Two_BaseColor.png`)
   * normal map (`Cliff_Rock_Two_Normal.png`)
   * height map (`Cliff_Rock_Two_Height.png`)
