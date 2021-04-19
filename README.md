@@ -29,3 +29,12 @@ Make a HeightMap class
 # Packages
 * Shader Graph 7.5.3
 * ProBuilder 4.4.0
+
+# Assets
+For more information on materials & shaders: https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
+* Sand (sample, 1080p)
+  * albedo map (`Sand_005_baseColor.jpg`)
+  * normal map (`Sand_005_normal.jpg`)
+  * height map (`Sand_005_height`)
+  * occlusion map (`Sand_005_ambientOcclusion.jpg`)
+  * smoothness map (`Sand_005_roughness.jpg`)
