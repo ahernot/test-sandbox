@@ -35,7 +35,7 @@ Make a HeightMap class
 
 # Assets
 For more information on materials & shaders: https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
-* Sand (`Assets/Resources/Objects/Sand_005_SD` — 1080p)
+* Sand (`Assets/Resources/Objects/Sand_005_SD` — 1024px)
   * albedo map (`Sand_005_baseColor.jpg`)
   * normal map (`Sand_005_normal.jpg`)
   * height map (`Sand_005_height`)
