@@ -5,19 +5,32 @@ using UnityEngine;
 public class ChunkManager : MonoBehaviour
 {
 
-    // This
-    public GameObject gameObject;
+    [Tooltip("Player (chunk loader)")]
     public GameObject player;
+
+    [Tooltip("Chunk material")]
     public Material material;
 
     // List of chunks
     [HideInInspector]
     public GameObject[] chunks;
 
+    // [Space(30)]
+    
+
+    [Header("Generation Settings")]
     // Number of chunks
+    [Tooltip("Half number of chunks on the x-axis")]
     public int xHalfNbChunks = 64;
+    [Tooltip("Half number of chunks on the z-axis")]
     public int zHalfNbChunks = 64;
 
+    // Chunks to load (square of side 2x+1)
+    [Tooltip("Number of chunks to load in each direction around the player")]
+    public int loadHighRadius = 8;
+
+
+    [Header("Chunk Settings")]
     // Size of a chunk (affects texture size)
     public int xChunkSize = 16;
     public int zChunkSize = 16;
@@ -30,10 +43,8 @@ public class ChunkManager : MonoBehaviour
     int xChunkPlayer;
     int zChunkPlayer;
 
-    // Chunks to load (square of side 2x+1)
-    public int loadHighRadius = 8;
-
     // Noise settings
+    [Header("Noise Settings")]
     public float noiseScale = 3f;
     public int noiseOctaves = 4;
     public float noiseAmplitudeMult = 2f;
@@ -60,7 +71,7 @@ public class ChunkManager : MonoBehaviour
                 // Initialise empty GameObject
                 this.chunks[i] = new GameObject();
                 this.chunks[i] .name = "Chunk_" + xChunk.ToString() + "_" + zChunk.ToString();
-                this.chunks[i] .transform.parent = this.gameObject.transform; // set parent
+                this.chunks[i] .transform.parent = gameObject.transform; // set parent
                 this.chunks[i] .layer = 8;
 
                 // Update position and rotation
