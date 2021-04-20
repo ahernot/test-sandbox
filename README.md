@@ -25,16 +25,27 @@ Make a HeightMap class
 * with constant roughness regardless of mesh size (not more granularity of closer-spaced vertices)
 * Create chunk noise manager which normalises noise value
 
+<br><br>
 
 # Packages
 * Shader Graph 7.5.3
 * ProBuilder 4.4.0
 
+<br><br>
+
 # Assets
-For more information on materials & shaders: https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html
-* Sand (sample, 1080p)
+For more information on materials & shaders: <a href="https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html" target="_blank">link</a>
+* Sand 005 SD (`Assets/Resources/Objects/Sand_005_SD` — 1024px)
   * albedo map (`Sand_005_baseColor.jpg`)
   * normal map (`Sand_005_normal.jpg`)
   * height map (`Sand_005_height`)
   * occlusion map (`Sand_005_ambientOcclusion.jpg`)
   * smoothness map (`Sand_005_roughness.jpg`)
+
+* Cliff Rock Two (`Assets/Resources/Objects/Cliff Rock Two` – 4096px) – from <a href="https://www.cgtrader.com/free-3d-models/exterior/other/cliff-rock-two" target="_blank">link</a>
+  * albedo map (`Cliff_Rock_Two_BaseColor.png`)
+  * normal map (`Cliff_Rock_Two_Normal.png`)
+  * height map (`Cliff_Rock_Two_Height.png`)
+  * occlusion map (`Cliff_Rock_Two_AO.png`)
+  * smoothness map (`Cliff_Rock_Two_Roughness.png`)
+  * metallic map (`Cliff_Rock_Two_Metallic.png`)
