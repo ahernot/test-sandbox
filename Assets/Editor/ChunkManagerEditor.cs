@@ -9,22 +9,16 @@ public class ChunkManagerEditor : Editor
     // Override default inspector
     public override void OnInspectorGUI()
     {
-        ChunkManager chunkManager = (ChunkManager)target; // cast to a MapGenerator object
+        // Fetch target
+        ChunkManager chunkManager = (ChunkManager)target;
 
-        // if (DrawDefaultInspector ())
-        // {
-        //     // Auto update
-        //     if (mapGen.autoUpdate)
-        //     {
-        //         mapGen.GenerateMap ();
-        //     }
-        // }
-
+        // Draw default inspector
         if (DrawDefaultInspector())
         {
             DrawDefaultInspector();
         }
 
+        // Draw Generate button
         if (GUILayout.Button ("Generate"))
         {
             chunkManager.DestroyChunks();
