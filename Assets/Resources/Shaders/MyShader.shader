@@ -2,19 +2,41 @@
 {
     Properties
     {
+
+        // Layer blending sharpness
+        _BlendSharpness ("Blend Sharpness", Range(0.06, 4)) = 0.75
+
         _Metalness ("Metalness", Range(0, 1)) = 0.1
         _Smoothness ("Smoothness", Range(0, 1)) = 0.1
-        _MainTex ("Base Texture", 2D) = "white" {}
-        _BaseHeight ("Base Height", Range(-50, 50)) = 0
-        _BlendSharpness ("Blend Sharpness", Range(0.06, 4)) = 0.75
+
+        // Base Layer
+        [Space(30)]
+        // _Color0 ("Color", Color) = (1,1,1,1)
+        _Albedo0 ("Albedo", 2D) = "white" {}
+        _Normal0 ("Normal Map", 2D) = "white" {}
+        _Height0 ("Height Map", 2D) = "white" {}
+        _Occlusion0 ("Occlusion Map", 2D) = "white" {}
+        _Smoothness0 ("Smoothness Map", 2D) = "white" {}
+
+        _LayerHeight0 ("Layer 0 Height", Range(-50, 50)) = 0
+        
  
         [Space(30)]
-            _Layer1 ("Layer 1", 2D) = "white" {}
-            _Layer1Height ("Layer 1 Height", Range(0, 20)) = 1
-        [Space(20)]
+
+            _Albedo1 ("Albedo", 2D) = "white" {}
+            _Normal1 ("Normal Map", 2D) = "white" {}
+            _Height1 ("Height Map", 2D) = "white" {}
+            _Occlusion1 ("Occlusion Map", 2D) = "white" {}
+            _Smoothness1 ("Smoothness Map", 2D) = "white" {}
+            _LayerHeight1 ("Layer 1 Height", Range(0, 20)) = 1
+        
+        [Space(30)]
+
             _Layer2 ("Layer 2", 2D) = "white" {}
             _Layer2Height ("Layer 2 Height", Range(0, 20)) = 1
-        [Space(20)]
+        
+        [Space(30)]
+
             _Layer3 ("Layer 3", 2D) = "white" {}
             _Layer3Height("Layer 3 Height", Range(0, 20)) = 1
     }
@@ -29,13 +51,28 @@
  
         float _Metalness;
         float _Smoothness;
- 
-        UNITY_DECLARE_TEX2D(_MainTex);
-        float _BaseHeight;
+
+
         float _BlendSharpness;
  
-        UNITY_DECLARE_TEX2D(_Layer1);
-        float _Layer1Height;
+        // Color _Color0;
+        UNITY_DECLARE_TEX2D(_Albedo0);
+        UNITY_DECLARE_TEX2D(_Normal0);
+        UNITY_DECLARE_TEX2D(_Height0);
+        UNITY_DECLARE_TEX2D(_Occlusion0);
+        UNITY_DECLARE_TEX2D(_Smoothness0);
+
+        UNITY_DECLARE_TEX2D(_Albedo1);
+        UNITY_DECLARE_TEX2D(_Normal1);
+        UNITY_DECLARE_TEX2D(_Height1);
+        UNITY_DECLARE_TEX2D(_Occlusion1);
+        UNITY_DECLARE_TEX2D(_Smoothness1);
+
+
+        // Layer heights
+        float _LayerHeight0;
+        float _LayerHeight1;
+
  
         UNITY_DECLARE_TEX2D(_Layer2);
         float _Layer2Height;
@@ -45,7 +82,7 @@
  
         struct Input
         {
-            float2 uv_MainTex;
+            float2 uv_Layer0;
             float2 uv_Layer1;
             float2 uv_Layer2;
             float2 uv_Layer3;
@@ -58,7 +95,7 @@
             float4 result;
         };
  
-        blendingData BlendLayer(float4 layer, float layerHeight, blendingData bd)
+        blendingData BlendLayer (float4 layer, float layerHeight, blendingData bd)
         {
             //Remove this layer's height from the total height so our next layer buids from it, but don't let it go below 0
             bd.height = max(0, bd.height - layerHeight);
@@ -73,13 +110,13 @@
         void surf (Input i, inout SurfaceOutputStandard o)
         {
             blendingData bdata;
-                bdata.height = i.worldPos.y - _BaseHeight;
-                bdata.result = UNITY_SAMPLE_TEX2D(_MainTex, i.uv_MainTex);
-                float4 layer1 = UNITY_SAMPLE_TEX2D(_Layer1, i.uv_Layer1);
+                bdata.height = i.worldPos.y - _LayerHeight0;
+                bdata.result = UNITY_SAMPLE_TEX2D(_Albedo0, i.uv_Layer0);
+                float4 layer1 = UNITY_SAMPLE_TEX2D(_Albedo1, i.uv_Layer1);
                 float4 layer2 = UNITY_SAMPLE_TEX2D(_Layer2, i.uv_Layer2);
                 float4 layer3 = UNITY_SAMPLE_TEX2D(_Layer3, i.uv_Layer3);
  
-                bdata = BlendLayer(layer1, _Layer1Height, bdata);
+                bdata = BlendLayer(layer1, _LayerHeight1, bdata);
                 bdata = BlendLayer(layer2, _Layer2Height, bdata);
                 bdata = BlendLayer(layer3, _Layer3Height, bdata);
                 //And can keep adding layers as long as you have enough samplers... Or you could use a texture array and a loop for some real craziness :)
