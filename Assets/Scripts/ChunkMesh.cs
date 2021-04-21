@@ -14,9 +14,10 @@ public class ChunkMesh : MonoBehaviour
     [HideInInspector]
     public int zChunk = 0;
 
-    private int x; // x position in world
-    private int z; // z position in world
+    private int x; // x position in world (calculated on run)
+    private int z; // z position in world (calculated on run)
 
+    [Header("Generation Settings")]
     // Chunk dimensions (determined by ChunkManager)
     public int xChunkSize = 16;
     public int zChunkSize = 16;
@@ -24,17 +25,18 @@ public class ChunkMesh : MonoBehaviour
     // Chunk mesh dimensions
     public int xNbPolygons = 32;
     public int zNbPolygons = 32;
-    // public float xMeshSize = 0.5f;
-    // public float zMeshSize = 0.5f;
+    float[] xVerticesRel;
+    float[] zVerticesRel;
+    
+    [Header("Mesh Resolution")]
+    [Range(1, 128)]
+    public int xReductionRatio = 4;
+    [Range(1, 128)]
+    public int zReductionRatio = 4;
 
-    // Chunk vertex number (vertices per side = x + 1)
-    // int xVerticesHigh;
-    // int zVerticesHigh;
-
-    // Mesh resolution
     public enum MeshResolution {Low, Medium, High};
     public MeshResolution meshResolution;
-
+    
     // Initialise mesh resolutions
     Mesh meshLow;
     Mesh meshMed;
@@ -64,13 +66,36 @@ public class ChunkMesh : MonoBehaviour
     public float noiseAmplitudeMult = 2f;
     public float noiseFrequencyMult = 10f;
 
+    void CheckParameters ()
+    {
+        if (this.xChunkSize <= 0)
+        {
+            this.xChunkSize = 1;
+        }
+        if (this.zChunkSize <= 0)
+        {
+            this.zChunkSize = 1;
+        }
+
+        if (this.xNbPolygons <= 0)
+        {
+            this.xNbPolygons = 1;
+        }
+        if (this.zNbPolygons <= 0)
+        {
+            this.zNbPolygons = 1;
+        }
+    }
 
     // Start is called before the first frame update
     void Start ()
     {
-        // Calculate dimensions
-        // this.xVerticesHigh = (int)Mathf.Ceil(this.xChunkSize / this.xMeshSize); // there are xVerticesHigh + 1 vertices per side
-        // this.zVerticesHigh = (int)Mathf.Ceil(this.zChunkSize / this.zMeshSize);
+        // Check parameters
+        this.CheckParameters();
+
+        // Initialise vertices' relative positions
+        this.xVerticesRel = this.LinearRange(0, this.xChunkSize, this.xNbPolygons + 1);
+        this.zVerticesRel = this.LinearRange(this.z, this.z + this.zChunkSize, this.zNbPolygons + 1);
 
         // Set world position of chunk (assuming that all the chunks are the same size)
         this.x = this.xChunk * this.xChunkSize;
@@ -193,25 +218,47 @@ public class ChunkMesh : MonoBehaviour
         // Initialise mesh
         this.meshMed = new Mesh();
 
-        int xStep = 4;
-        int zStep = 4;
-        int xPoints = (int)Mathf.Ceil(this.xChunkSize / xStep) + 1; // nb of points to plot
-        int zPoints = (int)Mathf.Ceil(this.zChunkSize / zStep) + 1;
+        // Calculate number of polygons per side
+        int xNbPolygonsMed = (int) Mathf.Ceil(this.xNbPolygons / this.xReductionRatio); // max between this and 1
+        if (xNbPolygonsMed <= 0) { xNbPolygonsMed = 1; }
+        int zNbPolygonsMed = (int) Mathf.Ceil(this.zNbPolygons / this.xReductionRatio); // max between this and 1
+        if (zNbPolygonsMed <= 0) { zNbPolygonsMed = 1; }
 
-        float yNoise;
+        // Calculate index step
+        int xIdStep = (int) Mathf.Floor(this.xNbPolygons / xNbPolygonsMed); // floor to avoid overrun
+        int zIdStep = (int) Mathf.Floor(this.zNbPolygons / zNbPolygonsMed); // floor to avoid overrun
 
-        // Generate vertices and uvs
-        this.verticesMed = new Vector3 [xPoints * zPoints];
+
+        // int xPoints = (int)Mathf.Ceil(this.xChunkSize / xStep) + 1; // nb of points to plot
+        // int zPoints = (int)Mathf.Ceil(this.zChunkSize / zStep) + 1;
+        // float yNoise;
+
+        // Initialise vertices Vector3 array
+        this.verticesMed = new Vector3 [(xNbPolygonsMed + 1) * (zNbPolygonsMed + 1)];
+        // Initialise uvs Vector2 array
         this.uvsMed = new Vector2 [this.verticesMed .Length];
-        int i = 0;
 
-        for (int zVertexRel = 0; zVertexRel < this.zChunkSize; zVertexRel += zStep)
+        // Initialise relative vertex positions
+        float xVertexRel;
+        float yVertexRel;
+        float zVertexRel;
+
+        int i = 0;
+        for (int zVertexId = 0; zVertexId < xNbPolygonsMed; zVertexId ++)
         {
-            for (int xVertexRel = 0; xVertexRel < this.xChunkSize; xVertexRel += xStep)
+            // Get z vertex coordinate
+            zVertexRel = this.zVerticesRel [zVertexId * zIdStep];
+
+            for (int xVertexId = 0; xVertexId < zNbPolygonsMed; xVertexId ++)
             {
+                // Get x vertex coordinate
+                xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
+
+                // Get y vertex coordinate using the noise map
+                yVertexRel = this.noiseMap[xVertexId * xIdStep, zVertexId * zIdStep] * this.noiseMultiplier;
+
                 // Add vertex
-                yNoise = this.noiseMap[xVertexRel, zVertexRel];
-                this.verticesMed [i] = new Vector3 (xVertexRel, yNoise * this.noiseMultiplier, zVertexRel);
+                this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
                 // Add uv
                 this.uvsMed [i] = new Vector2 (
@@ -222,54 +269,65 @@ public class ChunkMesh : MonoBehaviour
                 i ++;
             }
 
-            // Add end vertices and uvs for x=MAX
-            yNoise = this.noiseMap[this.xChunkSize, zVertexRel];
-            this.verticesMed [i] = new Vector3 (this.xChunkSize, yNoise * this.noiseMultiplier, zVertexRel);
-            this.uvsMed [i] = new Vector2 (
-                (float) this.xChunkSize / this.xChunkSize,
-                (float) zVertexRel / this.zChunkSize
-            );
-            i ++;
-        }
+            // Add end vertices and uvs for x=X_MAX
+            xVertexRel = this.xVerticesRel [this.xNbPolygons];
+            yVertexRel = this.noiseMap[this.xNbPolygons, zVertexId * zIdStep] * this.noiseMultiplier;
 
-        // Add end vertices and uvs for z=MAX
-        for (int xVertexRel = 0; xVertexRel < this.xChunkSize; xVertexRel += xStep)
-        {
-            // Add end vertex
-            yNoise = this.noiseMap[xVertexRel, this.zChunkSize];
-            this.verticesMed [i] = new Vector3 (xVertexRel, yNoise * this.noiseMultiplier, this.zChunkSize);
-            // Add end uv
+            this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
             this.uvsMed [i] = new Vector2 (
                 (float) xVertexRel / this.xChunkSize,
-                (float) this.zChunkSize / this.zChunkSize
+                (float) zVertexRel / this.zChunkSize
             );
+
+            i ++;
+
+        }
+
+        // Add end vertices and uvs for z=Z_MAX
+        zVertexRel = this.zVerticesRel [this.zNbPolygons];
+        for (int xVertexId = 0; xVertexId < zNbPolygonsMed; xVertexId ++)
+        {
+            xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
+            yVertexRel = this.noiseMap[xVertexId * xIdStep, this.zNbPolygons] * this.noiseMultiplier;
+
+            this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
+            this.uvsMed [i] = new Vector2 (
+                (float) xVertexRel / this.xChunkSize,
+                (float) zVertexRel / this.zChunkSize
+            );
+
             i ++;
         }
 
         // Add final vertex
-        yNoise = this.noiseMap[this.xChunkSize, this.zChunkSize];
-        this.verticesMed [i] = new Vector3 (this.xChunkSize, yNoise * this.noiseMultiplier, this.zChunkSize);
-        // Add end uv
+        xVertexRel = this.xVerticesRel [this.xNbPolygons];
+        zVertexRel = this.zVerticesRel [this.zNbPolygons];
+        yVertexRel = this.noiseMap[this.xNbPolygons, this.zNbPolygons] * this.noiseMultiplier;
+
+        this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
         this.uvsMed [i] = new Vector2 (
-            (float) this.xChunkSize / this.xChunkSize,
-            (float) this.zChunkSize / this.zChunkSize
+            (float) xVertexRel / this.xChunkSize,
+            (float) zVertexRel / this.zChunkSize
         );
 
 
         // Generate triangles
-        this.trianglesMed = new int [(xPoints - 1) * (zPoints - 1) * 6];
+        this.trianglesMed = new int [xNbPolygonsMed * zNbPolygonsMed * 6];
         int vert = 0;
         int tris = 0;
-        for (int zVertexId = 0; zVertexId < zPoints - 1; zVertexId ++)
+        for (int zVertexId = 0; zVertexId < xNbPolygonsMed; zVertexId ++)
         {
-            for (int xVertexId = 0; xVertexId < xPoints - 1; xVertexId ++)
+            for (int xVertexId = 0; xVertexId < zNbPolygonsMed; xVertexId ++)
             {
                 this.trianglesMed [tris + 0] = vert + 0;
-                this.trianglesMed [tris + 1] = vert + xPoints;
+                this.trianglesMed [tris + 1] = vert + xNbPolygonsMed + 1;
                 this.trianglesMed [tris + 2] = vert + 1;
                 this.trianglesMed [tris + 3] = vert + 1;
-                this.trianglesMed [tris + 4] = vert + xPoints;
-                this.trianglesMed [tris + 5] = vert + xPoints + 1;
+                this.trianglesMed [tris + 4] = vert + xNbPolygonsMed + 1;
+                this.trianglesMed [tris + 5] = vert + xNbPolygonsMed + 2;
 
                 vert ++;
                 tris += 6;
@@ -292,12 +350,9 @@ public class ChunkMesh : MonoBehaviour
         // Initialise mesh
         this.meshHigh = new Mesh();
 
-        // Initialise vertices
-        float[] xVerticesRel = this.LinearRange(0, this.xChunkSize, this.xNbPolygons + 1);
-        float[] zVerticesRel = this.LinearRange(this.z, this.z + this.zChunkSize, this.zNbPolygons + 1);
-
         // Initialise vertices Vector3 array
         this.verticesHigh = new Vector3 [(this.xNbPolygons + 1) * (this.zNbPolygons + 1)];
+        // Initialise uvs Vector2 array
         this.uvsHigh = new Vector2 [this.verticesHigh .Length];
 
         // Initialise relative vertex positions
@@ -308,12 +363,13 @@ public class ChunkMesh : MonoBehaviour
         int i = 0;
         for (int zVertexId = 0; zVertexId <= this.zNbPolygons; zVertexId ++)
         {
+            // Get z vertex coordinate
+            zVertexRel = this.zVerticesRel [zVertexId];
+
             for (int xVertexId = 0; xVertexId <= this.xNbPolygons; xVertexId ++)
             {
-
-                // Get x and z vertex coordinates
-                xVertexRel = xVerticesRel [xVertexId];
-                zVertexRel = zVerticesRel [zVertexId];
+                // Get x vertex coordinate
+                xVertexRel = this.xVerticesRel [xVertexId];
 
                 // Get y vertex coordinate using the noise map
                 yVertexRel = this.noiseMap[xVertexId, zVertexId] * this.noiseMultiplier;
@@ -361,8 +417,6 @@ public class ChunkMesh : MonoBehaviour
         this.meshHigh .RecalculateNormals();
     }
 
-
-
     private float[] LinearRange (float start, float stop, int nbPoints)
     {
         float[] range = new float [nbPoints];
@@ -370,12 +424,15 @@ public class ChunkMesh : MonoBehaviour
         float step = (stop - start) / (float)(nbPoints - 1);
         float point;
 
-        // Fill range
-        for (int i = 0; i < nbPoints; i ++)
+        // Fill the first nbPoints-1 points of the range
+        for (int i = 0; i < nbPoints - 1; i ++)
         {
             point = i * step;
             range [i] = point;
         }
+
+        // Make sure that the last point is (float)stop
+        range [nbPoints - 1] = (float)stop;
 
         return range;
     }

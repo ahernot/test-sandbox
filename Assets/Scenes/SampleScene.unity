@@ -1774,8 +1774,8 @@ MonoBehaviour:
   loadHighRadius: 8
   xChunkSize: 16
   zChunkSize: 16
-  xMeshSize: 1
-  zMeshSize: 1
+  xNbPolygons: 32
+  zNbPolygons: 32
   noiseScale: 3
   noiseOctaves: 5
   noiseAmplitudeMult: 4
