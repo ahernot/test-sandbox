@@ -94,8 +94,8 @@ public class ChunkMesh : MonoBehaviour
         this.CheckParameters();
 
         // Initialise vertices' relative positions
-        this.xVerticesRel = this.LinearRange(0, this.xChunkSize, this.xNbPolygons + 1);
-        this.zVerticesRel = this.LinearRange(this.z, this.z + this.zChunkSize, this.zNbPolygons + 1);
+        this.xVerticesRel = this.LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
+        this.zVerticesRel = this.LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
 
         // Set world position of chunk (assuming that all the chunks are the same size)
         this.x = this.xChunk * this.xChunkSize;
@@ -140,20 +140,15 @@ public class ChunkMesh : MonoBehaviour
     // TO DO
     void GenerateNoiseMap ()
     {
-        int mapWidth = this.xNbPolygons + 1;
-        int mapHeight = this.zNbPolygons + 1;
-
-        int xOffset = this.xChunk * this.xNbPolygons;
-        int zOffset = this.zChunk * this.zNbPolygons;
-        Vector2 offset = new Vector2 (xOffset, zOffset);
+        int xNbVertices = this.xNbPolygons + 1;
+        int zNbVertices = this.zNbPolygons + 1;
+        Vector2 offset = new Vector2 (this.x, this.z);
 
         int seed = 0;
-        Noise noise = new Noise();
 
-        // Ask for noise map with same coordinates as chunk; noise function will scale coordinates to its liking
-        this.noiseMap = noise.GenerateNoiseMapNew (mapWidth, mapHeight, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
-        
-        // this.noiseMap = noise.GenerateNoiseMap (mapWidth, mapHeight, seed, scale, octaves, persistence, lacunarity, offset);
+        Noise noise = new Noise();
+        // this.noiseMap = noise.GenerateNoiseMapNew (xNbVertices, yNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
+        this.noiseMap = noise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
     }
     
     void SetMesh ()
