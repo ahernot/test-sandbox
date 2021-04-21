@@ -14,17 +14,22 @@ public class ChunkMesh : MonoBehaviour
     [HideInInspector]
     public int zChunk = 0;
 
+    private int x; // x position in world
+    private int z; // z position in world
+
     // Chunk dimensions (determined by ChunkManager)
     public int xChunkSize = 16;
     public int zChunkSize = 16;
 
     // Chunk mesh dimensions
-    public float xMeshSize = 0.5f;
-    public float zMeshSize = 0.5f;
+    public int xNbPolygons = 32;
+    public int zNbPolygons = 32;
+    // public float xMeshSize = 0.5f;
+    // public float zMeshSize = 0.5f;
 
     // Chunk vertex number (vertices per side = x + 1)
-    int xVerticesHigh;
-    int zVerticesHigh;
+    // int xVerticesHigh;
+    // int zVerticesHigh;
 
     // Mesh resolution
     public enum MeshResolution {Low, Medium, High};
@@ -64,8 +69,12 @@ public class ChunkMesh : MonoBehaviour
     void Start ()
     {
         // Calculate dimensions
-        this.xVerticesHigh = (int)Mathf.Ceil(this.xChunkSize / this.xMeshSize); // there are xVerticesHigh + 1 vertices per side
-        this.zVerticesHigh = (int)Mathf.Ceil(this.zChunkSize / this.zMeshSize);
+        // this.xVerticesHigh = (int)Mathf.Ceil(this.xChunkSize / this.xMeshSize); // there are xVerticesHigh + 1 vertices per side
+        // this.zVerticesHigh = (int)Mathf.Ceil(this.zChunkSize / this.zMeshSize);
+
+        // Set world position of chunk (assuming that all the chunks are the same size)
+        this.x = this.xChunk * this.xChunkSize;
+        this.z = this.zChunk * this.zChunkSize;
 
         // Generate noise map
         this.GenerateNoiseMap();
@@ -103,14 +112,14 @@ public class ChunkMesh : MonoBehaviour
         Array.Clear(this.noiseMap, 0, this.noiseMap.Length);
     }
 
-
+    // TO DO
     void GenerateNoiseMap ()
     {
-        int mapWidth = this.xVerticesHigh + 1;
-        int mapHeight = this.zVerticesHigh + 1;
+        int mapWidth = this.xNbPolygons + 1;
+        int mapHeight = this.zNbPolygons + 1;
 
-        int xOffset = this.xChunk * this.xVerticesHigh;
-        int zOffset = this.zChunk * this.zVerticesHigh;
+        int xOffset = this.xChunk * this.xNbPolygons;
+        int zOffset = this.zChunk * this.zNbPolygons;
         Vector2 offset = new Vector2 (xOffset, zOffset);
 
         int seed = 0;
@@ -282,22 +291,31 @@ public class ChunkMesh : MonoBehaviour
 
         // Initialise mesh
         this.meshHigh = new Mesh();
-        
-        // Generate vertices and uvs
-        this.verticesHigh = new Vector3 [(this.xVerticesHigh + 1) * (this.zVerticesHigh + 1)];
+
+        // Initialise vertices
+        float[] xVerticesRel = this.LinearRange(0, this.xChunkSize, this.xNbPolygons + 1);
+        float[] zVerticesRel = this.LinearRange(this.z, this.z + this.zChunkSize, this.zNbPolygons + 1);
+
+        // Initialise vertices Vector3 array
+        this.verticesHigh = new Vector3 [(this.xNbPolygons + 1) * (this.zNbPolygons + 1)];
         this.uvsHigh = new Vector2 [this.verticesHigh .Length];
 
+        // Initialise relative vertex positions
         float xVertexRel;
         float yVertexRel;
         float zVertexRel;
+
         int i = 0;
-        for (int zVertexId = 0; zVertexId <= this.zVerticesHigh; zVertexId ++)
+        for (int zVertexId = 0; zVertexId <= this.zNbPolygons; zVertexId ++)
         {
-            for (int xVertexId = 0; xVertexId <= this.zVerticesHigh; xVertexId ++)
+            for (int xVertexId = 0; xVertexId <= this.xNbPolygons; xVertexId ++)
             {
 
-                xVertexRel = xVertexId * this.xMeshSize;
-                zVertexRel = zVertexId * this.zMeshSize;
+                // Get x and z vertex coordinates
+                xVertexRel = xVerticesRel [xVertexId];
+                zVertexRel = zVerticesRel [zVertexId];
+
+                // Get y vertex coordinate using the noise map
                 yVertexRel = this.noiseMap[xVertexId, zVertexId] * this.noiseMultiplier;
 
                 // Add vertex
@@ -313,20 +331,21 @@ public class ChunkMesh : MonoBehaviour
             }
         }
 
-        // Generate triangles
-        this.trianglesHigh = new int [this.xVerticesHigh * this.zVerticesHigh * 6];
+        // Initialise triangles int array
+        this.trianglesHigh = new int [this.xNbPolygons * this.zNbPolygons * 6];
+
         int vert = 0;
         int tris = 0;
-        for (int zVertexId = 0; zVertexId < this.xVerticesHigh; zVertexId ++)
+        for (int zVertexId = 0; zVertexId < this.zNbPolygons; zVertexId ++)
         {
-            for (int xVertexId = 0; xVertexId < this.zVerticesHigh; xVertexId ++)
+            for (int xVertexId = 0; xVertexId < this.xNbPolygons; xVertexId ++)
             {
                 this.trianglesHigh [tris + 0] = vert + 0;
-                this.trianglesHigh [tris + 1] = vert + this.xVerticesHigh + 1;
+                this.trianglesHigh [tris + 1] = vert + this.xNbPolygons + 1;
                 this.trianglesHigh [tris + 2] = vert + 1;
                 this.trianglesHigh [tris + 3] = vert + 1;
-                this.trianglesHigh [tris + 4] = vert + this.xVerticesHigh + 1;
-                this.trianglesHigh [tris + 5] = vert + this.xVerticesHigh + 2;
+                this.trianglesHigh [tris + 4] = vert + this.xNbPolygons + 1;
+                this.trianglesHigh [tris + 5] = vert + this.xNbPolygons + 2;
 
                 vert ++;
                 tris += 6;
@@ -340,6 +359,25 @@ public class ChunkMesh : MonoBehaviour
         this.meshHigh.triangles = this.trianglesHigh;
         this.meshHigh.uv = this.uvsHigh;
         this.meshHigh .RecalculateNormals();
+    }
+
+
+
+    private float[] LinearRange (float start, float stop, int nbPoints)
+    {
+        float[] range = new float [nbPoints];
+
+        float step = (stop - start) / (float)(nbPoints - 1);
+        float point;
+
+        // Fill range
+        for (int i = 0; i < nbPoints; i ++)
+        {
+            point = i * step;
+            range [i] = point;
+        }
+
+        return range;
     }
 
 }

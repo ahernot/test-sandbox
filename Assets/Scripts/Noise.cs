@@ -139,11 +139,58 @@ public class Noise // static because no need for multiple instances of this scri
         return noiseMap;
     }
 
-    public float[,] GenerateNoiseMap
-    {
+    // public float[,] GenerateNoiseMap (int xSize, int ySize, int xVertices, int yVertices, int seed, float scale, int octaves, float amplitudeMult, float frequencyMult, Vector2 offset)
+    // {
+    //     float[,] noiseMap = new float [xPoints, yPoints];
 
-        
-    }
+    //     float amplitudeStart = 1f;
+    //     float frequencyStart = 1f;
+
+    //     float a = amplitudeStart;
+    //     float heightRangeHalf = 0f;
+    //     for (int octaveId = 0; octaveId < octaves; octaveId ++)
+    //     {
+    //         heightRangeHalf += a; // 1 * a
+    //         a *= amplitudeMult; // increment (decrement) persistence after each octave
+    //     }
+
+
+    //     float amplitude;
+    //     float frequency;
+    //     float noiseHeight;
+    //     // Loop through map pixels
+    //     for (int yId = 0; yId < yPoints; yId ++)
+    //     {
+    //         for (int xId = 0; xId < xPoints; xId ++)
+    //         {
+    //             amplitude = amplitudeStart;
+    //             frequency = frequencyStart;
+    //             noiseHeight = 0;
+
+    //             float xSampling;
+    //             float ySampling;
+    //             float noiseValue;
+
+    //             for (int octaveId = 0; octaveId < octaves; octaveId ++)
+    //             {
+    //                 xSampling = this.xPerlinOffset + (offset.x + xId) / scale * frequency;
+    //                 ySampling = this.yPerlinOffset + (offset.y + yId) / scale * frequency;
+    //                 noiseValue = Mathf.PerlinNoise (xSampling, ySampling) * 2 - 1; // cast to range [-1, 1]
+
+    //                 noiseHeight += noiseValue * amplitude;
+
+    //                 amplitude *= amplitudeMult; // increment (decrement) persistence after each octave
+    //                 frequency *= frequencyMult; // increment frequency
+    //             }
+                
+    //             // Apply to noiseMap
+    //             noiseMap [xId, yId] = noiseHeight / (2 * heightRangeHalf);
+    //         }
+    //     }
+
+    //     return noiseMap;
+
+    // }
 
 
 }

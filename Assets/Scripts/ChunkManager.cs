@@ -36,8 +36,8 @@ public class ChunkManager : MonoBehaviour
     public int zChunkSize = 16;
 
     // Chunk mesh fineness (affects poly count)
-    public float xMeshSize = 0.5f;
-    public float zMeshSize = 0.5f;
+    public int xNbPolygons = 32;
+    public int zNbPolygons = 32;
 
     // Player chunk position
     int xChunkPlayer;
@@ -91,8 +91,8 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.zChunk = zChunk;
                 chunkMesh.xChunkSize = this.xChunkSize;
                 chunkMesh.zChunkSize = this.zChunkSize;
-                chunkMesh.xMeshSize = this.xMeshSize;
-                chunkMesh.zMeshSize = this.zMeshSize;
+                chunkMesh.xNbPolygons = this.xNbPolygons;
+                chunkMesh.zNbPolygons = this.zNbPolygons;
 
                 chunkMesh.noiseScale = this.noiseScale;
                 chunkMesh.noiseOctaves = this.noiseOctaves;
