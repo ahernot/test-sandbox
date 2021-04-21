@@ -1774,10 +1774,10 @@ MonoBehaviour:
   loadHighRadius: 8
   xChunkSize: 16
   zChunkSize: 16
-  xNbPolygons: 32
-  zNbPolygons: 32
-  xReductionRatio: 4
-  zReductionRatio: 4
+  xNbPolygons: 64
+  zNbPolygons: 64
+  xReductionRatio: 12
+  zReductionRatio: 12
   noiseScale: 3
   noiseOctaves: 5
   noiseAmplitudeMult: 4
