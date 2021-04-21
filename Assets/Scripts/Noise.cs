@@ -9,7 +9,7 @@ public class Noise // static because no need for multiple instances of this scri
     float yPerlinOffset = 1000000f;
 
     // returns a 2D array of floats
-    public float[,] GenerateNoiseMap (int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
+    public float[,] GenerateNoiseMapOld (int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistence, float lacunarity, Vector2 offset)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
@@ -139,24 +139,11 @@ public class Noise // static because no need for multiple instances of this scri
         return noiseMap;
     }
 
-
-    public float[,] GenerateNoiseMapTest (int mapWidth, int mapHeight, int seed, float scale, Vector2 offset)
+    public float[,] GenerateNoiseMap
     {
-        float[,] noiseMap = new float[mapWidth, mapHeight];
 
-        float edgeValue;
-        float perlinValue;
-        for (int yRel = 0; yRel < mapHeight; yRel ++)
-        {
-            for (int xRel = 0; xRel < mapWidth; xRel ++)
-            {
-                perlinValue = Mathf.PerlinNoise ((xRel + offset.x) * .3f, (yRel + offset.y) * .3f);
-                // Debug.Log(perlinValue);
-                edgeValue = Mathf.Exp(Mathf.Max(Mathf.Abs(offset.x + xRel), Mathf.Abs(offset.y + yRel)) * 0.002f) - 1;
-                noiseMap[xRel, yRel] = perlinValue * scale + edgeValue;
-            }
-        }
-
-        return noiseMap;
+        
     }
+
+
 }

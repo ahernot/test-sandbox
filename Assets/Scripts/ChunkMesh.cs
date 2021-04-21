@@ -17,13 +17,16 @@ public class ChunkMesh : MonoBehaviour
     // Chunk dimensions (determined by ChunkManager)
     public int xChunkSize = 16;
     public int zChunkSize = 16;
+
     // Chunk mesh dimensions
-    public float xMeshSize = 1f;
-    public float zMeshSize = 1f;
+    public float xMeshSize = 0.5f;
+    public float zMeshSize = 0.5f;
+
     // Chunk vertex number (vertices per side = x + 1)
     int xVerticesHigh;
     int zVerticesHigh;
 
+    // Mesh resolution
     public enum MeshResolution {Low, Medium, High};
     public MeshResolution meshResolution;
 
@@ -112,10 +115,11 @@ public class ChunkMesh : MonoBehaviour
 
         int seed = 0;
         Noise noise = new Noise();
+
+        // Ask for noise map with same coordinates as chunk; noise function will scale coordinates to its liking
         this.noiseMap = noise.GenerateNoiseMapNew (mapWidth, mapHeight, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
         
         // this.noiseMap = noise.GenerateNoiseMap (mapWidth, mapHeight, seed, scale, octaves, persistence, lacunarity, offset);
-        // this.noiseMap = noise.GenerateNoiseMapTest (mapWidth, mapHeight, seed, scale, offset);
     }
     
     void SetMesh ()
@@ -174,6 +178,7 @@ public class ChunkMesh : MonoBehaviour
         this.meshLow .RecalculateNormals();
     }
 
+    // only called once
     private void GenerateMeshMed ()
     {
         // Initialise mesh
@@ -271,6 +276,7 @@ public class ChunkMesh : MonoBehaviour
         this.meshMed .RecalculateNormals();
     }
 
+    // only called once
     private void GenerateMeshHigh ()
     {
 
