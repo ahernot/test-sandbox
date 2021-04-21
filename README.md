@@ -20,12 +20,7 @@ Texture help:
 Lighting seams: https://forum.unity.com/threads/lighting-seam-on-tileable-mesh.533407/
 Free sand texture: https://3dtextures.me/2020/02/14/sand-005/
 
-
-Make a HeightMap class
-* with chunk management
-* with multiple Noise layers for seafloor, hills, cliffs
-* with constant roughness regardless of mesh size (not more granularity of closer-spaced vertices)
-* Create chunk noise manager which normalises noise value
+* Refine noise layers in editor, with support for a mountain layer and a general terrain layer
 
 <br><br>
 
