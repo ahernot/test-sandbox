@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1642481927}
-  material: {fileID: 2100000, guid: c981780232fed45eeaeb9d45d51522f0, type: 2}
+  material: {fileID: 2100000, guid: deb0375686e6a408e82132cb9d159b3d, type: 2}
   chunks:
   - {fileID: 0}
   - {fileID: 0}
