@@ -137,7 +137,6 @@ public class ChunkMesh : MonoBehaviour
         Array.Clear(this.noiseMap, 0, this.noiseMap.Length);
     }
 
-    // TO DO
     void GenerateNoiseMap ()
     {
         int xNbVertices = this.xNbPolygons + 1;
