@@ -32,11 +32,15 @@ public class ChunkManager : MonoBehaviour
 
     [Header("Chunk Settings")]
     // Size of a chunk (affects texture size)
+    [Tooltip("x-axis size of the chunk (in world units)")]
     public int xChunkSize = 16;
+    [Tooltip("z-axis size of the chunk (in world units)")]
     public int zChunkSize = 16;
 
-    // Chunk mesh fineness (affects poly count)
+    // Chunk mesh poly count (fineness)
+    [Tooltip("Number of polygons per chunk along the x-axis")]
     public int xNbPolygons = 32;
+    [Tooltip("Number of polygons per chunk along the z-axis")]
     public int zNbPolygons = 32;
 
     // Player chunk position
