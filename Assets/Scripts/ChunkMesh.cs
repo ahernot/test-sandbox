@@ -221,7 +221,7 @@ public class ChunkMesh : MonoBehaviour
         // Calculate number of polygons per side
         int xNbPolygonsMed = (int) Mathf.Ceil(this.xNbPolygons / this.xReductionRatio); // max between this and 1
         if (xNbPolygonsMed <= 0) { xNbPolygonsMed = 1; }
-        int zNbPolygonsMed = (int) Mathf.Ceil(this.zNbPolygons / this.xReductionRatio); // max between this and 1
+        int zNbPolygonsMed = (int) Mathf.Ceil(this.zNbPolygons / this.zReductionRatio); // max between this and 1
         if (zNbPolygonsMed <= 0) { zNbPolygonsMed = 1; }
 
         // Calculate index step
@@ -239,12 +239,12 @@ public class ChunkMesh : MonoBehaviour
         float zVertexRel;
 
         int i = 0;
-        for (int zVertexId = 0; zVertexId < xNbPolygonsMed; zVertexId ++)
+        for (int zVertexId = 0; zVertexId < zNbPolygonsMed; zVertexId ++)
         {
             // Get z vertex coordinate
             zVertexRel = this.zVerticesRel [zVertexId * zIdStep];
 
-            for (int xVertexId = 0; xVertexId < zNbPolygonsMed; xVertexId ++)
+            for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
             {
                 // Get x vertex coordinate
                 xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
@@ -281,7 +281,7 @@ public class ChunkMesh : MonoBehaviour
 
         // Add end vertices and uvs for z=Z_MAX
         zVertexRel = this.zVerticesRel [this.zNbPolygons];
-        for (int xVertexId = 0; xVertexId < zNbPolygonsMed; xVertexId ++)
+        for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
         {
             xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
             yVertexRel = this.noiseMap[xVertexId * xIdStep, this.zNbPolygons] * this.noiseMultiplier;
@@ -312,9 +312,9 @@ public class ChunkMesh : MonoBehaviour
         this.trianglesMed = new int [xNbPolygonsMed * zNbPolygonsMed * 6];
         int vert = 0;
         int tris = 0;
-        for (int zVertexId = 0; zVertexId < xNbPolygonsMed; zVertexId ++)
+        for (int zVertexId = 0; zVertexId < zNbPolygonsMed; zVertexId ++)
         {
-            for (int xVertexId = 0; xVertexId < zNbPolygonsMed; xVertexId ++)
+            for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
             {
                 this.trianglesMed [tris + 0] = vert + 0;
                 this.trianglesMed [tris + 1] = vert + xNbPolygonsMed + 1;

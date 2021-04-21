@@ -43,6 +43,14 @@ public class ChunkManager : MonoBehaviour
     [Tooltip("Number of polygons per chunk along the z-axis")]
     public int zNbPolygons = 32;
 
+    [Header("Mesh Resolution")]
+    [Tooltip("Mesh reduction ratio along the x-axis")]
+    [Range(1, 128)]
+    public int xReductionRatio = 4;
+    [Tooltip("Mesh reduction ratio along the z-axis")]
+    [Range(1, 128)]
+    public int zReductionRatio = 4;
+
     // Player chunk position
     int xChunkPlayer;
     int zChunkPlayer;
@@ -97,6 +105,8 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.zChunkSize = this.zChunkSize;
                 chunkMesh.xNbPolygons = this.xNbPolygons;
                 chunkMesh.zNbPolygons = this.zNbPolygons;
+                chunkMesh.xReductionRatio = this.xReductionRatio;
+                chunkMesh.zReductionRatio = this.zReductionRatio;
 
                 chunkMesh.noiseScale = this.noiseScale;
                 chunkMesh.noiseOctaves = this.noiseOctaves;

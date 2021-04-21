@@ -1776,6 +1776,8 @@ MonoBehaviour:
   zChunkSize: 16
   xNbPolygons: 32
   zNbPolygons: 32
+  xReductionRatio: 32
+  zReductionRatio: 32
   noiseScale: 3
   noiseOctaves: 5
   noiseAmplitudeMult: 4
