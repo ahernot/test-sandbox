@@ -32,7 +32,7 @@ Free sand texture: https://3dtextures.me/2020/02/14/sand-005/
 
 ## Assets
 For more information on materials & shaders: <a href="https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html" target="_blank">link</a>
-* Sand 005 SD (`Assets/Resources/Objects/Sand_005_SD` — 1024px)
+* Sand 005 SD (`Assets/Resources/Objects/Sand_005_SD` – 1024px)
   * albedo map (`Sand_005_baseColor.jpg`)
   * normal map (`Sand_005_normal.jpg`)
   * height map (`Sand_005_height`)
