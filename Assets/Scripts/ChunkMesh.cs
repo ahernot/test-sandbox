@@ -228,11 +228,6 @@ public class ChunkMesh : MonoBehaviour
         int xIdStep = (int) Mathf.Floor(this.xNbPolygons / xNbPolygonsMed); // floor to avoid overrun
         int zIdStep = (int) Mathf.Floor(this.zNbPolygons / zNbPolygonsMed); // floor to avoid overrun
 
-
-        // int xPoints = (int)Mathf.Ceil(this.xChunkSize / xStep) + 1; // nb of points to plot
-        // int zPoints = (int)Mathf.Ceil(this.zChunkSize / zStep) + 1;
-        // float yNoise;
-
         // Initialise vertices Vector3 array
         this.verticesMed = new Vector3 [(xNbPolygonsMed + 1) * (zNbPolygonsMed + 1)];
         // Initialise uvs Vector2 array
@@ -312,7 +307,6 @@ public class ChunkMesh : MonoBehaviour
             (float) xVertexRel / this.xChunkSize,
             (float) zVertexRel / this.zChunkSize
         );
-
 
         // Generate triangles
         this.trianglesMed = new int [xNbPolygonsMed * zNbPolygonsMed * 6];
