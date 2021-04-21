@@ -1,9 +1,8 @@
 # test-sandbox
 
 ## To do
-* Add Perlin noise octaves
-* Add texture mapping based on slope
-* Change ChunkMesh.GenerateMeshMed() to only iterate on zVertexId, xVertexId
+* Add texture mapping based on slope, height, vertex painting
+* Issues: noticeable seams in Perlin noise (visible when high vertex count)
 
 
 Shaders & materials: https://forum.unity.com/threads/shaders-vs-materials.628672/
