@@ -51,12 +51,16 @@ public class ChunkManager : MonoBehaviour
     [Range(1, 128)]
     public int zReductionRatio = 4;
 
-    // Player chunk position
+    // Player chunk position (updated at runtime)
     int xChunkPlayer;
     int zChunkPlayer;
 
     // Noise settings
     [Header("Noise Settings")]
+    public NoiseType[] noiseLayers;
+
+    [Space(50)]
+    // Legacy noise settings
     public float noiseScale = 3f;
     public int noiseOctaves = 4;
     public float noiseAmplitudeMult = 2f;
@@ -98,7 +102,10 @@ public class ChunkManager : MonoBehaviour
                 MeshRenderer meshRenderer = this.chunks[i] .GetComponent<MeshRenderer>();
                 meshRenderer.material = (Material)Instantiate(this.material);
 
+                // Create ChunkMesh component
                 ChunkMesh chunkMesh = this.chunks[i] .AddComponent<ChunkMesh>();
+
+                // Set ChunkMesh parameters
                 chunkMesh.xChunk = xChunk;
                 chunkMesh.zChunk = zChunk;
                 chunkMesh.xChunkSize = this.xChunkSize;
@@ -108,6 +115,7 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.xReductionRatio = this.xReductionRatio;
                 chunkMesh.zReductionRatio = this.zReductionRatio;
 
+                // Set noise parameters
                 chunkMesh.noiseScale = this.noiseScale;
                 chunkMesh.noiseOctaves = this.noiseOctaves;
                 chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;

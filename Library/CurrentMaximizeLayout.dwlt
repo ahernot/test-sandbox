@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 476, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 1
-  controlID: 700
+  controlID: 1028
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 476, y: 221}
   m_MaxSize: {x: 8001, y: 4021}
   vertical: 0
-  controlID: 701
+  controlID: 1029
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -259,9 +259,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.17547548, y: 0.34328437, z: -0.0654505, w: 0.92036974}
   m_Size:
-    m_Target: 19.524736
+    m_Target: 54.182087
     speed: 2
-    m_Value: 19.524736
+    m_Value: 54.182087
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -454,7 +454,7 @@ MonoBehaviour:
   m_MinSize: {x: 432, y: 271}
   m_MaxSize: {x: 14002, y: 10021}
   vertical: 0
-  controlID: 793
+  controlID: 1005
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -474,8 +474,8 @@ MonoBehaviour:
     y: 0
     width: 470
     height: 286
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -509,9 +509,9 @@ MonoBehaviour:
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 50f9ffff
-      m_LastClickedID: -1712
+      scrollPos: {x: 0, y: 60}
+      m_SelectedIDs: 88300000
+      m_LastClickedID: 0
       m_ExpandedIDs: 56f9ffff68fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -628,19 +628,19 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Materials
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/Materials
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: /Users/anatole/Documents/GitHub/test-sandbox
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 47}
-    m_SelectedIDs: 843d0000
-    m_LastClickedID: 15748
+    m_SelectedIDs: 6a3d0000
+    m_LastClickedID: 15722
     m_ExpandedIDs: 00000000663d0000683d00006a3d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -694,9 +694,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 50f9ffff
-    m_LastClickedInstanceID: -1712
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 88300000
+    m_LastClickedInstanceID: 12424
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

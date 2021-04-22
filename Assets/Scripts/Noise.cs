@@ -105,3 +105,17 @@ public class Noise // static because no need for multiple instances of this scri
 
 
 }
+
+
+[System.Serializable]
+public struct NoiseType {
+    public string name;
+
+    public float noiseScale; // = 3f;
+    public int noiseOctaves; // = 4;
+    public float noiseAmplitudeMult; // = 2f;
+    public float noiseFrequencyMult; // = 10f;
+
+    public float noiseMultiplier; // = 1f;
+}
+
