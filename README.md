@@ -46,3 +46,5 @@ For more information on materials & shaders: <a href="https://docs.unity3d.com/M
   * occlusion map (`Cliff_Rock_Two_AO.png`)
   * smoothness map (`Cliff_Rock_Two_Roughness.png`)
   * metallic map (`Cliff_Rock_Two_Metallic.png`)
+
+* Tree coral – from <a href="https://free3d.com/3d-model/tree-coral-v2--625204.html" target="_blank">link</a>
