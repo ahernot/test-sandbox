@@ -1,9 +1,11 @@
 # test-sandbox
+Unity 2019.4.18f1
+
+<br><br>
 
 ## To do
-* Add Perlin noise octaves
-* Add texture mapping based on slope
-* Change ChunkMesh.GenerateMeshMed() to only iterate on zVertexId, xVertexId
+* Add texture mapping based on slope, height, vertex painting
+* Issues: noticeable seams in Perlin noise (visible when high vertex count)
 
 
 Shaders & materials: https://forum.unity.com/threads/shaders-vs-materials.628672/
@@ -18,24 +20,19 @@ Texture help:
 Lighting seams: https://forum.unity.com/threads/lighting-seam-on-tileable-mesh.533407/
 Free sand texture: https://3dtextures.me/2020/02/14/sand-005/
 
-
-Make a HeightMap class
-* with chunk management
-* with multiple Noise layers for seafloor, hills, cliffs
-* with constant roughness regardless of mesh size (not more granularity of closer-spaced vertices)
-* Create chunk noise manager which normalises noise value
+* Refine noise layers in editor, with support for a mountain layer and a general terrain layer
 
 <br><br>
 
-# Packages
+## Packages
 * Shader Graph 7.5.3
 * ProBuilder 4.4.0
 
 <br><br>
 
-# Assets
+## Assets
 For more information on materials & shaders: <a href="https://docs.unity3d.com/Manual/StandardShaderMaterialParameters.html" target="_blank">link</a>
-* Sand 005 SD (`Assets/Resources/Objects/Sand_005_SD` — 1024px)
+* Sand 005 SD (`Assets/Resources/Objects/Sand_005_SD` – 1024px)
   * albedo map (`Sand_005_baseColor.jpg`)
   * normal map (`Sand_005_normal.jpg`)
   * height map (`Sand_005_height`)
@@ -49,3 +46,5 @@ For more information on materials & shaders: <a href="https://docs.unity3d.com/M
   * occlusion map (`Cliff_Rock_Two_AO.png`)
   * smoothness map (`Cliff_Rock_Two_Roughness.png`)
   * metallic map (`Cliff_Rock_Two_Metallic.png`)
+
+* Tree coral – from <a href="https://free3d.com/3d-model/tree-coral-v2--625204.html" target="_blank">link</a>
