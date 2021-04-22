@@ -1,9 +1,8 @@
 # test-sandbox
-Unity 2019.4.18f1
-
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
 
 <br><br>
+
 
 ## To do
 * Add texture mapping based on slope, height, vertex painting
@@ -26,7 +25,8 @@ Free sand texture: https://3dtextures.me/2020/02/14/sand-005/
 
 <br><br>
 
-## Packages
+## Packages & requirements
+* Unity 2019.4.18f1
 * Shader Graph 7.5.3
 * ProBuilder 4.4.0
 
