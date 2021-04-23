@@ -12,11 +12,10 @@ public class ChunkManager : MonoBehaviour
     public Material material;
 
     // List of chunks
-    [HideInInspector]
+    // [HideInInspector]
     public GameObject[] chunks;
 
     // [Space(30)]
-    
 
     [Header("Generation Settings")]
     // Number of chunks
@@ -58,6 +57,7 @@ public class ChunkManager : MonoBehaviour
     // Noise settings
     [Header("Noise Settings")]
     public NoiseType[] noiseLayers;
+    public List<float[,]> noiseChunks;
 
     [Space(50)]
     // Legacy noise settings
@@ -71,30 +71,40 @@ public class ChunkManager : MonoBehaviour
     void Start ()
     {
         this.DestroyChunks();
-        this.GenerateChunks();        
+        this.GenerateChunks();
     }
 
     public void GenerateChunks ()
     {
+        // Create new NoiseManager object and pass input parameters
+        // NoiseManager noiseManager = new NoiseManager();
+        // noiseManager .xHalfNbChunks = this.xHalfNbChunks;
+        // noiseManager .zHalfNbChunks = this.zHalfNbChunks;
+        // noiseManager .xNbPolygons = this.xNbPolygons;
+        // noiseManager .zNbPolygons = this.zNbPolygons;
+        // noiseManager .noiseLayers = this.noiseLayers;
 
-        NoiseManager noiseManager = new NoiseManager();
+        // noiseManager.GenerateNoiseChunks();
+
+        // Generate noise chunks
+        // this.noiseChunks = noiseManager.noiseChunks;
 
         // Initialise chunks array
         this.chunks = new GameObject[this.xHalfNbChunks * this.zHalfNbChunks * 4];
 
         int i = 0;
-        for (int xChunk = -1 * this.xHalfNbChunks; xChunk < this.xHalfNbChunks; xChunk++)
+        for (int xChunkId = -1 * this.xHalfNbChunks; xChunkId < this.xHalfNbChunks; xChunkId++)
         {
-            for (int zChunk = -1 * this.zHalfNbChunks; zChunk < this.zHalfNbChunks; zChunk++)
+            for (int zChunkId = -1 * this.zHalfNbChunks; zChunkId < this.zHalfNbChunks; zChunkId++)
             {
                 // Initialise empty GameObject
                 this.chunks[i] = new GameObject();
-                this.chunks[i] .name = "Chunk_" + xChunk.ToString() + "_" + zChunk.ToString();
+                this.chunks[i] .name = "Chunk_" + xChunkId.ToString() + "_" + zChunkId.ToString();
                 this.chunks[i] .transform.parent = gameObject.transform; // set parent
                 this.chunks[i] .layer = 8;
 
                 // Update position and rotation
-                this.chunks[i] .transform.position = new Vector3(xChunk * this.xChunkSize, 0, zChunk * this.zChunkSize);
+                this.chunks[i] .transform.position = new Vector3(xChunkId * this.xChunkSize, 0, zChunkId * this.zChunkSize);
                 this.chunks[i] .transform.rotation = Quaternion.identity;
 
                 // Add necessary components
@@ -109,8 +119,8 @@ public class ChunkManager : MonoBehaviour
                 ChunkMesh chunkMesh = this.chunks[i] .AddComponent<ChunkMesh>();
 
                 // Set ChunkMesh parameters
-                chunkMesh.xChunk = xChunk;
-                chunkMesh.zChunk = zChunk;
+                chunkMesh.xChunk = xChunkId;
+                chunkMesh.zChunk = zChunkId;
                 chunkMesh.xChunkSize = this.xChunkSize;
                 chunkMesh.zChunkSize = this.zChunkSize;
                 chunkMesh.xNbPolygons = this.xNbPolygons;
@@ -119,14 +129,14 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.zReductionRatio = this.zReductionRatio;
 
                 // Set noise parameters
-                // chunkMesh.noiseLayers = this.noiseLayers;
-                chunkMesh.noiseManager = noiseManager;
+                chunkMesh.noiseMap = this.noiseChunks [i];
+                chunkMesh.noiseNormalise = noiseManager.noiseNormalise;
 
-                chunkMesh.noiseScale = this.noiseScale;
-                chunkMesh.noiseOctaves = this.noiseOctaves;
-                chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
-                chunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
-                chunkMesh.noiseMultiplier = this.noiseMultiplier;
+                // chunkMesh.noiseScale = this.noiseScale;
+                // chunkMesh.noiseOctaves = this.noiseOctaves;
+                // chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
+                // chunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
+                // chunkMesh.noiseMultiplier = this.noiseMultiplier;
 
                 i++;
             }
@@ -158,9 +168,9 @@ public class ChunkManager : MonoBehaviour
     void UpdateResolutions ()
     {
         int i = 0;
-        for (int xChunk = -1 * this.xHalfNbChunks; xChunk < this.xHalfNbChunks; xChunk++)
+        for (int xChunkId = -1 * this.xHalfNbChunks; xChunkId < this.xHalfNbChunks; xChunkId++)
         {
-            for (int zChunk = -1 * this.zHalfNbChunks; zChunk < this.zHalfNbChunks; zChunk++)
+            for (int zChunkId = -1 * this.zHalfNbChunks; zChunkId < this.zHalfNbChunks; zChunkId++)
             {
                 // Continue if chunk out of bounds (nb of chunks was increased but not yet generated)
                 if (i >= this.chunks.Length) { continue; }
@@ -168,9 +178,9 @@ public class ChunkManager : MonoBehaviour
                 // Get chunk's mesh script
                 ChunkMesh chunkMesh = this.chunks[i] .GetComponent<ChunkMesh>();
 
-                if ((zChunk >= this.zChunkPlayer - this.loadHighRadius) && (zChunk <= this.zChunkPlayer + this.loadHighRadius))
+                if ((zChunkId >= this.zChunkPlayer - this.loadHighRadius) && (zChunkId <= this.zChunkPlayer + this.loadHighRadius))
                 {
-                    if ((xChunk >= this.xChunkPlayer - this.loadHighRadius) && (xChunk <= this.xChunkPlayer + this.loadHighRadius))
+                    if ((xChunkId >= this.xChunkPlayer - this.loadHighRadius) && (xChunkId <= this.xChunkPlayer + this.loadHighRadius))
                     {
                         chunkMesh.meshResolution = ChunkMesh.MeshResolution.High;
                     } else {

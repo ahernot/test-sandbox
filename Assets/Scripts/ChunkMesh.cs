@@ -14,8 +14,8 @@ public class ChunkMesh : MonoBehaviour
     [HideInInspector]
     public int zChunk = 0;
 
-    private int x; // x position in world (calculated on run)
-    private int z; // z position in world (calculated on run)
+    // private int x; // x position in world (calculated on run)
+    // private int z; // z position in world (calculated on run)
 
     [Header("Generation Settings")]
     // Chunk dimensions (determined by ChunkManager)
@@ -59,17 +59,17 @@ public class ChunkMesh : MonoBehaviour
 
     // Noise
     // public NoiseType[] noiseLayers;
-    public NoiseManager noiseManager;
+    // public NoiseManager noiseManager;
     public float noiseNormalise;
-    float[,] noiseMap;
+    public float[,] noiseMap;
 
     public float noiseMultiplier = 1f; //20f;//5f;
 
     // Noise settings
-    public float noiseScale = 3f;
-    public int noiseOctaves = 4;
-    public float noiseAmplitudeMult = 2f;
-    public float noiseFrequencyMult = 10f;
+    // public float noiseScale = 3f;
+    // public int noiseOctaves = 4;
+    // public float noiseAmplitudeMult = 2f;
+    // public float noiseFrequencyMult = 10f;
 
     void CheckParameters ()
     {
@@ -103,11 +103,12 @@ public class ChunkMesh : MonoBehaviour
         this.zVerticesRel = this.LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
 
         // Set world position of chunk (assuming that all the chunks are the same size)
-        this.x = this.xChunk * this.xChunkSize;
-        this.z = this.zChunk * this.zChunkSize;
+        // this.x = this.xChunk * this.xChunkSize;
+        // this.z = this.zChunk * this.zChunkSize;
 
+        // LEGACY
         // Generate noise map
-        this.GenerateNoiseMap();
+        //this.GenerateNoiseMap();
 
         // Generate all meshes
         this.GenerateMeshLow();
@@ -142,34 +143,36 @@ public class ChunkMesh : MonoBehaviour
         Array.Clear(this.noiseMap, 0, this.noiseMap.Length);
     }
 
-    void GenerateNoiseMapOLD ()
-    {
-        int xNbVertices = this.xNbPolygons + 1;
-        int zNbVertices = this.zNbPolygons + 1;
-        Vector2 offset = new Vector2 (this.x, this.z);
+    // No longer useful
+    // void GenerateNoiseMapOLD ()
+    // {
+    //     int xNbVertices = this.xNbPolygons + 1;
+    //     int zNbVertices = this.zNbPolygons + 1;
+    //     Vector2 offset = new Vector2 (this.x, this.z);
 
-        int seed = 0;
+    //     int seed = 0;
 
-        Noise noise = new Noise();
-        // this.noiseMap = noise.GenerateNoiseMapNew (xNbVertices, yNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
-        this.noiseMap = noise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
-    }
+    //     Noise noise = new Noise();
+    //     // this.noiseMap = noise.GenerateNoiseMapNew (xNbVertices, yNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
+    //     this.noiseMap = noise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
+    // }
 
-    void GenerateNoiseMap ()
-    {
-        // Create NoiseManager instance
-        // NoiseManager noiseManager = new NoiseManager();
-        // noiseManager.noiseLayers = this.noiseLayers;
+    // No longer useful
+    // void GenerateNoiseMap ()
+    // {
+    //     // Create NoiseManager instance
+    //     // NoiseManager noiseManager = new NoiseManager();
+    //     // noiseManager.noiseLayers = this.noiseLayers;
 
-        int xNbVertices = this.xNbPolygons + 1;
-        int zNbVertices = this.zNbPolygons + 1;
+    //     int xNbVertices = this.xNbPolygons + 1;
+    //     int zNbVertices = this.zNbPolygons + 1;
 
-        Vector2 vertexStart = new Vector2 (this.x, this.z);
-        Vector2 vertexStop = new Vector2 (this.x + this.xChunkSize, this.z + this.zChunkSize);
+    //     Vector2 vertexStart = new Vector2 (this.x, this.z);
+    //     Vector2 vertexStop = new Vector2 (this.x + this.xChunkSize, this.z + this.zChunkSize);
 
-        this.noiseMap = noiseManager.GenerateNoiseMap (vertexStart, vertexStop, xNbVertices, zNbVertices);
-        this.noiseNormalise = noiseManager.noiseNormalise;
-    }
+    //     this.noiseMap = noiseManager.GenerateNoiseMap (vertexStart, vertexStop, xNbVertices, zNbVertices);
+    //     this.noiseNormalise = noiseManager.noiseNormalise;
+    // }
     
     void SetMesh ()
     {

@@ -4,9 +4,46 @@ using UnityEngine;
 
 public class NoiseManager
 {
-    // Noise layer settings
+
+    // Number of chunks
+    public int xHalfNbChunks;
+    public int zHalfNbChunks;
+
+    // Chunk mesh poly count (fineness)
+    public int xNbPolygons;
+    public int zNbPolygons;
+
+    // Noise parameters
     public NoiseType[] noiseLayers;
-    public float noiseNormalise;
+
+    public List<float[,]> noiseChunks;
+    public float noiseNormalise = 1f;
+
+
+    public void GenerateNoiseChunks ()
+    {
+
+        int xNbChunks = this.xHalfNbChunks * 2 + 1;
+        int zNbChunks = this.zHalfNbChunks * 2 + 1;
+
+        int i = 0;
+        for (int xChunkId = -1 * this.xHalfNbChunks; xChunkId < this.xHalfNbChunks; xChunkId++)
+        {
+            for (int zChunkId = -1 * this.zHalfNbChunks; zChunkId < this.zHalfNbChunks; zChunkId++)
+            {
+                
+                Vector2 vertexStart = new Vector2 (this.xNbPolygons * xChunkId, this.zNbPolygons * zChunkId);
+                Vector2 vertexStop = new Vector2 (vertexStart.x + this.xNbPolygons, vertexStart.y + this.zNbPolygons);
+
+                // Generate noise chunk
+                this.noiseChunks [i] = this.GenerateNoiseMap (vertexStart, vertexStop, this.xNbPolygons + 1, this.zNbPolygons + 1);
+
+                i ++;
+            }
+        }
+
+    }
+
 
     public float[,] GenerateNoiseMap (Vector2 vertexStart, Vector2 vertexStop, int xNbVertices, int yNbVertices)
     {
