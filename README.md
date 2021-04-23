@@ -50,3 +50,10 @@ For more information on materials & shaders: <a href="https://docs.unity3d.com/M
   * metallic map (`Cliff_Rock_Two_Metallic.png`)
 
 * Tree coral – from <a href="https://free3d.com/3d-model/tree-coral-v2--625204.html" target="_blank">link</a>
+
+
+## Building process
+* Chunk manager generates chunks in an area, each with three default meshes: low-poly flat (not used), low-poly height-mapped, high-poly height-mapped
+* Noise:
+  * Initially, each chunk would call the Noise.GenerateNoiseMap() function to request a noise map of a certain size. However there is an issue with noise normalisation which needs to divide by the same number across all chunks to enable seamless chunk transitions.
+  * New method: use a NoiseManager class which generates chunks at world generation in a centralised way and returns the normalisation ratio as well as the chunk's noise map.
