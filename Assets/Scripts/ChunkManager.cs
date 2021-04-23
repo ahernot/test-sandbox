@@ -76,6 +76,9 @@ public class ChunkManager : MonoBehaviour
 
     public void GenerateChunks ()
     {
+
+        NoiseManager noiseManager = new NoiseManager();
+
         // Initialise chunks array
         this.chunks = new GameObject[this.xHalfNbChunks * this.zHalfNbChunks * 4];
 
@@ -116,6 +119,9 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.zReductionRatio = this.zReductionRatio;
 
                 // Set noise parameters
+                // chunkMesh.noiseLayers = this.noiseLayers;
+                chunkMesh.noiseManager = noiseManager;
+
                 chunkMesh.noiseScale = this.noiseScale;
                 chunkMesh.noiseOctaves = this.noiseOctaves;
                 chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;

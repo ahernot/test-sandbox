@@ -57,7 +57,12 @@ public class ChunkMesh : MonoBehaviour
     int[] trianglesHigh;
     Vector2[] uvsHigh;
 
+    // Noise
+    // public NoiseType[] noiseLayers;
+    public NoiseManager noiseManager;
+    public float noiseNormalise;
     float[,] noiseMap;
+
     public float noiseMultiplier = 1f; //20f;//5f;
 
     // Noise settings
@@ -137,7 +142,7 @@ public class ChunkMesh : MonoBehaviour
         Array.Clear(this.noiseMap, 0, this.noiseMap.Length);
     }
 
-    void GenerateNoiseMap ()
+    void GenerateNoiseMapOLD ()
     {
         int xNbVertices = this.xNbPolygons + 1;
         int zNbVertices = this.zNbPolygons + 1;
@@ -148,6 +153,22 @@ public class ChunkMesh : MonoBehaviour
         Noise noise = new Noise();
         // this.noiseMap = noise.GenerateNoiseMapNew (xNbVertices, yNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
         this.noiseMap = noise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
+    }
+
+    void GenerateNoiseMap ()
+    {
+        // Create NoiseManager instance
+        // NoiseManager noiseManager = new NoiseManager();
+        // noiseManager.noiseLayers = this.noiseLayers;
+
+        int xNbVertices = this.xNbPolygons + 1;
+        int zNbVertices = this.zNbPolygons + 1;
+
+        Vector2 vertexStart = new Vector2 (this.x, this.z);
+        Vector2 vertexStop = new Vector2 (this.x + this.xChunkSize, this.z + this.zChunkSize);
+
+        this.noiseMap = noiseManager.GenerateNoiseMap (vertexStart, vertexStop, xNbVertices, zNbVertices);
+        this.noiseNormalise = noiseManager.noiseNormalise;
     }
     
     void SetMesh ()
@@ -244,7 +265,7 @@ public class ChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = this.noiseMap[xVertexId * xIdStep, zVertexId * zIdStep] * this.noiseMultiplier;
+                yVertexRel = this.noiseMap[xVertexId * xIdStep, zVertexId * zIdStep] * this.noiseMultiplier / this.noiseNormalise;
 
                 // Add vertex
                 this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
@@ -260,7 +281,7 @@ public class ChunkMesh : MonoBehaviour
 
             // Add end vertices and uvs for x=X_MAX
             xVertexRel = this.xVerticesRel [this.xNbPolygons];
-            yVertexRel = this.noiseMap[this.xNbPolygons, zVertexId * zIdStep] * this.noiseMultiplier;
+            yVertexRel = this.noiseMap[this.xNbPolygons, zVertexId * zIdStep] * this.noiseMultiplier / this.noiseNormalise;
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -278,7 +299,7 @@ public class ChunkMesh : MonoBehaviour
         for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
         {
             xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
-            yVertexRel = this.noiseMap[xVertexId * xIdStep, this.zNbPolygons] * this.noiseMultiplier;
+            yVertexRel = this.noiseMap[xVertexId * xIdStep, this.zNbPolygons] * this.noiseMultiplier / this.noiseNormalise;
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -293,7 +314,7 @@ public class ChunkMesh : MonoBehaviour
         // Add final vertex
         xVertexRel = this.xVerticesRel [this.xNbPolygons];
         zVertexRel = this.zVerticesRel [this.zNbPolygons];
-        yVertexRel = this.noiseMap[this.xNbPolygons, this.zNbPolygons] * this.noiseMultiplier;
+        yVertexRel = this.noiseMap[this.xNbPolygons, this.zNbPolygons] * this.noiseMultiplier / this.noiseNormalise;
 
         this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -360,7 +381,7 @@ public class ChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = this.noiseMap[xVertexId, zVertexId] * this.noiseMultiplier;
+                yVertexRel = this.noiseMap[xVertexId, zVertexId] * this.noiseMultiplier / this.noiseNormalise;
 
                 // Add vertex
                 this.verticesHigh [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
