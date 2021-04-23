@@ -58,3 +58,6 @@ For more information on materials & shaders: <a href="https://docs.unity3d.com/M
 * Noise:
   * Initially, each chunk would call the Noise.GenerateNoiseMap() function to request a noise map of a certain size. However there is an issue with noise normalisation which needs to divide by the same number across all chunks to enable seamless chunk transitions.
   * New method: use a NoiseManager class which generates chunks at world generation in a centralised way and returns the normalisation ratio as well as the chunk's noise map.
+
+
+ISSUE: NoiseManager is too slow (maybe cuz not MonoBehaviour) and so by the time it has generated everything the Update method is already called from ChunkManager and it finds an empty/incomplete chunks array
