@@ -8,7 +8,7 @@ public class Noise // static because no need for multiple instances of this scri
     public float xPerlinOffset = 1000000f;
     public float yPerlinOffset = 1000000f;
 
-    public float[,] GenerateNoiseMap (int xSize, int ySize, int xNbVertices, int yNbVertices, int seed, float scale, int octaves, float amplitudeMult, float frequencyMult, Vector2 offset)
+    public float[,] GenerateNoiseMap (int xSize, int ySize, int xNbVertices, int yNbVertices, int seed, float scale, int octaves, float amplitudeMult, float frequencyMult, float noiseMultiplier, Vector2 offset)
     {
         // Initialise noiseMap
         float[,] noiseMap = new float [xNbVertices, yNbVertices];
@@ -75,7 +75,7 @@ public class Noise // static because no need for multiple instances of this scri
                 }
                 
                 // Apply to noiseMap
-                noiseMap [xVertexId, yVertexId] = noiseHeight / (2 * heightRangeHalf);
+                noiseMap [xVertexId, yVertexId] = noiseHeight / (2 * heightRangeHalf) * noiseMultiplier;
             }
         }
 

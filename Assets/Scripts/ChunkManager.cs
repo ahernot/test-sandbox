@@ -74,6 +74,9 @@ public class ChunkManager : MonoBehaviour
         this.GenerateChunks();
     }
 
+    /**
+    * Regenerate the chunks (with their noise maps)
+    **/
     public void GenerateChunks ()
     {
         // Create new NoiseManager object and pass input parameters
@@ -129,8 +132,7 @@ public class ChunkManager : MonoBehaviour
                 chunkMesh.zReductionRatio = this.zReductionRatio;
 
                 // Set noise parameters
-                chunkMesh.noiseMap = this.noiseChunks [i];
-                chunkMesh.noiseNormalise = noiseManager.noiseNormalise;
+                chunkMesh.noiseLayers = this.noiseLayers;
 
                 // chunkMesh.noiseScale = this.noiseScale;
                 // chunkMesh.noiseOctaves = this.noiseOctaves;

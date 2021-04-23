@@ -58,12 +58,10 @@ public class ChunkMesh : MonoBehaviour
     Vector2[] uvsHigh;
 
     // Noise
-    // public NoiseType[] noiseLayers;
-    // public NoiseManager noiseManager;
-    public float noiseNormalise;
+    public NoiseType[] noiseLayers; // Noise settings
     public float[,] noiseMap;
 
-    public float noiseMultiplier = 1f; //20f;//5f;
+    //public float noiseMultiplier = 1f; //20f;//5f;
 
     // Noise settings
     // public float noiseScale = 3f;
@@ -71,7 +69,7 @@ public class ChunkMesh : MonoBehaviour
     // public float noiseAmplitudeMult = 2f;
     // public float noiseFrequencyMult = 10f;
 
-    void CheckParameters ()
+    void ClampParameters ()
     {
         if (this.xChunkSize <= 0)
         {
@@ -96,19 +94,18 @@ public class ChunkMesh : MonoBehaviour
     void Start ()
     {
         // Check parameters
-        this.CheckParameters();
+        this.ClampParameters();
 
         // Initialise vertices' relative positions
-        this.xVerticesRel = this.LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
-        this.zVerticesRel = this.LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
+        this.xVerticesRel = new Functions().LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
+        this.zVerticesRel = new Functions().LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
 
         // Set world position of chunk (assuming that all the chunks are the same size)
         // this.x = this.xChunk * this.xChunkSize;
         // this.z = this.zChunk * this.zChunkSize;
 
-        // LEGACY
         // Generate noise map
-        //this.GenerateNoiseMap();
+        this.GenerateNoiseMap();
 
         // Generate all meshes
         this.GenerateMeshLow();
@@ -143,36 +140,28 @@ public class ChunkMesh : MonoBehaviour
         Array.Clear(this.noiseMap, 0, this.noiseMap.Length);
     }
 
-    // No longer useful
-    // void GenerateNoiseMapOLD ()
-    // {
-    //     int xNbVertices = this.xNbPolygons + 1;
-    //     int zNbVertices = this.zNbPolygons + 1;
-    //     Vector2 offset = new Vector2 (this.x, this.z);
+    void GenerateNoiseMap ()
+    {
 
-    //     int seed = 0;
+        
 
-    //     Noise noise = new Noise();
-    //     // this.noiseMap = noise.GenerateNoiseMapNew (xNbVertices, yNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
-    //     this.noiseMap = noise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, this.noiseScale, this.noiseOctaves, this.noiseAmplitudeMult, this.noiseFrequencyMult, offset);
-    // }
+        int xNbVertices = this.xNbPolygons + 1;
+        int zNbVertices = this.zNbPolygons + 1;
+        int seed = 0;
 
-    // No longer useful
-    // void GenerateNoiseMap ()
-    // {
-    //     // Create NoiseManager instance
-    //     // NoiseManager noiseManager = new NoiseManager();
-    //     // noiseManager.noiseLayers = this.noiseLayers;
+        NoiseType noiseLayer = this.noiseLayers [0];
 
-    //     int xNbVertices = this.xNbPolygons + 1;
-    //     int zNbVertices = this.zNbPolygons + 1;
+        Vector2 vertexStart = new Vector2 (this.xChunkSize * this.xChunk, this.zChunkSize * this.zChunk);
+        Vector2 vertexStop = new Vector2 (vertexStart.x + this.xChunkSize, vertexStart.y + this.zChunkSize);
 
-    //     Vector2 vertexStart = new Vector2 (this.x, this.z);
-    //     Vector2 vertexStop = new Vector2 (this.x + this.xChunkSize, this.z + this.zChunkSize);
-
-    //     this.noiseMap = noiseManager.GenerateNoiseMap (vertexStart, vertexStop, xNbVertices, zNbVertices);
-    //     this.noiseNormalise = noiseManager.noiseNormalise;
-    // }
+        Noise noise = new Noise();
+        this.noiseMap = noise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, noiseLayer.noiseScale, noiseLayer.noiseOctaves, noiseLayer.noiseAmplitudeMult, noiseLayer.noiseFrequencyMult, noiseLayer.noiseMultiplier, vertexStart);
+        
+        // Create NoiseManager instance
+        // NoiseManager noiseManager = new NoiseManager();
+        // noiseManager.noiseLayers = this.noiseLayers;
+        // this.noiseMap = noiseManager.GenerateNoiseMap (vertexStart, vertexStop, this.xNbPolygons + 1, this.zNbPolygons + 1);
+    }
     
     void SetMesh ()
     {
@@ -237,14 +226,14 @@ public class ChunkMesh : MonoBehaviour
         this.meshMed = new Mesh();
 
         // Calculate number of polygons per side
-        int xNbPolygonsMed = (int) Mathf.Ceil(this.xNbPolygons / this.xReductionRatio); // max between this and 1
+        int xNbPolygonsMed = (int) Mathf.Ceil (this.xNbPolygons / this.xReductionRatio); // max between this and 1
         if (xNbPolygonsMed <= 0) { xNbPolygonsMed = 1; }
-        int zNbPolygonsMed = (int) Mathf.Ceil(this.zNbPolygons / this.zReductionRatio); // max between this and 1
+        int zNbPolygonsMed = (int) Mathf.Ceil (this.zNbPolygons / this.zReductionRatio); // max between this and 1
         if (zNbPolygonsMed <= 0) { zNbPolygonsMed = 1; }
 
         // Calculate index step
-        int xIdStep = (int) Mathf.Floor(this.xNbPolygons / xNbPolygonsMed); // floor to avoid overrun
-        int zIdStep = (int) Mathf.Floor(this.zNbPolygons / zNbPolygonsMed); // floor to avoid overrun
+        int xIdStep = (int) Mathf.Floor (this.xNbPolygons / xNbPolygonsMed); // floor to avoid overrun
+        int zIdStep = (int) Mathf.Floor (this.zNbPolygons / zNbPolygonsMed); // floor to avoid overrun
 
         // Initialise vertices Vector3 array
         this.verticesMed = new Vector3 [(xNbPolygonsMed + 1) * (zNbPolygonsMed + 1)];
@@ -268,7 +257,7 @@ public class ChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = this.noiseMap[xVertexId * xIdStep, zVertexId * zIdStep] * this.noiseMultiplier / this.noiseNormalise;
+                yVertexRel = this.noiseMap [xVertexId * xIdStep, zVertexId * zIdStep];
 
                 // Add vertex
                 this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
@@ -284,7 +273,7 @@ public class ChunkMesh : MonoBehaviour
 
             // Add end vertices and uvs for x=X_MAX
             xVertexRel = this.xVerticesRel [this.xNbPolygons];
-            yVertexRel = this.noiseMap[this.xNbPolygons, zVertexId * zIdStep] * this.noiseMultiplier / this.noiseNormalise;
+            yVertexRel = this.noiseMap [this.xNbPolygons, zVertexId * zIdStep];
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -302,7 +291,7 @@ public class ChunkMesh : MonoBehaviour
         for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
         {
             xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
-            yVertexRel = this.noiseMap[xVertexId * xIdStep, this.zNbPolygons] * this.noiseMultiplier / this.noiseNormalise;
+            yVertexRel = this.noiseMap [xVertexId * xIdStep, this.zNbPolygons];
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -317,7 +306,7 @@ public class ChunkMesh : MonoBehaviour
         // Add final vertex
         xVertexRel = this.xVerticesRel [this.xNbPolygons];
         zVertexRel = this.zVerticesRel [this.zNbPolygons];
-        yVertexRel = this.noiseMap[this.xNbPolygons, this.zNbPolygons] * this.noiseMultiplier / this.noiseNormalise;
+        yVertexRel = this.noiseMap[this.xNbPolygons, this.zNbPolygons];
 
         this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -384,7 +373,7 @@ public class ChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = this.noiseMap[xVertexId, zVertexId] * this.noiseMultiplier / this.noiseNormalise;
+                yVertexRel = this.noiseMap [xVertexId, zVertexId];
 
                 // Add vertex
                 this.verticesHigh [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
@@ -429,24 +418,24 @@ public class ChunkMesh : MonoBehaviour
         this.meshHigh .RecalculateNormals();
     }
 
-    private float[] LinearRange (float start, float stop, int nbPoints)
-    {
-        float[] range = new float [nbPoints];
+    // private float[] LinearRange (float start, float stop, int nbPoints)
+    // {
+    //     float[] range = new float [nbPoints];
 
-        float step = (stop - start) / (float)(nbPoints - 1);
-        float point;
+    //     float step = (stop - start) / (float)(nbPoints - 1);
+    //     float point;
 
-        // Fill the first nbPoints-1 points of the range
-        for (int i = 0; i < nbPoints - 1; i ++)
-        {
-            point = i * step;
-            range [i] = point;
-        }
+    //     // Fill the first nbPoints-1 points of the range
+    //     for (int i = 0; i < nbPoints - 1; i ++)
+    //     {
+    //         point = i * step;
+    //         range [i] = point;
+    //     }
 
-        // Make sure that the last point is (float)stop
-        range [nbPoints - 1] = (float)stop;
+    //     // Make sure that the last point is (float)stop
+    //     range [nbPoints - 1] = (float)stop;
 
-        return range;
-    }
+    //     return range;
+    // }
 
 }

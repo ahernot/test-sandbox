@@ -1868,8 +1868,8 @@ MonoBehaviour:
   xReductionRatio: 12
   zReductionRatio: 12
   noiseLayers:
-  - name: sand
-    renderLayer: 0
+  - name: flat terrain
+    renderLayer: 1
     noiseScale: 3
     noiseOctaves: 5
     noiseAmplitudeMult: 4
