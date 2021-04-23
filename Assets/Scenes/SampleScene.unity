@@ -1869,12 +1869,14 @@ MonoBehaviour:
   zReductionRatio: 12
   noiseLayers:
   - name: sand
+    renderLayer: 0
     noiseScale: 3
     noiseOctaves: 5
     noiseAmplitudeMult: 4
     noiseFrequencyMult: 0.05
     noiseMultiplier: 1000
   - name: hills
+    renderLayer: 0
     noiseScale: 0
     noiseOctaves: 0
     noiseAmplitudeMult: 0
