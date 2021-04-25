@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+ Copyright Anatole Hernot, 2021
+ All rights reserved
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
