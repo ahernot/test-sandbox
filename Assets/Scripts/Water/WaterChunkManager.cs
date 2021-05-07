@@ -113,26 +113,17 @@ public class WaterChunkManager : MonoBehaviour
                 meshRenderer.material = (Material)Instantiate(this.material);
 
                 // Create ChunkMesh component
-                ChunkMesh chunkMesh = this.chunks[i] .AddComponent<ChunkMesh>();
+                WaterChunkMesh waterChunkMesh = this.chunks[i] .AddComponent<WaterChunkMesh>();
 
                 // Set ChunkMesh parameters
-                chunkMesh.xChunk = xChunkId;
-                chunkMesh.zChunk = zChunkId;
-                chunkMesh.xChunkSize = this.xChunkSize;
-                chunkMesh.zChunkSize = this.zChunkSize;
-                chunkMesh.xNbPolygons = this.xNbPolygons;
-                chunkMesh.zNbPolygons = this.zNbPolygons;
-                chunkMesh.xReductionRatio = this.xReductionRatio;
-                chunkMesh.zReductionRatio = this.zReductionRatio;
-
-                // Set noise parameters
-                chunkMesh.noiseLayers = this.noiseLayers;
-
-                // chunkMesh.noiseScale = this.noiseScale;
-                // chunkMesh.noiseOctaves = this.noiseOctaves;
-                // chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
-                // chunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
-                // chunkMesh.noiseMultiplier = this.noiseMultiplier;
+                waterChunkMesh.xChunk = xChunkId;
+                waterChunkMesh.zChunk = zChunkId;
+                waterChunkMesh.xChunkSize = this.xChunkSize;
+                waterChunkMesh.zChunkSize = this.zChunkSize;
+                waterChunkMesh.xNbPolygons = this.xNbPolygons;
+                waterChunkMesh.zNbPolygons = this.zNbPolygons;
+                waterChunkMesh.xReductionRatio = this.xReductionRatio;
+                waterChunkMesh.zReductionRatio = this.zReductionRatio;
 
                 i++;
             }
@@ -172,18 +163,18 @@ public class WaterChunkManager : MonoBehaviour
                 if (i >= this.chunks.Length) { continue; }
 
                 // Get chunk's mesh script
-                ChunkMesh chunkMesh = this.chunks[i] .GetComponent<ChunkMesh>();
+                WaterChunkMesh waterChunkMesh = this.chunks[i] .GetComponent<WaterChunkMesh>();
 
                 if ((zChunkId >= this.zChunkPlayer - this.loadHighRadius) && (zChunkId <= this.zChunkPlayer + this.loadHighRadius))
                 {
                     if ((xChunkId >= this.xChunkPlayer - this.loadHighRadius) && (xChunkId <= this.xChunkPlayer + this.loadHighRadius))
                     {
-                        chunkMesh.meshResolution = ChunkMesh.MeshResolution.High;
+                        waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.High;
                     } else {
-                        chunkMesh.meshResolution = ChunkMesh.MeshResolution.Medium;
+                        waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.Medium;
                     };
                 } else {
-                    chunkMesh.meshResolution = ChunkMesh.MeshResolution.Medium;
+                    waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.Medium;
                 };
 
                 i ++;

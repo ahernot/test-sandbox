@@ -2682,6 +2682,65 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2281230642242371585, guid: a4a6deba3c21f44cf853eb52d2a5ab0f, type: 3}
+--- !u!1 &1218247405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1218247407}
+  - component: {fileID: 1218247406}
+  m_Layer: 0
+  m_Name: WaterChunkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1218247406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218247405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3398249dbbe4d3080055d39776fe06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1642481927}
+  material: {fileID: 2100000, guid: 1e26faa008672604b980f2df55aa6ed2, type: 2}
+  chunks: []
+  xHalfNbChunks: 64
+  zHalfNbChunks: 64
+  loadHighRadius: 8
+  waveDirection: {x: 0, y: 0}
+  waveAmplitude: 0
+  waveVariation: 0
+  waveSpeed: 0
+  xChunkSize: 16
+  zChunkSize: 16
+  xNbPolygons: 32
+  zNbPolygons: 32
+  xReductionRatio: 4
+  zReductionRatio: 4
+--- !u!4 &1218247407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218247405}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1358323146 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7313897365243893600, guid: a4a6deba3c21f44cf853eb52d2a5ab0f,

@@ -121,7 +121,7 @@ public class WaterChunkMesh : MonoBehaviour
     /**
     * Destroy chunk
     **/
-    ~ChunkMesh ()
+    ~WaterChunkMesh ()
     {
         this.meshLow.Clear();
         this.meshMed.Clear();
@@ -138,8 +138,6 @@ public class WaterChunkMesh : MonoBehaviour
         Array.Clear(this.verticesHigh, 0, this.verticesHigh.Length);
         Array.Clear(this.trianglesHigh, 0, this.trianglesHigh.Length);
         Array.Clear(this.uvsHigh, 0, this.uvsHigh.Length);
-
-        Array.Clear(this.noiseMap, 0, this.noiseMap.Length);
     }
 
     /**
@@ -261,7 +259,7 @@ public class WaterChunkMesh : MonoBehaviour
 
             // Add end vertices and uvs for x=X_MAX
             xVertexRel = this.xVerticesRel [this.xNbPolygons];
-            yVertexRel = = 0f;
+            yVertexRel = 0f;
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
