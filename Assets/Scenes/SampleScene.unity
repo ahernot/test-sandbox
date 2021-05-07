@@ -1899,7 +1899,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &652666029
 GameObject:
@@ -2288,7 +2288,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a4a6deba3c21f44cf853eb52d2a5ab0f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a6deba3c21f44cf853eb52d2a5ab0f,
         type: 3}
@@ -2468,7 +2468,7 @@ Transform:
   m_LocalScale: {x: 23.363686, y: 23.363686, z: 23.363686}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &988204891
 GameObject:
@@ -2561,7 +2561,7 @@ Transform:
   m_LocalScale: {x: 23.363686, y: 23.363686, z: 23.363686}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1118049166
 PrefabInstance:
@@ -2573,7 +2573,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a4a6deba3c21f44cf853eb52d2a5ab0f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a4a6deba3c21f44cf853eb52d2a5ab0f,
         type: 3}
@@ -2706,7 +2706,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218247405}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3398249dbbe4d3080055d39776fe06, type: 3}
   m_Name: 
@@ -2714,13 +2714,13 @@ MonoBehaviour:
   player: {fileID: 1642481927}
   material: {fileID: 2100000, guid: 1e26faa008672604b980f2df55aa6ed2, type: 2}
   chunks: []
-  xHalfNbChunks: 64
-  zHalfNbChunks: 64
-  loadHighRadius: 8
-  waveDirection: {x: 0, y: 0}
-  waveAmplitude: 0
-  waveVariation: 0
-  waveSpeed: 0
+  xHalfNbChunks: 8
+  zHalfNbChunks: 8
+  loadHighRadius: 3
+  waveDirection: {x: 1, y: 3}
+  waveAmplitude: 1
+  waveVariation: 0.1
+  waveSpeed: 0.2
   xChunkSize: 16
   zChunkSize: 16
   xNbPolygons: 32

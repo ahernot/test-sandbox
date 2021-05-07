@@ -125,6 +125,12 @@ public class WaterChunkManager : MonoBehaviour
                 waterChunkMesh.xReductionRatio = this.xReductionRatio;
                 waterChunkMesh.zReductionRatio = this.zReductionRatio;
 
+                // Set wave parameters (to replace with a struct)
+                waterChunkMesh.waveDirection = this.waveDirection;
+                waterChunkMesh.waveAmplitude = this.waveAmplitude;
+                waterChunkMesh.waveVariation = this.waveVariation;
+                waterChunkMesh.waveSpeed = this.waveSpeed;
+
                 i++;
             }
         }

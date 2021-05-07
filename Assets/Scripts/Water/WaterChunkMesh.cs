@@ -88,6 +88,8 @@ public class WaterChunkMesh : MonoBehaviour
         {
             this.zNbPolygons = 1;
         }
+
+        this.waveDirection .Normalize();
     }
 
     /**
@@ -115,6 +117,7 @@ public class WaterChunkMesh : MonoBehaviour
     void Update ()
     {
         // Set chosen mesh
+        this.GenerateMeshHigh();
         this.SetMesh();
     }
 
@@ -362,7 +365,10 @@ public class WaterChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = 0f;
+                yVertexRel = (float) Math.Cos (
+                    Vector2.Dot (new Vector2 (xVertexRel + this.xChunk * this.xChunkSize, zVertexRel + this.zChunk * this.zChunkSize), this.waveDirection)
+                    - this.waveSpeed * Time.deltaTime
+                ) * this.waveAmplitude;
 
                 // Add vertex
                 this.verticesHigh [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
