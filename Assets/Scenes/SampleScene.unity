@@ -2712,21 +2712,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1642481927}
-  material: {fileID: 2100000, guid: 1e26faa008672604b980f2df55aa6ed2, type: 2}
+  material: {fileID: 2100000, guid: 5ca881503ea5a47eabed8b095fd7b13f, type: 2}
   chunks: []
   xHalfNbChunks: 8
   zHalfNbChunks: 8
-  loadHighRadius: 8
+  loadHighRadius: 1
   waveDirection: {x: 1, y: 3}
   waveAmplitude: 1.3
   waveVariation: 0.1
   waveSpeed: 0.56
   xChunkSize: 64
   zChunkSize: 64
-  xNbPolygons: 16
-  zNbPolygons: 16
-  xReductionRatio: 2
-  zReductionRatio: 2
+  xNbPolygons: 24
+  zNbPolygons: 24
+  xReductionRatio: 4
+  zReductionRatio: 4
 --- !u!4 &1218247407
 Transform:
   m_ObjectHideFlags: 0

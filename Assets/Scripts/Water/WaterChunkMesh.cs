@@ -222,8 +222,8 @@ public class WaterChunkMesh : MonoBehaviour
 
         // Generate triangles
         this.trianglesLow = new int [6] {
-            0, 3, 1,
-            0, 2, 3
+            0, 1, 3,
+            0, 3, 2
         };
 
         // Fill mesh
@@ -332,11 +332,11 @@ public class WaterChunkMesh : MonoBehaviour
             for (int xVertexId = 0; xVertexId < this.xNbPolygonsMed; xVertexId ++)
             {
                 this.trianglesMed [tris + 0] = vert + 0;
-                this.trianglesMed [tris + 1] = vert + xNbPolygonsMed + 1;
-                this.trianglesMed [tris + 2] = vert + 1;
+                this.trianglesMed [tris + 2] = vert + xNbPolygonsMed + 1;
+                this.trianglesMed [tris + 1] = vert + 1;
                 this.trianglesMed [tris + 3] = vert + 1;
-                this.trianglesMed [tris + 4] = vert + this.xNbPolygonsMed + 1;
-                this.trianglesMed [tris + 5] = vert + this.xNbPolygonsMed + 2;
+                this.trianglesMed [tris + 5] = vert + this.xNbPolygonsMed + 1;
+                this.trianglesMed [tris + 4] = vert + this.xNbPolygonsMed + 2;
 
                 vert ++;
                 tris += 6;
@@ -409,11 +409,11 @@ public class WaterChunkMesh : MonoBehaviour
             for (int xVertexId = 0; xVertexId < this.xNbPolygons; xVertexId ++)
             {
                 this.trianglesHigh [tris + 0] = vert + 0;
-                this.trianglesHigh [tris + 1] = vert + this.xNbPolygons + 1;
-                this.trianglesHigh [tris + 2] = vert + 1;
+                this.trianglesHigh [tris + 2] = vert + this.xNbPolygons + 1;
+                this.trianglesHigh [tris + 1] = vert + 1;
                 this.trianglesHigh [tris + 3] = vert + 1;
-                this.trianglesHigh [tris + 4] = vert + this.xNbPolygons + 1;
-                this.trianglesHigh [tris + 5] = vert + this.xNbPolygons + 2;
+                this.trianglesHigh [tris + 5] = vert + this.xNbPolygons + 1;
+                this.trianglesHigh [tris + 4] = vert + this.xNbPolygons + 2;
 
                 vert ++;
                 tris += 6;
