@@ -12,12 +12,16 @@ using UnityEngine;
 // [RequireComponent(typeof(MeshCollider))]
 public class WaterChunkMesh : MonoBehaviour
 {
+    // TIME
+    private float T = 0f;
 
-    // Chunk coordinates
+    // Chunk coordinates (chunk manager always at x=0,z=0)
     [HideInInspector]
-    public int xChunk = 0;
+    public int xChunk = 0; // in chunks
+    public int xOffset = 0; // in world
     [HideInInspector]
-    public int zChunk = 0;
+    public int zChunk = 0; // in chunks
+    public int zOffset = 0; // in world
 
 
     [Header("Generation Settings")]
@@ -54,6 +58,11 @@ public class WaterChunkMesh : MonoBehaviour
     Vector3[] verticesMed;
     int[] trianglesMed;
     Vector2[] uvsMed;
+    // Medium mesh parameters (calculated once)
+    private int xNbPolygonsMed;
+    private int zNbPolygonsMed;
+    private int xIdStep;
+    private int zIdStep;
 
     // High = high poly
     Vector3[] verticesHigh;
@@ -101,9 +110,23 @@ public class WaterChunkMesh : MonoBehaviour
         // Check parameters
         this.ClampParameters();
 
+        // Calculate coordinates in world
+        this.xOffset = this.xChunk * this.xChunkSize;
+        this.zOffset = this.zChunk * this.zChunkSize;
+
         // Initialise vertices' relative positions
         this.xVerticesRel = new Functions().LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
         this.zVerticesRel = new Functions().LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
+
+        // Initialise medium mesh parameters
+        // Calculate number of polygons per side
+        this.xNbPolygonsMed = (int) Mathf.Ceil (this.xNbPolygons / this.xReductionRatio); // max between this and 1
+        if (this.xNbPolygonsMed <= 0) { this.xNbPolygonsMed = 1; }
+        this.zNbPolygonsMed = (int) Mathf.Ceil (this.zNbPolygons / this.zReductionRatio); // max between this and 1
+        if (this.zNbPolygonsMed <= 0) { this.zNbPolygonsMed = 1; }
+        // Calculate index step
+        this.xIdStep = (int) Mathf.Floor (this.xNbPolygons / this.xNbPolygonsMed); // floor to avoid overrun
+        this.zIdStep = (int) Mathf.Floor (this.zNbPolygons / this.zNbPolygonsMed); // floor to avoid overrun
 
         // Generate all meshes
         this.GenerateMeshLow();
@@ -116,9 +139,15 @@ public class WaterChunkMesh : MonoBehaviour
     **/
     void Update ()
     {
+        // Increment time
+        this.T += Time.deltaTime;
+        
+        this.UpdateMeshHigh();
+        this.UpdateMeshMed();
+
         // Set chosen mesh
-        this.GenerateMeshHigh();
         this.SetMesh();
+
     }
 
     /**
@@ -214,18 +243,8 @@ public class WaterChunkMesh : MonoBehaviour
         // Initialise mesh
         this.meshMed = new Mesh();
 
-        // Calculate number of polygons per side
-        int xNbPolygonsMed = (int) Mathf.Ceil (this.xNbPolygons / this.xReductionRatio); // max between this and 1
-        if (xNbPolygonsMed <= 0) { xNbPolygonsMed = 1; }
-        int zNbPolygonsMed = (int) Mathf.Ceil (this.zNbPolygons / this.zReductionRatio); // max between this and 1
-        if (zNbPolygonsMed <= 0) { zNbPolygonsMed = 1; }
-
-        // Calculate index step
-        int xIdStep = (int) Mathf.Floor (this.xNbPolygons / xNbPolygonsMed); // floor to avoid overrun
-        int zIdStep = (int) Mathf.Floor (this.zNbPolygons / zNbPolygonsMed); // floor to avoid overrun
-
         // Initialise vertices Vector3 array
-        this.verticesMed = new Vector3 [(xNbPolygonsMed + 1) * (zNbPolygonsMed + 1)];
+        this.verticesMed = new Vector3 [(this.xNbPolygonsMed + 1) * (this.zNbPolygonsMed + 1)];
         // Initialise uvs Vector2 array
         this.uvsMed = new Vector2 [this.verticesMed .Length];
 
@@ -235,18 +254,18 @@ public class WaterChunkMesh : MonoBehaviour
         float zVertexRel;
 
         int i = 0;
-        for (int zVertexId = 0; zVertexId < zNbPolygonsMed; zVertexId ++)
+        for (int zVertexId = 0; zVertexId < this.zNbPolygonsMed; zVertexId ++)
         {
             // Get z vertex coordinate
-            zVertexRel = this.zVerticesRel [zVertexId * zIdStep];
+            zVertexRel = this.zVerticesRel [zVertexId * this.zIdStep];
 
-            for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
+            for (int xVertexId = 0; xVertexId < this.xNbPolygonsMed; xVertexId ++)
             {
                 // Get x vertex coordinate
-                xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
+                xVertexRel = this.xVerticesRel [xVertexId * this.xIdStep];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = 0f;
+                yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
 
                 // Add vertex
                 this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
@@ -262,7 +281,7 @@ public class WaterChunkMesh : MonoBehaviour
 
             // Add end vertices and uvs for x=X_MAX
             xVertexRel = this.xVerticesRel [this.xNbPolygons];
-            yVertexRel = 0f;
+            yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -277,10 +296,10 @@ public class WaterChunkMesh : MonoBehaviour
 
         // Add end vertices and uvs for z=Z_MAX
         zVertexRel = this.zVerticesRel [this.zNbPolygons];
-        for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
+        for (int xVertexId = 0; xVertexId < this.xNbPolygonsMed; xVertexId ++)
         {
-            xVertexRel = this.xVerticesRel [xVertexId * xIdStep];
-            yVertexRel = 0f;
+            xVertexRel = this.xVerticesRel [xVertexId * this.xIdStep];
+            yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -295,7 +314,7 @@ public class WaterChunkMesh : MonoBehaviour
         // Add final vertex
         xVertexRel = this.xVerticesRel [this.xNbPolygons];
         zVertexRel = this.zVerticesRel [this.zNbPolygons];
-        yVertexRel = 0f;
+        yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
 
         this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -305,19 +324,19 @@ public class WaterChunkMesh : MonoBehaviour
         );
 
         // Generate triangles
-        this.trianglesMed = new int [xNbPolygonsMed * zNbPolygonsMed * 6];
+        this.trianglesMed = new int [this.xNbPolygonsMed * this.zNbPolygonsMed * 6];
         int vert = 0;
         int tris = 0;
-        for (int zVertexId = 0; zVertexId < zNbPolygonsMed; zVertexId ++)
+        for (int zVertexId = 0; zVertexId < this.zNbPolygonsMed; zVertexId ++)
         {
-            for (int xVertexId = 0; xVertexId < xNbPolygonsMed; xVertexId ++)
+            for (int xVertexId = 0; xVertexId < this.xNbPolygonsMed; xVertexId ++)
             {
                 this.trianglesMed [tris + 0] = vert + 0;
                 this.trianglesMed [tris + 1] = vert + xNbPolygonsMed + 1;
                 this.trianglesMed [tris + 2] = vert + 1;
                 this.trianglesMed [tris + 3] = vert + 1;
-                this.trianglesMed [tris + 4] = vert + xNbPolygonsMed + 1;
-                this.trianglesMed [tris + 5] = vert + xNbPolygonsMed + 2;
+                this.trianglesMed [tris + 4] = vert + this.xNbPolygonsMed + 1;
+                this.trianglesMed [tris + 5] = vert + this.xNbPolygonsMed + 2;
 
                 vert ++;
                 tris += 6;
@@ -365,10 +384,7 @@ public class WaterChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = (float) Math.Cos (
-                    Vector2.Dot (new Vector2 (xVertexRel + this.xChunk * this.xChunkSize, zVertexRel + this.zChunk * this.zChunkSize), this.waveDirection)
-                    - this.waveSpeed * Time.deltaTime
-                ) * this.waveAmplitude;
+                yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
 
                 // Add vertex
                 this.verticesHigh [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
@@ -413,5 +429,141 @@ public class WaterChunkMesh : MonoBehaviour
         this.meshHigh .RecalculateNormals();
     }
 
+    private void UpdateMeshMed ()
+    {
+
+        // Initialise relative vertex positions
+        float xVertexRel;
+        float yVertexRel;
+        float zVertexRel;
+
+        int i = 0;
+        for (int zVertexId = 0; zVertexId < this.zNbPolygonsMed; zVertexId ++)
+        {
+            // Get z vertex coordinate
+            zVertexRel = this.zVerticesRel [zVertexId * this.zIdStep];
+
+            for (int xVertexId = 0; xVertexId < this.xNbPolygonsMed; xVertexId ++)
+            {
+                // Get x vertex coordinate
+                xVertexRel = this.xVerticesRel [xVertexId * this.xIdStep];
+
+                // Get y vertex coordinate using the noise map
+                yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+
+                // Add vertex
+                this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
+                // Add uv
+                this.uvsMed [i] = new Vector2 (
+                    (float) xVertexRel / this.xChunkSize,
+                    (float) zVertexRel / this.zChunkSize
+                );
+
+                i ++;
+            }
+
+            // Add end vertices and uvs for x=X_MAX
+            xVertexRel = this.xVerticesRel [this.xNbPolygons];
+            yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+
+            this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
+            this.uvsMed [i] = new Vector2 (
+                (float) xVertexRel / this.xChunkSize,
+                (float) zVertexRel / this.zChunkSize
+            );
+
+            i ++;
+
+        }
+
+        // Add end vertices and uvs for z=Z_MAX
+        zVertexRel = this.zVerticesRel [this.zNbPolygons];
+        for (int xVertexId = 0; xVertexId < this.xNbPolygonsMed; xVertexId ++)
+        {
+            xVertexRel = this.xVerticesRel [xVertexId * this.xIdStep];
+            yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+
+            this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
+            this.uvsMed [i] = new Vector2 (
+                (float) xVertexRel / this.xChunkSize,
+                (float) zVertexRel / this.zChunkSize
+            );
+
+            i ++;
+        }
+
+        // Add final vertex
+        xVertexRel = this.xVerticesRel [this.xNbPolygons];
+        zVertexRel = this.zVerticesRel [this.zNbPolygons];
+        yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+
+        this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
+        this.uvsMed [i] = new Vector2 (
+            (float) xVertexRel / this.xChunkSize,
+            (float) zVertexRel / this.zChunkSize
+        );
+
+        // Fill mesh
+        this.meshMed.vertices = this.verticesMed;
+        this.meshMed.uv = this.uvsMed;
+        this.meshMed .RecalculateNormals();
+    }
+
+    private void UpdateMeshHigh ()
+    {
+
+        // Initialise relative vertex positions
+        float xVertexRel;
+        float yVertexRel;
+        float zVertexRel;
+
+        int i = 0;
+        for (int zVertexId = 0; zVertexId <= this.zNbPolygons; zVertexId ++)
+        {
+            // Get z vertex coordinate
+            zVertexRel = this.zVerticesRel [zVertexId];
+
+            for (int xVertexId = 0; xVertexId <= this.xNbPolygons; xVertexId ++)
+            {
+                // Get x vertex coordinate
+                xVertexRel = this.xVerticesRel [xVertexId];
+
+                // Get y vertex coordinate using the noise map
+                yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+
+                // Add vertex
+                this.verticesHigh [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
+
+                // Add uv
+                this.uvsHigh [i] = new Vector2 (
+                    (float) xVertexRel / this.xChunkSize,
+                    (float) zVertexRel / this.zChunkSize
+                );
+
+                i ++;
+            }
+        }
+
+        // Fill mesh
+        this.meshHigh.vertices = this.verticesHigh;
+        this.meshHigh.uv = this.uvsHigh;
+        this.meshHigh .RecalculateNormals();
+    }
+
+    private float WaveHeight (float xVertexRel, float zVertexRel) {
+
+        float dotProduct = Vector2.Dot (
+            new Vector2 (xVertexRel + this.xOffset, zVertexRel + this.zOffset),
+            this.waveDirection
+        );
+
+        float waveHeight = (float) Math.Cos (dotProduct - this.waveSpeed * this.T) * this.waveAmplitude;
+
+        return waveHeight;
+    }
 
 }

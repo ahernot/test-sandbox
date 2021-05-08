@@ -2706,7 +2706,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218247405}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f3398249dbbe4d3080055d39776fe06, type: 3}
   m_Name: 
@@ -2716,17 +2716,17 @@ MonoBehaviour:
   chunks: []
   xHalfNbChunks: 8
   zHalfNbChunks: 8
-  loadHighRadius: 3
+  loadHighRadius: 8
   waveDirection: {x: 1, y: 3}
-  waveAmplitude: 1
+  waveAmplitude: 1.3
   waveVariation: 0.1
-  waveSpeed: 0.2
-  xChunkSize: 16
-  zChunkSize: 16
-  xNbPolygons: 32
-  zNbPolygons: 32
-  xReductionRatio: 4
-  zReductionRatio: 4
+  waveSpeed: 0.56
+  xChunkSize: 64
+  zChunkSize: 64
+  xNbPolygons: 16
+  zNbPolygons: 16
+  xReductionRatio: 2
+  zReductionRatio: 2
 --- !u!4 &1218247407
 Transform:
   m_ObjectHideFlags: 0

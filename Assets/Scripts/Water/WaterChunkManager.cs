@@ -96,7 +96,7 @@ public class WaterChunkManager : MonoBehaviour
             {
                 // Initialise empty GameObject
                 this.chunks[i] = new GameObject();
-                this.chunks[i] .name = "Chunk_" + xChunkId.ToString() + "_" + zChunkId.ToString();
+                this.chunks[i] .name = "WaterChunk_" + xChunkId.ToString() + "_" + zChunkId.ToString();
                 this.chunks[i] .transform.parent = gameObject.transform; // set parent
                 this.chunks[i] .layer = 8;
 
@@ -106,7 +106,6 @@ public class WaterChunkManager : MonoBehaviour
 
                 // Add necessary components
                 this.chunks[i] .AddComponent<MeshFilter>();
-                this.chunks[i] .AddComponent<MeshCollider>();
                 this.chunks[i] .AddComponent<MeshRenderer>();
 
                 MeshRenderer meshRenderer = this.chunks[i] .GetComponent<MeshRenderer>();
