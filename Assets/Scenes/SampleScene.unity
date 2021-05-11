@@ -2850,7 +2850,7 @@ MonoBehaviour:
   playerMass: 7
   dragMultiplier: 4
   movementMultiplier: 20
-  verticalForceMultiplier: -3
+  verticalForceMultiplier: -0.8
   waterCurrentDirection: {x: 1, y: 0, z: 0}
   waterCurrentVelocity: 0.15
   acceleration: {x: 0, y: 0, z: 0}
