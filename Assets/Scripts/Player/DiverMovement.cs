@@ -7,47 +7,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiverMovement : MonoBehaviour
+public class DiverMovementNew : MonoBehaviour
 {
-
+    // Character controller
     public CharacterController controller;
 
-    [Header("Movement parameters")]
-    [Range(0,10)]
-    public float speed = 4.5f;
+    [Header("Movement Parameters")]
+    public float playerMass = 7f;
+    public float dragMultiplier = 4f;
+    public float movementMultiplier = 20f;
 
-    Vector3 cameraForward;
-    Vector3 cameraRight;
+    [Tooltip("Vertical force multiplier (gravity + buoyancy)")]
+    public float verticalForceMultiplier = -3f;
 
+    [Header("Water Parameters")]
+    public Vector3 waterCurrentDirection = new Vector3 (1, 0, 0);
+    public float waterCurrentVelocity = 0.15f;
+
+    [Header("Instantaneous Movement")]
+    [SerializeField]
+    Vector3 acceleration;
     [SerializeField]
     Vector3 velocity;
-    [SerializeField]
-    Vector3 position;
+
+    Vector3 verticalForce;
+    Vector3 waterVelocity;
+
+
+    void Start ()
+    {
+        // Initialise player velocity
+        this.velocity = new Vector3 ();
+
+        // Compute vertical force vector
+        this.verticalForce = new Vector3 (0f, this.verticalForceMultiplier, 0f);
+
+        // Compute water velocity vector
+        this.waterVelocity = this.waterCurrentVelocity * Vector3.Normalize (this.waterCurrentDirection);
+    }
 
 
     void Update()
     {
 
-        // TODO: child camera instead
-        cameraForward = Camera.main.transform.forward;
-        cameraRight = Camera.main.transform.right;
+        // Get camera direction
+        // TODO: use child camera instead
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
 
+        // Get player input
         float inputLateral = Input.GetAxis("Horizontal");  // lateral axis (left / right)
         float inputTangential = Input.GetAxis("Vertical");  // tangential axis (forwards / backwards)
 
-        //
-        Vector3 positionDelta = cameraForward * inputTangential + cameraRight * inputLateral;
+        // Compute forces
+        Vector3 dragForce = -1 * this.dragMultiplier * (this.velocity - this.waterVelocity);
+        Vector3 movementForce = this.movementMultiplier * (cameraForward * inputTangential + cameraRight * inputLateral);
 
+        // Integrate motion
+        this.acceleration = (dragForce + this.verticalForce + movementForce) / this.playerMass;
+        this.velocity += this.acceleration * Time.deltaTime;
 
-        // Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(positionDelta * speed * Time.deltaTime);
-        // controller.Move(velocity * Time.deltaTime);
-
-
-        // Vec = transform.localPosition;  
-        // Vec.y += Input.GetAxis("Jump") * Time.deltaTime * 20;  
-        // Vec.x += Input.GetAxis("Horizontal") * Time.deltaTime * 20;  
-        // Vec.z += Input.GetAxis("Vertical") * Time.deltaTime * 20;  
-        // transform.localPosition = Vec;  
+        // Move player
+        controller.Move (this.velocity * Time.deltaTime);
     }
 }
