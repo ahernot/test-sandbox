@@ -23,7 +23,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 442}
   m_MaxSize: {x: 12004, y: 8042}
   vertical: 0
-  controlID: 3013
+  controlID: 11698
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -96,18 +96,18 @@ MonoBehaviour:
       y: 21
       width: 858
       height: 672
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 429, y: 336}
+    m_Scale: {x: 1.1091608, y: 1.1091608}
+    m_Translation: {x: 433.14813, y: 335.1267}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -429
-      y: -336
-      width: 858
-      height: 672
+      x: -390.5188
+      y: -302.14438
+      width: 773.5578
+      height: 605.86346
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1716, y: 1386}
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 442}
   m_MaxSize: {x: 12004, y: 8042}
   vertical: 1
-  controlID: 3014
+  controlID: 11699
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 221}
   m_MaxSize: {x: 12004, y: 4021}
   vertical: 0
-  controlID: 3015
+  controlID: 11700
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -335,9 +335,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.020584477, y: 0.88181555, z: -0.038656138, w: 0.46955827}
   m_Size:
-    m_Target: 2.6760561
+    m_Target: 15.799923
     speed: 2
-    m_Value: 2.6760561
+    m_Value: 15.799923
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -426,7 +426,7 @@ MonoBehaviour:
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 116
+  m_LastVerticalScrollValue: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -477,7 +477,7 @@ MonoBehaviour:
   m_MinSize: {x: 302, y: 221}
   m_MaxSize: {x: 8002, y: 4021}
   vertical: 0
-  controlID: 2906
+  controlID: 11667
 --- !u!114 &13
 MonoBehaviour:
   m_ObjectHideFlags: 52
