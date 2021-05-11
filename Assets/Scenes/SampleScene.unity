@@ -2847,6 +2847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1642481928}
+  viewCamera: {fileID: 963194227}
   playerMass: 7
   dragMultiplier: 4
   movementMultiplier: 20
