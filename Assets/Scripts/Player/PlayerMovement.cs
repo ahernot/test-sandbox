@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// deprecated movement script
+
 // [System.Serializable]
 public class PlayerMovement : MonoBehaviour
 {
