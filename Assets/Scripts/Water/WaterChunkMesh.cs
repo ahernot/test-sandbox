@@ -1,6 +1,7 @@
 ﻿/*
  Copyright Anatole Hernot, 2021
  All rights reserved
+ Inspired by https://www.youtube.com/watch?v=_Ij24zRI9J0
 */
 
 using System;
