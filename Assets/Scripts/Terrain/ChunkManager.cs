@@ -12,15 +12,18 @@ public class ChunkManager : MonoBehaviour
 
     [Tooltip("Player (chunk loader)")]
     public GameObject player;
+    public Camera viewCamera;
 
     [Tooltip("Chunk material")]
     public Material material;
 
     // List of chunks
-    // [HideInInspector]
+    [HideInInspector]
     public GameObject[] chunks;
 
-    // [Space(30)]
+    [Space(30)]
+
+    public bool optimizeLoading = false;
 
     [Header("Generation Settings")]
     // Number of chunks
@@ -174,11 +177,37 @@ public class ChunkManager : MonoBehaviour
 
     void UpdateResolutions ()
     {
+
+        Vector2 cameraForward2D = new Vector2 ();  // blank vector to prevent errors
+        if (this.optimizeLoading == true) {
+            Vector3 cameraForward = this.viewCamera .transform.forward;
+            cameraForward2D = new Vector2 (cameraForward.x, cameraForward.z);    
+        }
+        
         int i = 0;
         for (int xChunkId = -1 * this.xHalfNbChunks; xChunkId < this.xHalfNbChunks; xChunkId++)
         {
             for (int zChunkId = -1 * this.zHalfNbChunks; zChunkId < this.zHalfNbChunks; zChunkId++)
             {
+
+                if (this.optimizeLoading == true) {
+                    Vector2 playerToChunk = new Vector2 (xChunkId - this.xChunkPlayer, zChunkId - this.zChunkPlayer);
+                    float distanceToChunk = playerToChunk.magnitude;
+                    if ((Vector2.Dot (cameraForward2D, playerToChunk) / distanceToChunk < -0.2f) && (distanceToChunk > 2f))  // would work better with 3D dot product?
+                    {
+                        this.chunks[i] .SetActive (false);
+                    } else {
+                        this.chunks[i] .SetActive (true);
+                    }
+                } else {
+                    this.chunks[i] .SetActive (true);  // reset active state
+                }
+
+
+
+
+
+
                 // Continue if chunk out of bounds (nb of chunks was increased but not yet generated)
                 if (i >= this.chunks.Length) { continue; }
 
