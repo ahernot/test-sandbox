@@ -832,6 +832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1642481927}
+  viewCamera: {fileID: 963194227}
   material: {fileID: 2100000, guid: deb0375686e6a408e82132cb9d159b3d, type: 2}
   chunks:
   - {fileID: 0}
@@ -1858,6 +1859,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  optimizeLoading: 1
   xHalfNbChunks: 16
   zHalfNbChunks: 16
   loadHighRadius: 8
