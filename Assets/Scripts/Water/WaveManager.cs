@@ -17,7 +17,9 @@ public class WaveManager
     public float WaveHeight (Vector2 position)
     {
 
-        float height = Mathf.PerlinNoise (position.x, position.y); //0f;
+        float height = 0f;
+        float perlinValue = Mathf.PerlinNoise (position.x / 1000f, position.y / 1000f);
+
         for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
         {
             WaveLayer layer = this.waveLayers [layerId];
@@ -27,7 +29,7 @@ public class WaveManager
                 float dotProduct = position.x * Mathf.Cos (layer.directionRadians) + position.y * Mathf.Sin (layer.directionRadians);
                 float spaceOffset = 2 * Mathf.PI / layer.wavelength * dotProduct;
                 float timeOffset = -1 * layer.speed * Time.time;
-                height += (float) Mathf.Cos (spaceOffset + timeOffset ) * layer.amplitude;
+                height += (float) (Mathf.Cos (spaceOffset + timeOffset ) + perlinValue) * layer.amplitude;
             }
         }
         return height;
