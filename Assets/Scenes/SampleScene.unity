@@ -1859,10 +1859,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  optimizeLoading: 1
-  xHalfNbChunks: 16
-  zHalfNbChunks: 16
+  optimizeLoading: 0
+  xHalfNbChunks: 32
+  zHalfNbChunks: 32
   loadHighRadius: 8
+  loadRadius: 16
   xChunkSize: 16
   zChunkSize: 16
   xNbPolygons: 64
@@ -2723,6 +2724,15 @@ MonoBehaviour:
   waveAmplitude: 1.3
   waveVariation: 0.1
   waveSpeed: 0.56
+  waveLayers:
+  - renderLayer: 1
+    direction: {x: 1, y: 3}
+    amplitude: 3
+    speed: 0.56
+  - renderLayer: 0
+    direction: {x: 2, y: 1}
+    amplitude: 1.1
+    speed: 0.1
   xChunkSize: 64
   zChunkSize: 64
   xNbPolygons: 24
