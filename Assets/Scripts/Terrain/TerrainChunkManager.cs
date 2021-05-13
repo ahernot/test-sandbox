@@ -65,14 +65,14 @@ public class TerrainChunkManager : MonoBehaviour
     public NoiseType[] noiseLayers;
     // public List<float[,]> noiseChunks;
 
-    [Space(50)]
+    // [Space(50)]
     // Legacy noise settings
-    public float noiseScale = 3f;
-    public int noiseOctaves = 4;
-    public float noiseAmplitudeMult = 2f;
-    public float noiseFrequencyMult = 10f;
+    // public float noiseScale = 3f;
+    // public int noiseOctaves = 4;
+    // public float noiseAmplitudeMult = 2f;
+    // public float noiseFrequencyMult = 10f;
 
-    public float noiseMultiplier = 1f;
+    // public float noiseMultiplier = 1f;
 
     [Space(30)]
     [Tooltip("Optimize chunk loading by hiding chunks behind player")]
@@ -143,12 +143,6 @@ public class TerrainChunkManager : MonoBehaviour
 
                 // Set noise parameters
                 terrainChunkMesh.noiseLayers = this.noiseLayers;
-
-                // terrainChunkMesh.noiseScale = this.noiseScale;
-                // terrainChunkMesh.noiseOctaves = this.noiseOctaves;
-                // terrainChunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
-                // terrainChunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
-                // terrainChunkMesh.noiseMultiplier = this.noiseMultiplier;
 
                 i++;
             }
