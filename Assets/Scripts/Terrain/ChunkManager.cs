@@ -35,6 +35,7 @@ public class ChunkManager : MonoBehaviour
     // Chunks to load (square of side 2x+1)
     [Tooltip("Number of chunks to load in each direction around the player")]
     public int loadHighRadius = 8;
+    public int loadRadius = 12;
 
 
     [Header("Chunk Settings")]
@@ -190,41 +191,34 @@ public class ChunkManager : MonoBehaviour
             for (int zChunkId = -1 * this.zHalfNbChunks; zChunkId < this.zHalfNbChunks; zChunkId++)
             {
 
-                if (this.optimizeLoading == true) {
-                    Vector2 playerToChunk = new Vector2 (xChunkId - this.xChunkPlayer, zChunkId - this.zChunkPlayer);
-                    float distanceToChunk = playerToChunk.magnitude;
-                    if ((Vector2.Dot (cameraForward2D, playerToChunk) / distanceToChunk < -0.2f) && (distanceToChunk > 2f))  // would work better with 3D dot product?
-                    {
-                        this.chunks[i] .SetActive (false);
-                    } else {
-                        this.chunks[i] .SetActive (true);
-                    }
-                } else {
-                    this.chunks[i] .SetActive (true);  // reset active state
-                }
-
-
-
-
-
-
                 // Continue if chunk out of bounds (nb of chunks was increased but not yet generated)
                 if (i >= this.chunks.Length) { continue; }
 
                 // Get chunk's mesh script
                 ChunkMesh chunkMesh = this.chunks[i] .GetComponent<ChunkMesh>();
 
-                if ((zChunkId >= this.zChunkPlayer - this.loadHighRadius) && (zChunkId <= this.zChunkPlayer + this.loadHighRadius))
-                {
-                    if ((xChunkId >= this.xChunkPlayer - this.loadHighRadius) && (xChunkId <= this.xChunkPlayer + this.loadHighRadius))
-                    {
-                        chunkMesh.meshResolution = ChunkMesh.MeshResolution.High;
-                    } else {
-                        chunkMesh.meshResolution = ChunkMesh.MeshResolution.Medium;
-                    };
-                } else {
+                // Vector2 playerToChunk = new Vector2 ();
+                float playerToChunkDist = Mathf.Sqrt ( Mathf.Pow (xChunkId - this.xChunkPlayer, 2) + Mathf.Pow(zChunkId - this.zChunkPlayer, 2) );
+
+                if (playerToChunkDist > this.loadRadius) {
+                    this.chunks[i] .SetActive (false);
+                } else if (playerToChunkDist > this.loadHighRadius) {
+                    this.chunks[i] .SetActive (true);
                     chunkMesh.meshResolution = ChunkMesh.MeshResolution.Medium;
-                };
+                } else {
+                    this.chunks[i] .SetActive (true);
+                    chunkMesh.meshResolution = ChunkMesh.MeshResolution.High;
+                }
+
+                // Loading optimisation (overwrites previously activated chunks)
+                if (this.optimizeLoading == true) {
+                    Vector2 playerToChunk = new Vector2 (xChunkId - this.xChunkPlayer, zChunkId - this.zChunkPlayer);
+                    float distanceToChunk = playerToChunk.magnitude;
+                    if ((Vector2.Dot (cameraForward2D, playerToChunk) / distanceToChunk < -0.2f) && (distanceToChunk > 2f))  // would work better with 3D dot product?
+                    {
+                        this.chunks[i] .SetActive (false);
+                    }
+                }
 
                 i ++;
             }
