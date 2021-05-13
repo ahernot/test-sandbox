@@ -15,6 +15,7 @@ public class DiverMovement : MonoBehaviour
     public Camera viewCamera;
 
     [Header("Movement Parameters")]
+    public bool godMode = false;
     [Tooltip("Player mass (higher = higher inertia)")]
     public float playerMass = 7f;
     [Tooltip("Water drag multiplier (higher = more drag)")]
@@ -24,9 +25,6 @@ public class DiverMovement : MonoBehaviour
 
     [Tooltip("Vertical force multiplier (gravity + buoyancy) — requires force generation on update")]
     public float verticalForceMultiplier = -0.8f;
-
-
-    public bool godMode = false;
 
     [Header("Water Parameters")]
     [Tooltip("Water current direction vector (not normalized) — requires force generation on update")]
