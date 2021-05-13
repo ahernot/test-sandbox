@@ -201,6 +201,7 @@ public class ChunkManager : MonoBehaviour
                 float playerToChunkDist = Mathf.Sqrt ( Mathf.Pow (xChunkId - this.xChunkPlayer, 2) + Mathf.Pow(zChunkId - this.zChunkPlayer, 2) );
 
                 if (playerToChunkDist > this.loadRadius) {
+                    chunkMesh.meshResolution = ChunkMesh.MeshResolution.Low;
                     this.chunks[i] .SetActive (false);
                 } else if (playerToChunkDist > this.loadHighRadius) {
                     this.chunks[i] .SetActive (true);
