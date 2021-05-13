@@ -25,6 +25,9 @@ public class DiverMovement : MonoBehaviour
     [Tooltip("Vertical force multiplier (gravity + buoyancy) — requires force generation on update")]
     public float verticalForceMultiplier = -0.8f;
 
+
+    public bool godMode = false;
+
     [Header("Water Parameters")]
     [Tooltip("Water current direction vector (not normalized) — requires force generation on update")]
     public Vector3 waterCurrentDirection = new Vector3 (1, 0, 0);
@@ -64,9 +67,23 @@ public class DiverMovement : MonoBehaviour
         Vector3 dragForce = -1 * this.dragMultiplier * (this.velocity - this.waterVelocity);
         Vector3 movementForce = this.movementMultiplier * (cameraForward * inputTangential + cameraRight * inputLateral);
 
+
+
+        if (this.godMode)
+        {
+            movementForce = 100f * (cameraForward * inputTangential + cameraRight * inputLateral);
+        }
+
         // Integrate motion
         this.acceleration = (dragForce + this.verticalForce + movementForce) / this.playerMass;
         this.velocity += this.acceleration * Time.deltaTime;
+
+
+        if (this.godMode)
+        {
+            this.acceleration = 500f * (cameraForward * inputTangential + cameraRight * inputLateral);
+            this.velocity = this.acceleration * Time.deltaTime;
+        }
 
         // Move player
         controller.Move (this.velocity * Time.deltaTime);
