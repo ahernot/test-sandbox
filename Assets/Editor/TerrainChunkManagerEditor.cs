@@ -18,8 +18,10 @@ public class TerrainChunkManagerEditor : Editor
             DrawDefaultInspector();
         }
 
+        EditorGUILayout.Space();
+
         // Draw Generate button
-        if (GUILayout.Button ("Generate"))
+        if (GUILayout.Button ("Generate Chunks"))
         {
             terrainChunkManager.DestroyChunks();
             terrainChunkManager.GenerateChunks();
