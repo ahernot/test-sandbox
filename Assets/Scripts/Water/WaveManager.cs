@@ -42,12 +42,7 @@ public class WaveManager
 public struct WaveLayer {
     public bool renderLayer;
 
-    public Vector2 direction;
-    public float amplitude;
-    public float speed;
+    public Vector2 direction; // (1, 3)
+    public float amplitude; // 1.3
+    public float speed; // 0.56
 }
-
-// public Vector2 speed;
-// public Vector2 scale;
-// public float height;
-// public bool alternate;

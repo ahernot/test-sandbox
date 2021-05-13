@@ -147,7 +147,7 @@ public class WaterChunkMesh : MonoBehaviour
     void Update ()
     {        
         this.UpdateMeshHigh();
-        this.UpdateMeshMed();
+        // this.UpdateMeshMed();
 
         // Set chosen mesh
         this.SetMesh();
