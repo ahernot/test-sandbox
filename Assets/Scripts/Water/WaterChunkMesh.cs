@@ -278,7 +278,7 @@ public class WaterChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId * this.xIdStep];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+                yVertexRel = this.waveManager.WaveHeight (xVertexRel + this.xOffset, zVertexRel + this.zOffset);
 
                 // Add vertex
                 this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
@@ -294,7 +294,7 @@ public class WaterChunkMesh : MonoBehaviour
 
             // Add end vertices and uvs for x=X_MAX
             xVertexRel = this.xVerticesRel [this.xNbPolygons];
-            yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+            yVertexRel = this.waveManager.WaveHeight (xVertexRel + this.xOffset, zVertexRel + this.zOffset);
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -312,7 +312,7 @@ public class WaterChunkMesh : MonoBehaviour
         for (int xVertexId = 0; xVertexId < this.xNbPolygonsMed; xVertexId ++)
         {
             xVertexRel = this.xVerticesRel [xVertexId * this.xIdStep];
-            yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+            yVertexRel = this.waveManager.WaveHeight (xVertexRel + this.xOffset, zVertexRel + this.zOffset);
 
             this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -327,7 +327,7 @@ public class WaterChunkMesh : MonoBehaviour
         // Add final vertex
         xVertexRel = this.xVerticesRel [this.xNbPolygons];
         zVertexRel = this.zVerticesRel [this.zNbPolygons];
-        yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+        yVertexRel = this.waveManager.WaveHeight (xVertexRel + this.xOffset, zVertexRel + this.zOffset);
 
         this.verticesMed [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
 
@@ -397,7 +397,7 @@ public class WaterChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+                yVertexRel = this.waveManager.WaveHeight (xVertexRel + this.xOffset, zVertexRel + this.zOffset);
 
                 // Add vertex
                 this.verticesHigh [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);
