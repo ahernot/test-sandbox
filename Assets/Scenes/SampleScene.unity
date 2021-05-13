@@ -2720,23 +2720,23 @@ MonoBehaviour:
   xHalfNbChunks: 8
   zHalfNbChunks: 8
   loadHighRadius: 1
-  waveDirection: {x: 1, y: 3}
-  waveAmplitude: 1.3
-  waveVariation: 0.1
-  waveSpeed: 0.56
   waveLayers:
   - renderLayer: 1
-    direction: {x: 1, y: 3}
+    direction: 151
+    directionRadians: 0
     amplitude: 3
     speed: 0.56
-  - renderLayer: 0
-    direction: {x: 2, y: 1}
+    wavelength: 40
+  - renderLayer: 1
+    direction: 19
+    directionRadians: 0
     amplitude: 1.1
     speed: 0.1
+    wavelength: 10
   xChunkSize: 64
   zChunkSize: 64
-  xNbPolygons: 24
-  zNbPolygons: 24
+  xNbPolygons: 12
+  zNbPolygons: 12
   xReductionRatio: 4
   zReductionRatio: 4
 --- !u!4 &1218247407
