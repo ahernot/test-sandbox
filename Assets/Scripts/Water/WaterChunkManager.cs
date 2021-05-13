@@ -12,10 +12,8 @@ public class WaterChunkManager : MonoBehaviour
 
     [Tooltip("Player (chunk loader)")]
     public GameObject player;
-
-    // Player chunk position (updated at runtime)
-    int xChunkPlayer;
-    int zChunkPlayer;
+    [Tooltip("Player camera")]
+    public Camera viewCamera;
 
     [Tooltip("Chunk material")]
     public Material material;
@@ -23,8 +21,6 @@ public class WaterChunkManager : MonoBehaviour
     // List of chunks
     [HideInInspector]
     public GameObject[] chunks;
-
-    // [Space(30)]
 
     [Header("Generation Settings")]
     // Number of chunks
@@ -36,6 +32,8 @@ public class WaterChunkManager : MonoBehaviour
     // Chunks to load (square of side 2x+1)
     [Tooltip("Number of chunks to load in each direction around the player")]
     public int loadHighRadius = 8;
+    public int loadRadius = 12;
+
 
     //----------------- TO CHANGE
     [Header("Chunk Settings")]
@@ -58,11 +56,19 @@ public class WaterChunkManager : MonoBehaviour
     [Tooltip("Mesh reduction ratio along the z-axis")]
     [Range(1, 128)]
     public int zReductionRatio = 4;
-
     //----------------- TO CHANGE
+
+
+    // Player chunk position (updated at runtime)
+    int xChunkPlayer;
+    int zChunkPlayer;
 
     // Wave parameters
     public WaveLayer[] waveLayers;
+
+    [Space(30)]
+    [Tooltip("Optimize chunk loading by hiding chunks behind player")]
+    public bool optimizeLoading = false;
 
 
 
@@ -156,6 +162,14 @@ public class WaterChunkManager : MonoBehaviour
 
     void UpdateResolutions ()
     {
+
+        // Get camera direction
+        Vector2 cameraForward2D = new Vector2 ();  // blank vector to prevent errors
+        if (this.optimizeLoading == true) {
+            Vector3 cameraForward = this.viewCamera .transform.forward;
+            cameraForward2D = new Vector2 (cameraForward.x, cameraForward.z);    
+        }
+
         int i = 0;
         for (int xChunkId = -1 * this.xHalfNbChunks; xChunkId < this.xHalfNbChunks; xChunkId++)
         {
@@ -167,17 +181,30 @@ public class WaterChunkManager : MonoBehaviour
                 // Get chunk's mesh script
                 WaterChunkMesh waterChunkMesh = this.chunks[i] .GetComponent<WaterChunkMesh>();
 
-                if ((zChunkId >= this.zChunkPlayer - this.loadHighRadius) && (zChunkId <= this.zChunkPlayer + this.loadHighRadius))
-                {
-                    if ((xChunkId >= this.xChunkPlayer - this.loadHighRadius) && (xChunkId <= this.xChunkPlayer + this.loadHighRadius))
-                    {
-                        waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.High;
-                    } else {
-                        waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.Medium;
-                    };
-                } else {
+                // Calculate horizontal distance to chunk
+                float playerToChunkDist = Mathf.Sqrt ( Mathf.Pow (xChunkId - this.xChunkPlayer, 2) + Mathf.Pow(zChunkId - this.zChunkPlayer, 2) );
+
+                // Update resolutions based on distance
+                if (playerToChunkDist > this.loadRadius) {
+                    waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.Low;
+                    this.chunks[i] .SetActive (false);
+                } else if (playerToChunkDist > this.loadHighRadius) {
+                    this.chunks[i] .SetActive (true);
                     waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.Medium;
-                };
+                } else {
+                    this.chunks[i] .SetActive (true);
+                    waterChunkMesh.meshResolution = WaterChunkMesh.MeshResolution.High;
+                }
+
+                // Loading optimisation (overwrites previously activated chunks)
+                if (this.optimizeLoading == true) {
+                    Vector2 playerToChunk = new Vector2 (xChunkId - this.xChunkPlayer, zChunkId - this.zChunkPlayer);
+                    float distanceToChunk = playerToChunk.magnitude;
+                    if ((Vector2.Dot (cameraForward2D, playerToChunk) / distanceToChunk < -0.2f) && (distanceToChunk > 2f))  // would work better with 3D dot product?
+                    {
+                        this.chunks[i] .SetActive (false);
+                    }
+                }
 
                 i ++;
             }
