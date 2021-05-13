@@ -1859,7 +1859,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  optimizeLoading: 0
   xHalfNbChunks: 32
   zHalfNbChunks: 32
   loadHighRadius: 8
@@ -1890,6 +1889,7 @@ MonoBehaviour:
   noiseAmplitudeMult: 4
   noiseFrequencyMult: 0.05
   noiseMultiplier: 1000
+  optimizeLoading: 0
 --- !u!4 &617982133
 Transform:
   m_ObjectHideFlags: 0
@@ -2715,30 +2715,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1642481927}
+  viewCamera: {fileID: 963194227}
   material: {fileID: 2100000, guid: 5ca881503ea5a47eabed8b095fd7b13f, type: 2}
   chunks: []
-  xHalfNbChunks: 8
-  zHalfNbChunks: 8
-  loadHighRadius: 1
-  waveLayers:
-  - renderLayer: 1
-    direction: 151
-    directionRadians: 0
-    amplitude: 3
-    speed: 0.56
-    wavelength: 40
-  - renderLayer: 1
-    direction: 19
-    directionRadians: 0
-    amplitude: 1.1
-    speed: 0.1
-    wavelength: 10
+  xHalfNbChunks: 16
+  zHalfNbChunks: 16
+  loadHighRadius: 6
+  loadRadius: 12
   xChunkSize: 64
   zChunkSize: 64
   xNbPolygons: 12
   zNbPolygons: 12
   xReductionRatio: 4
   zReductionRatio: 4
+  waveLayers:
+  - renderLayer: 1
+    direction: 181
+    directionRadians: 0
+    amplitude: 3
+    speed: 0.56
+    wavelength: 40
+  - renderLayer: 1
+    direction: 11
+    directionRadians: 0
+    amplitude: 1.1
+    speed: 1.1
+    wavelength: 10
+  optimizeLoading: 1
 --- !u!4 &1218247407
 Transform:
   m_ObjectHideFlags: 0
@@ -2860,6 +2863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1642481928}
   viewCamera: {fileID: 963194227}
+  godMode: 0
   playerMass: 7
   dragMultiplier: 4
   movementMultiplier: 20
