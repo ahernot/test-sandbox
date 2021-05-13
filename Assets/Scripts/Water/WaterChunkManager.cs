@@ -37,10 +37,6 @@ public class WaterChunkManager : MonoBehaviour
     [Tooltip("Number of chunks to load in each direction around the player")]
     public int loadHighRadius = 8;
 
-    // Wave parameters
-    public WaveLayer[] waveLayers;
-
-
     //----------------- TO CHANGE
     [Header("Chunk Settings")]
     // Size of a chunk (affects texture size)
@@ -65,6 +61,8 @@ public class WaterChunkManager : MonoBehaviour
 
     //----------------- TO CHANGE
 
+    // Wave parameters
+    public WaveLayer[] waveLayers;
 
 
 
