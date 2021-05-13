@@ -21,13 +21,15 @@ public class WaveManager
         for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
         {
             WaveLayer layer = this.waveLayers [layerId];
-            float dotProduct = Vector2.Dot (position, layer.direction);
-            height += (float) Mathf.Cos (dotProduct - layer.speed * Time.time) * layer.amplitude;
+            if (layer.renderLayer)
+            {
+                float dotProduct = Vector2.Dot (position, layer.direction);
+                height += (float) Mathf.Cos (dotProduct - layer.speed * Time.time) * layer.amplitude;
+            }
         }
         return height;
         
     }
-
 
     public float WaveHeight (float x, float y)
     {
@@ -36,7 +38,6 @@ public class WaveManager
     }
 
 }
-
 
 [System.Serializable]
 public struct WaveLayer {
