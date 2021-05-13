@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor (typeof (ChunkManager))]
-public class ChunkManagerEditor : Editor
+[CustomEditor (typeof (TerrainChunkManager))]
+public class TerrainChunkManagerEditor : Editor
 {
     // Override default inspector
     public override void OnInspectorGUI()
     {
         // Fetch target
-        ChunkManager chunkManager = (ChunkManager)target;
+        TerrainChunkManager terrainChunkManager = (TerrainChunkManager)target;
 
         // Draw default inspector
         if (DrawDefaultInspector())
@@ -21,8 +21,8 @@ public class ChunkManagerEditor : Editor
         // Draw Generate button
         if (GUILayout.Button ("Generate"))
         {
-            chunkManager.DestroyChunks();
-            chunkManager.GenerateChunks();
+            terrainChunkManager.DestroyChunks();
+            terrainChunkManager.GenerateChunks();
         }
 
     }

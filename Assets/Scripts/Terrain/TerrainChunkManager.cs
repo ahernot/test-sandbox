@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChunkManager : MonoBehaviour
+public class TerrainChunkManager : MonoBehaviour
 {
 
     [Tooltip("Player (chunk loader)")]
@@ -111,7 +111,7 @@ public class ChunkManager : MonoBehaviour
             {
                 // Initialise empty GameObject
                 this.chunks[i] = new GameObject();
-                this.chunks[i] .name = "Chunk_" + xChunkId.ToString() + "_" + zChunkId.ToString();
+                this.chunks[i] .name = "TerrainChunk_" + xChunkId.ToString() + "_" + zChunkId.ToString();
                 this.chunks[i] .transform.parent = gameObject.transform; // set parent
                 this.chunks[i] .layer = 8;
 
@@ -127,27 +127,27 @@ public class ChunkManager : MonoBehaviour
                 MeshRenderer meshRenderer = this.chunks[i] .GetComponent<MeshRenderer>();
                 meshRenderer.material = (Material)Instantiate(this.material);
 
-                // Create ChunkMesh component
-                ChunkMesh chunkMesh = this.chunks[i] .AddComponent<ChunkMesh>();
+                // Create TerrainChunkMesh component
+                TerrainChunkMesh terrainChunkMesh = this.chunks[i] .AddComponent<TerrainChunkMesh>();
 
                 // Set ChunkMesh parameters
-                chunkMesh.xChunk = xChunkId;
-                chunkMesh.zChunk = zChunkId;
-                chunkMesh.xChunkSize = this.xChunkSize;
-                chunkMesh.zChunkSize = this.zChunkSize;
-                chunkMesh.xNbPolygons = this.xNbPolygons;
-                chunkMesh.zNbPolygons = this.zNbPolygons;
-                chunkMesh.xReductionRatio = this.xReductionRatio;
-                chunkMesh.zReductionRatio = this.zReductionRatio;
+                terrainChunkMesh.xChunk = xChunkId;
+                terrainChunkMesh.zChunk = zChunkId;
+                terrainChunkMesh.xChunkSize = this.xChunkSize;
+                terrainChunkMesh.zChunkSize = this.zChunkSize;
+                terrainChunkMesh.xNbPolygons = this.xNbPolygons;
+                terrainChunkMesh.zNbPolygons = this.zNbPolygons;
+                terrainChunkMesh.xReductionRatio = this.xReductionRatio;
+                terrainChunkMesh.zReductionRatio = this.zReductionRatio;
 
                 // Set noise parameters
-                chunkMesh.noiseLayers = this.noiseLayers;
+                terrainChunkMesh.noiseLayers = this.noiseLayers;
 
-                // chunkMesh.noiseScale = this.noiseScale;
-                // chunkMesh.noiseOctaves = this.noiseOctaves;
-                // chunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
-                // chunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
-                // chunkMesh.noiseMultiplier = this.noiseMultiplier;
+                // terrainChunkMesh.noiseScale = this.noiseScale;
+                // terrainChunkMesh.noiseOctaves = this.noiseOctaves;
+                // terrainChunkMesh.noiseAmplitudeMult = this.noiseAmplitudeMult;
+                // terrainChunkMesh.noiseFrequencyMult = this.noiseFrequencyMult;
+                // terrainChunkMesh.noiseMultiplier = this.noiseMultiplier;
 
                 i++;
             }
@@ -195,20 +195,20 @@ public class ChunkManager : MonoBehaviour
                 if (i >= this.chunks.Length) { continue; }
 
                 // Get chunk's mesh script
-                ChunkMesh chunkMesh = this.chunks[i] .GetComponent<ChunkMesh>();
+                TerrainChunkMesh terrainChunkMesh = this.chunks[i] .GetComponent<TerrainChunkMesh>();
 
                 // Vector2 playerToChunk = new Vector2 ();
                 float playerToChunkDist = Mathf.Sqrt ( Mathf.Pow (xChunkId - this.xChunkPlayer, 2) + Mathf.Pow(zChunkId - this.zChunkPlayer, 2) );
 
                 if (playerToChunkDist > this.loadRadius) {
-                    chunkMesh.meshResolution = ChunkMesh.MeshResolution.Low;
+                    terrainChunkMesh.meshResolution = TerrainChunkMesh.MeshResolution.Low;
                     this.chunks[i] .SetActive (false);
                 } else if (playerToChunkDist > this.loadHighRadius) {
                     this.chunks[i] .SetActive (true);
-                    chunkMesh.meshResolution = ChunkMesh.MeshResolution.Medium;
+                    terrainChunkMesh.meshResolution = TerrainChunkMesh.MeshResolution.Medium;
                 } else {
                     this.chunks[i] .SetActive (true);
-                    chunkMesh.meshResolution = ChunkMesh.MeshResolution.High;
+                    terrainChunkMesh.meshResolution = TerrainChunkMesh.MeshResolution.High;
                 }
 
                 // Loading optimisation (overwrites previously activated chunks)

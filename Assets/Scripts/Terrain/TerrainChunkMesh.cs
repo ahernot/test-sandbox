@@ -10,7 +10,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshCollider))]
-public class ChunkMesh : MonoBehaviour
+public class TerrainChunkMesh : MonoBehaviour
 {
 
     // Chunk coordinates
@@ -124,7 +124,7 @@ public class ChunkMesh : MonoBehaviour
         this.SetMesh();
     }
 
-    ~ChunkMesh ()
+    ~TerrainChunkMesh ()
     {
         this.meshLow.Clear();
         this.meshMed.Clear();
