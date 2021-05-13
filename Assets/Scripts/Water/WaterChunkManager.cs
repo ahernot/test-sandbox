@@ -35,7 +35,6 @@ public class WaterChunkManager : MonoBehaviour
     public int loadRadius = 12;
 
 
-    //----------------- TO CHANGE
     [Header("Chunk Settings")]
     // Size of a chunk (affects texture size)
     [Tooltip("x-axis size of the chunk (in world units)")]
@@ -56,7 +55,6 @@ public class WaterChunkManager : MonoBehaviour
     [Tooltip("Mesh reduction ratio along the z-axis")]
     [Range(1, 128)]
     public int zReductionRatio = 4;
-    //----------------- TO CHANGE
 
 
     // Player chunk position (updated at runtime)
@@ -64,6 +62,7 @@ public class WaterChunkManager : MonoBehaviour
     int zChunkPlayer;
 
     // Wave parameters
+    [Header("Wave Settings")]
     public WaveLayer[] waveLayers;
 
     [Space(30)]
