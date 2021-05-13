@@ -12,6 +12,7 @@ public class TerrainChunkManager : MonoBehaviour
 
     [Tooltip("Player (chunk loader)")]
     public GameObject player;
+    [Tooltip("Player camera")]
     public Camera viewCamera;
 
     [Tooltip("Chunk material")]
@@ -20,10 +21,6 @@ public class TerrainChunkManager : MonoBehaviour
     // List of chunks
     [HideInInspector]
     public GameObject[] chunks;
-
-    [Space(30)]
-
-    public bool optimizeLoading = false;
 
     [Header("Generation Settings")]
     // Number of chunks
@@ -76,6 +73,10 @@ public class TerrainChunkManager : MonoBehaviour
     public float noiseFrequencyMult = 10f;
 
     public float noiseMultiplier = 1f;
+
+    [Space(30)]
+    [Tooltip("Optimize chunk loading by hiding chunks behind player")]
+    public bool optimizeLoading = false;
 
     void Start ()
     {
@@ -179,6 +180,7 @@ public class TerrainChunkManager : MonoBehaviour
     void UpdateResolutions ()
     {
 
+        // Get camera direction
         Vector2 cameraForward2D = new Vector2 ();  // blank vector to prevent errors
         if (this.optimizeLoading == true) {
             Vector3 cameraForward = this.viewCamera .transform.forward;
@@ -197,9 +199,10 @@ public class TerrainChunkManager : MonoBehaviour
                 // Get chunk's mesh script
                 TerrainChunkMesh terrainChunkMesh = this.chunks[i] .GetComponent<TerrainChunkMesh>();
 
-                // Vector2 playerToChunk = new Vector2 ();
+                // Calculate horizontal distance to chunk
                 float playerToChunkDist = Mathf.Sqrt ( Mathf.Pow (xChunkId - this.xChunkPlayer, 2) + Mathf.Pow(zChunkId - this.zChunkPlayer, 2) );
 
+                // Update resolutions based on distance
                 if (playerToChunkDist > this.loadRadius) {
                     terrainChunkMesh.meshResolution = TerrainChunkMesh.MeshResolution.Low;
                     this.chunks[i] .SetActive (false);
