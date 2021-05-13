@@ -96,8 +96,6 @@ public class WaterChunkMesh : MonoBehaviour
         {
             this.zNbPolygons = 1;
         }
-
-        this.waveDirection .Normalize();
     }
 
 
