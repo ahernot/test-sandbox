@@ -568,16 +568,4 @@ public class WaterChunkMesh : MonoBehaviour
         this.meshHigh .RecalculateNormals();
     }
 
-    private float WaveHeight (float xVertexRel, float zVertexRel) {
-
-        float dotProduct = Vector2.Dot (
-            new Vector2 (xVertexRel + this.xOffset, zVertexRel + this.zOffset),
-            this.waveDirection
-        );
-
-        float waveHeight = (float) Math.Cos (dotProduct - this.waveSpeed * Time.time) * this.waveAmplitude;
-
-        return waveHeight;
-    }
-
 }
