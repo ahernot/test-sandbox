@@ -69,11 +69,6 @@ public class WaterChunkMesh : MonoBehaviour
     Vector2[] uvsHigh;
 
     // Wave parameters
-    public Vector2 waveDirection;
-    public float waveAmplitude;
-    public float waveVariation;
-    public float waveSpeed;
-
     public WaveLayer[] waveLayers;
     WaveManager waveManager;
 
@@ -103,6 +98,22 @@ public class WaterChunkMesh : MonoBehaviour
         }
 
         this.waveDirection .Normalize();
+    }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
+        {
+            WaveLayer layer = this.waveLayers [layerId];
+            if (layer.renderLayer)
+            {
+                Vector3 direction = new Vector3 ( Mathf.Cos(layer.directionRadians), 0f, Mathf.Sin(layer.directionRadians) );
+                Gizmos.DrawRay(transform.position, direction);
+            }
+        }
     }
 
     /**

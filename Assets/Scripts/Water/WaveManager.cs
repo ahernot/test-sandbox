@@ -17,15 +17,17 @@ public class WaveManager
     public float WaveHeight (Vector2 position)
     {
 
-        float height = 0f;
+        float height = Mathf.PerlinNoise (position.x, position.y); //0f;
         for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
         {
             WaveLayer layer = this.waveLayers [layerId];
             if (layer.renderLayer)
             {
                 // float dotProduct = Vector2.Dot (position, layer.direction);
-                float dotProduct = position.magnitude * Mathf.Cos (layer.direction);
-                height += (float) Mathf.Cos (dotProduct - layer.speed * Time.time) * layer.amplitude;
+                float dotProduct = position.x * Mathf.Cos (layer.directionRadians) + position.y * Mathf.Sin (layer.directionRadians);
+                float spaceOffset = 2 * Mathf.PI / layer.wavelength * dotProduct;
+                float timeOffset = -1 * layer.speed * Time.time;
+                height += (float) Mathf.Cos (spaceOffset + timeOffset ) * layer.amplitude;
             }
         }
         return height;
@@ -46,6 +48,16 @@ public struct WaveLayer {
 
     [Range(0, 360)]
     public float direction;
+    [HideInInspector]
+    public float directionRadians;
+    
     public float amplitude; // 1.3
+
+    // Pulsation
     public float speed; // 0.56
+
+    // Wavelength
+    public float wavelength;
 }
+
+// !! CLAMP WAVELENGTH > 0

@@ -38,11 +38,6 @@ public class WaterChunkManager : MonoBehaviour
     public int loadHighRadius = 8;
 
     // Wave parameters
-    public Vector2 waveDirection;
-    public float waveAmplitude;
-    public float waveVariation;
-    public float waveSpeed;
-
     public WaveLayer[] waveLayers;
 
 
@@ -87,11 +82,11 @@ public class WaterChunkManager : MonoBehaviour
     public void GenerateChunks ()
     {
 
-        // // Normalise directions
-        // for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
-        // {
-        //     this.waveLayers [layerId] .direction .Normalize();
-        // }
+        // Normalise directions
+        for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
+        {
+            this.waveLayers [layerId] .directionRadians = this.waveLayers [layerId] .direction / 360f * 2*Mathf.PI;
+        }
 
         // Initialise chunks array
         this.chunks = new GameObject[this.xHalfNbChunks * this.zHalfNbChunks * 4];
@@ -131,12 +126,7 @@ public class WaterChunkManager : MonoBehaviour
                 waterChunkMesh.xReductionRatio = this.xReductionRatio;
                 waterChunkMesh.zReductionRatio = this.zReductionRatio;
 
-                // Set wave parameters (to replace with a struct)
-                waterChunkMesh.waveDirection = this.waveDirection;
-                waterChunkMesh.waveAmplitude = this.waveAmplitude;
-                waterChunkMesh.waveVariation = this.waveVariation;
-                waterChunkMesh.waveSpeed = this.waveSpeed;
-
+                // Set wave parameters
                 waterChunkMesh.waveLayers = this.waveLayers;
 
                 i++;
