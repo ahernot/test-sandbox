@@ -13,8 +13,6 @@ using UnityEngine;
 // [RequireComponent(typeof(MeshCollider))]
 public class WaterChunkMesh : MonoBehaviour
 {
-    // TIME
-    private float T = 0f;
 
     // Chunk coordinates (chunk manager always at x=0,z=0)
     [HideInInspector]
@@ -139,10 +137,7 @@ public class WaterChunkMesh : MonoBehaviour
     * Update chunk
     **/
     void Update ()
-    {
-        // Increment time
-        this.T += Time.deltaTime;
-        
+    {        
         this.UpdateMeshHigh();
         this.UpdateMeshMed();
 
@@ -562,7 +557,7 @@ public class WaterChunkMesh : MonoBehaviour
             this.waveDirection
         );
 
-        float waveHeight = (float) Math.Cos (dotProduct - this.waveSpeed * this.T) * this.waveAmplitude;
+        float waveHeight = (float) Math.Cos (dotProduct - this.waveSpeed * Time.time) * this.waveAmplitude;
 
         return waveHeight;
     }
