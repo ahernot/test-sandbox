@@ -43,6 +43,7 @@ public class WaterChunkManager : MonoBehaviour
     public float waveVariation;
     public float waveSpeed;
 
+    public WaveLayer[] waveLayers;
 
 
     //----------------- TO CHANGE
@@ -129,6 +130,8 @@ public class WaterChunkManager : MonoBehaviour
                 waterChunkMesh.waveAmplitude = this.waveAmplitude;
                 waterChunkMesh.waveVariation = this.waveVariation;
                 waterChunkMesh.waveSpeed = this.waveSpeed;
+
+                waterChunkMesh.waveLayers = this.waveLayers;
 
                 i++;
             }

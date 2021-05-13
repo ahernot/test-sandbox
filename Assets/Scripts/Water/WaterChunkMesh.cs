@@ -74,6 +74,11 @@ public class WaterChunkMesh : MonoBehaviour
     public float waveVariation;
     public float waveSpeed;
 
+    public WaveLayer[] waveLayers;
+    WaveManager waveManager;
+
+
+
     /**
     * Clamp parameters to prevent errors
     **/
@@ -106,6 +111,9 @@ public class WaterChunkMesh : MonoBehaviour
     **/
     void Start ()
     {
+
+        this.waveManager = new WaveManager (this.waveLayers);
+
         // Check parameters
         this.ClampParameters();
 
@@ -529,7 +537,8 @@ public class WaterChunkMesh : MonoBehaviour
                 xVertexRel = this.xVerticesRel [xVertexId];
 
                 // Get y vertex coordinate using the noise map
-                yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+                // yVertexRel = this.WaveHeight (xVertexRel, zVertexRel);
+                yVertexRel = this.waveManager.WaveHeight (xVertexRel + this.xOffset, zVertexRel + this.zOffset);
 
                 // Add vertex
                 this.verticesHigh [i] = new Vector3 (xVertexRel, yVertexRel, zVertexRel);

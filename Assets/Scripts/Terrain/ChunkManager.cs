@@ -65,7 +65,7 @@ public class ChunkManager : MonoBehaviour
     // Noise settings
     [Header("Noise Settings")]
     public NoiseType[] noiseLayers;
-    public List<float[,]> noiseChunks;
+    // public List<float[,]> noiseChunks;
 
     [Space(50)]
     // Legacy noise settings

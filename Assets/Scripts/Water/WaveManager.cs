@@ -2,42 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveManager : MonoBehaviour
+public class WaveManager
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        int octaves = 2;
 
+    public WaveLayer[] waveLayers;
+
+    // Constructor
+    public WaveManager (WaveLayer[] waveLayers)
+    {
+        this.waveLayers = waveLayers;
+    }
+
+    // Start is called before the first frame update
+    public float WaveHeight (Vector2 position)
+    {
 
         float height = 0f;
-        for (int octaveId = 0; octaveId < octaves; octaveId ++)
+        for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
         {
-            // height += Mathf.Cos ();
+            WaveLayer layer = this.waveLayers [layerId];
+            float dotProduct = Vector2.Dot (position, layer.direction);
+            height += (float) Mathf.Cos (dotProduct - layer.speed * Time.time) * layer.amplitude;
         }
+        return height;
         
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public float WaveHeight (float x, float y)
     {
-        
+        Vector2 position = new Vector2 (x, y);
+        return this.WaveHeight (position);
     }
-}
 
+}
 
 
 [System.Serializable]
 public struct WaveLayer {
-    public string name;
     public bool renderLayer;
 
-    public float noiseScale; // = 3f;
-    public int octaves; // = 4;
-    public float noiseAmplitudeMult; // = 2f;
-    public float noiseFrequencyMult; // = 10f;
-
-    public float noiseMultiplier; // = 1f;
+    public Vector2 direction;
+    public float amplitude;
+    public float speed;
 }
 
 // public Vector2 speed;
