@@ -23,7 +23,8 @@ public class WaveManager
             WaveLayer layer = this.waveLayers [layerId];
             if (layer.renderLayer)
             {
-                float dotProduct = Vector2.Dot (position, layer.direction);
+                // float dotProduct = Vector2.Dot (position, layer.direction);
+                float dotProduct = position.magnitude * Mathf.Cos (layer.direction);
                 height += (float) Mathf.Cos (dotProduct - layer.speed * Time.time) * layer.amplitude;
             }
         }
@@ -43,7 +44,8 @@ public class WaveManager
 public struct WaveLayer {
     public bool renderLayer;
 
-    public Vector2 direction; // (1, 3)
+    [Range(0, 360)]
+    public float direction;
     public float amplitude; // 1.3
     public float speed; // 0.56
 }

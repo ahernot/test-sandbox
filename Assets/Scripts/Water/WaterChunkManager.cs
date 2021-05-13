@@ -87,6 +87,12 @@ public class WaterChunkManager : MonoBehaviour
     public void GenerateChunks ()
     {
 
+        // // Normalise directions
+        // for (int layerId = 0; layerId < this.waveLayers.Length; layerId ++)
+        // {
+        //     this.waveLayers [layerId] .direction .Normalize();
+        // }
+
         // Initialise chunks array
         this.chunks = new GameObject[this.xHalfNbChunks * this.zHalfNbChunks * 4];
 
