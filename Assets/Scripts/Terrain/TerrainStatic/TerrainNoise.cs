@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Noise
+public class TerrainNoise
 {
 
     public float xPerlinOffset = 1000000f;

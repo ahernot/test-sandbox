@@ -1,8 +1,15 @@
+/*
+ Copyright Anatole Hernot, 2021
+ All rights reserved
+
+ CameraMovement v1.1
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseLook : MonoBehaviour
+public class CameraMovement : MonoBehaviour
 {
 
     [Header("Mouse Settings")]

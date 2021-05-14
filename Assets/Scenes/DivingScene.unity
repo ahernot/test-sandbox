@@ -2209,7 +2209,7 @@ MonoBehaviour:
   viewCamera: {fileID: 963194227}
   chunkName: StaticChunk
   layer: 0
-  material: {fileID: 2100000, guid: 15e409527f032412cb6aef54338d68ce, type: 2}
+  material: {fileID: 2100000, guid: a5f2339f242f6cc41a982ec55ea3c201, type: 2}
   meshCollider: 0
   chunks: []
   xHalfNbChunks: 64

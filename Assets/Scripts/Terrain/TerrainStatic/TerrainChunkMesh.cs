@@ -163,8 +163,8 @@ public class TerrainChunkMesh : MonoBehaviour
         Vector2 vertexStart = new Vector2 (this.xChunkSize * this.xChunk, this.zChunkSize * this.zChunk);
         Vector2 vertexStop = new Vector2 (vertexStart.x + this.xChunkSize, vertexStart.y + this.zChunkSize);
 
-        Noise noise = new Noise();
-        this.noiseMap = noise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, noiseLayer.noiseScale, noiseLayer.noiseOctaves, noiseLayer.noiseAmplitudeMult, noiseLayer.noiseFrequencyMult, noiseLayer.noiseMultiplier, vertexStart);
+        TerrainNoise terrainNoise = new TerrainNoise();
+        this.noiseMap = terrainNoise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, noiseLayer.noiseScale, noiseLayer.noiseOctaves, noiseLayer.noiseAmplitudeMult, noiseLayer.noiseFrequencyMult, noiseLayer.noiseMultiplier, vertexStart);
         
         // Create NoiseManager instance
         // NoiseManager noiseManager = new NoiseManager();
