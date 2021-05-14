@@ -1,6 +1,8 @@
 ﻿/*
  Copyright Anatole Hernot, 2021
  All rights reserved
+
+ TerrainChunkManager v1.2
 */
 
 using System.Collections;

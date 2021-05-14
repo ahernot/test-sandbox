@@ -1,6 +1,8 @@
 ﻿/*
  Copyright Anatole Hernot, 2021
  All rights reserved
+
+ TerrainNoiseManager v1.1
 */
 
 using System.Collections;

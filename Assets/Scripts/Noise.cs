@@ -1,13 +1,15 @@
 ﻿/*
  Copyright Anatole Hernot, 2021
  All rights reserved
+
+ TerrainNoise v1.2
 */
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Noise // static because no need for multiple instances of this script
+public class Noise
 {
 
     public float xPerlinOffset = 1000000f;
@@ -107,6 +109,5 @@ public class Noise // static because no need for multiple instances of this scri
 
         return range;
     }
-
 
 }

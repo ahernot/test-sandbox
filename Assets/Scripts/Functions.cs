@@ -1,6 +1,9 @@
-﻿// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
+﻿/*
+ Copyright Anatole Hernot, 2021
+ All rights reserved
+
+ Functions v1.0
+*/
 
 public class Functions
 {

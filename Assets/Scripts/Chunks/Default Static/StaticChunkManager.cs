@@ -1,6 +1,8 @@
 ﻿/*
  Copyright Anatole Hernot, 2021
  All rights reserved
+
+ StaticChunkManager v1.0
 */
 
 using System.Collections;
