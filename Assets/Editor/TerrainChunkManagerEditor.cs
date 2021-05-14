@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+ Copyright Anatole Hernot, 2021
+ All rights reserved
+
+ TerrainChunkManagerEditor v1.1
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
