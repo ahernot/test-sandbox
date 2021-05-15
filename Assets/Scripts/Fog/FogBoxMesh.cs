@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+ Copyright Anatole Hernot, 2021
+ All rights reserved
+
+ FogBoxMesh v1.0
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
