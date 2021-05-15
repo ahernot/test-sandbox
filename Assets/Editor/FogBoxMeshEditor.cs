@@ -27,16 +27,11 @@ public class FogBoxMeshEditor : Editor
 
         EditorGUILayout.Space();
 
-        // Draw RegenerateForces button
-        if (GUILayout.Button ("Regenerate Forces"))
+        // Draw Generate Mesh button
+        if (GUILayout.Button ("Generate Mesh"))
         {
-            diverMovement.RegenerateForces();
-        }
-
-        // Draw ResetMovement button
-        if (GUILayout.Button ("Reset Movement"))
-        {
-            diverMovement.ResetMovement();
+            fogBoxMesh.GenerateMesh();
+            fogBoxMesh.SetMesh();
         }
 
     }
