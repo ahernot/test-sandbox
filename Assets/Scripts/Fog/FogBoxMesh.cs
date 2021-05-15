@@ -35,7 +35,7 @@ public class FogBoxMesh : MonoBehaviour
         this.SetMesh(); 
     }
 
-    void GenerateMesh ()
+    public void GenerateMesh ()
     {
         this.mesh = new Mesh();
 
@@ -126,7 +126,7 @@ public class FogBoxMesh : MonoBehaviour
     }
 
 
-    void SetMesh ()
+    public void SetMesh ()
     {
         GetComponent<MeshFilter>().mesh = this.mesh;
     }
