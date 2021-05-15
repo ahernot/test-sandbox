@@ -2155,14 +2155,14 @@ MonoBehaviour:
   viewCamera: {fileID: 963194227}
   material: {fileID: 2100000, guid: a5f2339f242f6cc41a982ec55ea3c201, type: 2}
   chunks: []
-  xHalfNbChunks: 16
-  zHalfNbChunks: 16
-  loadHighRadius: 6
-  loadRadius: 12
+  xHalfNbChunks: 32
+  zHalfNbChunks: 32
+  loadHighRadius: 8
+  loadRadius: 16
   xChunkSize: 64
   zChunkSize: 64
-  xNbPolygons: 12
-  zNbPolygons: 12
+  xNbPolygons: 16
+  zNbPolygons: 16
   xReductionRatio: 4
   zReductionRatio: 4
   waveLayers:
@@ -2567,7 +2567,7 @@ MonoBehaviour:
     yResolution: 2
   - name: Far Box
     renderFogBox: 1
-    material: {fileID: 2100000, guid: 5ca881503ea5a47eabed8b095fd7b13f, type: 2}
+    material: {fileID: 2100000, guid: a1c484ab2804f4a6a870400e565e3f4f, type: 2}
     yMin: -50
     yMax: 5
     radius: 256
