@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class FogBoxMesh : MonoBehaviour
 {
-    public Material material;
-
     public float yMin;
     public float yMax;
     public float radius;
@@ -23,13 +21,6 @@ public class FogBoxMesh : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Add components
-        gameObject .AddComponent<MeshFilter>();
-        gameObject .AddComponent<MeshRenderer>();
-
-        // Apply material
-        gameObject .GetComponent<MeshRenderer>() .material = (Material)Instantiate (this.material);
-
         // Generate & apply mesh
         this.GenerateMesh();
         this.SetMesh(); 
