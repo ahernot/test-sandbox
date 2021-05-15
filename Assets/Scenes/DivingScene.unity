@@ -2312,7 +2312,6 @@ Transform:
   m_Children:
   - {fileID: 1756237590}
   - {fileID: 963194228}
-  - {fileID: 2015590132}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2538,7 +2537,7 @@ GameObject:
   - component: {fileID: 1875050383}
   - component: {fileID: 1875050382}
   m_Layer: 0
-  m_Name: FogBox
+  m_Name: FogBoxManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2553,15 +2552,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1875050381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e1e215ca2adc4d99abfcc50a724ead5, type: 3}
+  m_Script: {fileID: 11500000, guid: 88444320ab80d4c01a2a3db80edd341d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 5ca881503ea5a47eabed8b095fd7b13f, type: 2}
-  yMin: -10
-  yMax: 10
-  radius: 10
-  resolution: 51
-  yResolution: 2
+  player: {fileID: 1642481927}
+  fogBoxPrefs:
+  - name: Close Box
+    renderFogBox: 1
+    material: {fileID: 2100000, guid: 5ca881503ea5a47eabed8b095fd7b13f, type: 2}
+    yMin: -50
+    yMax: 5
+    radius: 128
+    resolution: 16
+    yResolution: 2
+  - name: Far Box
+    renderFogBox: 1
+    material: {fileID: 2100000, guid: 5ca881503ea5a47eabed8b095fd7b13f, type: 2}
+    yMin: -50
+    yMax: 5
+    radius: 256
+    resolution: 12
+    yResolution: 2
 --- !u!4 &1875050383
 Transform:
   m_ObjectHideFlags: 0
@@ -2576,51 +2587,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2015590131
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2015590132}
-  - component: {fileID: 2015590133}
-  m_Layer: 0
-  m_Name: FogBoxOld
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2015590132
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015590131}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1642481929}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2015590133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015590131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c85e63e10e6c34aa793e96a6f088991b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 5ca881503ea5a47eabed8b095fd7b13f, type: 2}
-  xHalfSize: 64
-  zHalfSize: 64
-  yMax: 20
-  yMin: -50
