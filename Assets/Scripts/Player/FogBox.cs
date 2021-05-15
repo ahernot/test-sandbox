@@ -18,10 +18,10 @@ public class FogBox : MonoBehaviour
     Vector3[] vertices;
     int[] triangles;
 
-    public float xHalfSize;
-    public float zHalfSize;
+    public float xHalfSize = 64f;
+    public float zHalfSize = 64f;
 
-    public float yMax = 0f;
+    public float yMax = 20f;
     public float yMin = -50f;
 
     void Start()
