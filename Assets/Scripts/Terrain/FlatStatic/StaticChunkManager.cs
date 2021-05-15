@@ -113,7 +113,7 @@ public class StaticChunkManager : MonoBehaviour
                 this.chunks[i] .AddComponent<MeshRenderer>();
 
                 MeshRenderer meshRenderer = this.chunks[i] .GetComponent<MeshRenderer>();
-                meshRenderer.material = (Material)Instantiate(this.material);
+                meshRenderer.material = (Material)Instantiate (this.material);
 
                 // Create StaticChunkMesh component
                 StaticChunkMesh staticChunkMesh = this.chunks[i] .AddComponent<StaticChunkMesh>();
@@ -137,7 +137,7 @@ public class StaticChunkManager : MonoBehaviour
     public void DestroyChunks ()
     {
         foreach (Transform child in transform) {
-            GameObject.Destroy(child.gameObject);
+            GameObject.Destroy (child.gameObject);
         }
     }
 
