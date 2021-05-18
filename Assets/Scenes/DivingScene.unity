@@ -460,7 +460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1642481927}
   viewCamera: {fileID: 963194227}
-  material: {fileID: 2100000, guid: deb0375686e6a408e82132cb9d159b3d, type: 2}
+  material: {fileID: 2100000, guid: 53acd8229c9754bd1ba2990b7275529f, type: 2}
   chunks:
   - {fileID: 0}
   - {fileID: 0}
@@ -1959,7 +1959,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee08dc583ba5d4b1dbd7b59501a7a720, type: 2}
+  - {fileID: 2100000, guid: 53acd8229c9754bd1ba2990b7275529f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
