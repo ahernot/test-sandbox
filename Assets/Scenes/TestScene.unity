@@ -240,7 +240,7 @@ MonoBehaviour:
   - {fileID: 7450741763379908841, guid: 4ef1d97c7c4d1444d9857377dfb8c026, type: 3}
   detailMeshRotation: {x: 0, y: 0, z: 0}
   meshRotation: 90
-  detailMeshId: 4
+  detailMeshId: 0
   material: {fileID: 2100000, guid: 53acd8229c9754bd1ba2990b7275529f, type: 2}
 --- !u!33 &709349911
 MeshFilter:

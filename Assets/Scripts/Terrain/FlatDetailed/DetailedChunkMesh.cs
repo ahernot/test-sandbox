@@ -62,7 +62,7 @@ public class DetailedChunkMesh : MonoBehaviour
     //     Vector3[] vertices = this.mesh .vertices;
     //     Vector3[] verticesRotated = new Vector3 [vertices.Length];
 
-    //     Quaternion qAngle = Quaternion.AngleAxis( this.meshRotation, Vector3.up );
+    //     Quaternion qAngle = Quaternion.AngleAxis( this.meshRotation, new Vector3 (1, 0, 0) );
     //     for (int vertexId = 0; vertexId < vertices.Length; vertexId ++)
     //     {
     //         verticesRotated [vertexId] = qAngle * vertices [vertexId];
