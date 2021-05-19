@@ -11,6 +11,11 @@ using UnityEngine;
 
 public class TerrainNoiseManager
 {
+
+    // ### TO REDO ###
+    public float xPerlinOffset = 1000f;// 1000000f;
+    public float yPerlinOffset = 1000f;// 1000000f;
+
     NoiseLayer[] noiseLayers;
 
     public TerrainNoiseManager (NoiseLayer[] noiseLayers) {
@@ -29,14 +34,18 @@ public class TerrainNoiseManager
         float amplitudeStart = 1f;
         float frequencyStart = 1f;
 
+
+        // ### TO REDO ###
         // Calculate normalising factor
         float a = amplitudeStart;
         float heightRangeHalf = 0f;
-        for (int octaveId = 0; octaveId < octaves; octaveId ++)
+        for (int octaveId = 0; octaveId < this.noiseLayers[0].octaves; octaveId ++)
         {
             heightRangeHalf += a; // 1 * a
-            a *= amplitudeMult; // increment (decrement) persistence after each octave
+            a *= this.noiseLayers[0].amplitudeMult; // increment (decrement) persistence after each octave
         }
+        // ### TO REDO ###
+
 
         // Generate vertex coordinates
         float[] xVerticesRel = Functions.LinearRange (0, size.x, vertsPerSide);
@@ -67,6 +76,12 @@ public class TerrainNoiseManager
 
                 for (int noiseLayerId = 0; noiseLayerId < this.noiseLayers.Length; noiseLayerId ++)
                 {
+
+                    NoiseLayer noiseLayer = this.noiseLayers [noiseLayerId];
+                    if (!noiseLayer.renderLayer) { continue; };
+
+                    float noiseHeightLayer = 0f;
+
                     amplitude = amplitudeStart;
                     frequency = frequencyStart;
 
@@ -75,24 +90,27 @@ public class TerrainNoiseManager
                     float ySampling;
                     float noiseValue;
 
-                    for (int octaveId = 0; octaveId < octaves; octaveId ++)
+                    for (int octaveId = 0; octaveId < noiseLayer.octaves; octaveId ++)
                     {
-                        xSampling = xVertexRel / scale * frequency;
-                        ySampling = yVertexRel / scale * frequency;
+                        xSampling = xVertexRel / noiseLayer.scale * frequency;
+                        ySampling = yVertexRel / noiseLayer.scale * frequency;
                         xSampling += this.xPerlinOffset;
                         ySampling += this.yPerlinOffset;
 
                         noiseValue = Mathf.PerlinNoise (xSampling, ySampling) * 2 - 1; // cast to range [-1, 1]
 
-                        noiseHeight += noiseValue * amplitude;
+                        noiseHeightLayer += noiseValue * amplitude;
 
-                        amplitude *= amplitudeMult; // increment (decrement) persistence after each octave
-                        frequency *= frequencyMult; // increment frequency
+                        amplitude *= noiseLayer.amplitudeMult; // increment (decrement) persistence after each octave
+                        frequency *= noiseLayer.frequencyMult; // increment frequency
                     }
+
+                    noiseHeightLayer *= noiseLayer.multiplier;
+                    noiseHeight += noiseHeightLayer;
                 }
                 
                 // Apply to noiseMap
-                noiseMap [xVertexId, yVertexId] = noiseHeight / (2 * heightRangeHalf) * noiseMultiplier;
+                noiseMap [xVertexId, yVertexId] = noiseHeight / (2 * heightRangeHalf);
             }
         }
 
