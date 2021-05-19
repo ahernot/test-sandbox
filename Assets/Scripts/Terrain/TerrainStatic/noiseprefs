@@ -4,3 +4,30 @@ octaves==5
 amplitudeMult==1
 frequencyMult==10
 multiplier==1
+
+
+
+
+# terrain
+seed==0
+scale==3
+octaves==5
+amplitudeMult==1
+frequencyMult==10
+multiplier==1
+
+# hills
+seed==0
+scale==30
+octaves==3
+amplitudeMult==4
+frequencyMult==1
+multiplier==2
+
+# bigger hills
+seed==0
+scale==20
+octaves==3
+amplitudeMult==1.1
+frequencyMult==2
+multiplier==3
