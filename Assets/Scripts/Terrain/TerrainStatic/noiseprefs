@@ -26,8 +26,8 @@ multiplier==2
 
 # bigger hills
 seed==0
-scale==20
+scale==100
 octaves==3
-amplitudeMult==1.1
-frequencyMult==2
-multiplier==3
+amplitudeMult==4
+frequencyMult==0.9
+multiplier==6
