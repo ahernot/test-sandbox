@@ -2,7 +2,7 @@
  Copyright Anatole Hernot, 2021
  All rights reserved
 
- TerrainChunkMesh v1.2
+ TerrainChunkMesh v1.3
 */
 
 using System;
@@ -65,7 +65,8 @@ public class TerrainChunkMesh : MonoBehaviour
     Vector2[] uvsHigh;
 
     // Noise
-    public NoiseType[] noiseLayers; // Noise settings
+    TerrainNoiseManager noiseManager;
+    public NoiseLayer[] noiseLayers; // Noise settings
     public float[,] noiseMap;
 
     //public float noiseMultiplier = 1f; //20f;//5f;
@@ -106,14 +107,15 @@ public class TerrainChunkMesh : MonoBehaviour
         this.ClampParameters();
 
         // Initialise vertices' relative positions
-        this.xVerticesRel = new Functions().LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
-        this.zVerticesRel = new Functions().LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
+        this.xVerticesRel = Functions.LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
+        this.zVerticesRel = Functions.LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
 
         // Set world position of chunk (assuming that all the chunks are the same size)
         // this.x = this.xChunk * this.xChunkSize;
         // this.z = this.zChunk * this.zChunkSize;
 
         // Generate noise map
+        this.noiseManager = new TerrainNoiseManager (this.noiseLayers);
         this.GenerateNoiseMap();
 
         // Generate all meshes
@@ -151,21 +153,21 @@ public class TerrainChunkMesh : MonoBehaviour
 
     void GenerateNoiseMap ()
     {
-
-        
-
         int xNbVertices = this.xNbPolygons + 1;
         int zNbVertices = this.zNbPolygons + 1;
         int seed = 0;
 
-        NoiseType noiseLayer = this.noiseLayers [0];
+        NoiseLayer noiseLayer = this.noiseLayers [0];
 
         Vector2 vertexStart = new Vector2 (this.xChunkSize * this.xChunk, this.zChunkSize * this.zChunk);
         Vector2 vertexStop = new Vector2 (vertexStart.x + this.xChunkSize, vertexStart.y + this.zChunkSize);
 
-        TerrainNoise terrainNoise = new TerrainNoise();
-        this.noiseMap = terrainNoise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, noiseLayer.noiseScale, noiseLayer.noiseOctaves, noiseLayer.noiseAmplitudeMult, noiseLayer.noiseFrequencyMult, noiseLayer.noiseMultiplier, vertexStart);
-        
+        // TerrainNoise terrainNoise = new TerrainNoise();
+        // this.noiseMap = terrainNoise.GenerateNoiseMap (xChunkSize, zChunkSize, xNbVertices, zNbVertices, seed, noiseLayer.scale, noiseLayer.octaves, noiseLayer.amplitudeMult, noiseLayer.frequencyMult, noiseLayer.multiplier, vertexStart);
+
+        Vector2 size = new Vector2 (this.xChunkSize, this.zChunkSize); // will be this.size
+        this.noiseMap = this.noiseManager .GenerateNoiseChunk (vertexStart, size, xNbVertices); // xNbVertices or zNbVertices
+
         // Create NoiseManager instance
         // NoiseManager noiseManager = new NoiseManager();
         // noiseManager.noiseLayers = this.noiseLayers;
