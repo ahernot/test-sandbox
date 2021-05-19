@@ -1,7 +1,8 @@
 ﻿/*
  Copyright Anatole Hernot, 2021
  All rights reserved
- Inspired by https://www.youtube.com/watch?v=_Ij24zRI9J0
+
+ WaterChunkMesh v1.1 (deprecated)
 */
 
 using System;
@@ -131,8 +132,8 @@ public class WaterChunkMesh : MonoBehaviour
         this.zOffset = this.zChunk * this.zChunkSize;
 
         // Initialise vertices' relative positions
-        this.xVerticesRel = new Functions().LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
-        this.zVerticesRel = new Functions().LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
+        this.xVerticesRel = Functions.LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
+        this.zVerticesRel = Functions.LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
 
         // Initialise medium mesh parameters
         // Calculate number of polygons per side
