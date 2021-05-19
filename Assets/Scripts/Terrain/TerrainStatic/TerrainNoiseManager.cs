@@ -13,7 +13,7 @@ public class TerrainNoiseManager
 {
     NoiseLayer[] noiseLayers;
 
-    public TerrainNoiseManagerNew (NoiseLayer[] noiseLayers) {
+    public TerrainNoiseManager (NoiseLayer[] noiseLayers) {
         this.noiseLayers = noiseLayers;
     }
 
