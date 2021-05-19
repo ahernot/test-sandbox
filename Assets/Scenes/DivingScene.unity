@@ -1500,18 +1500,28 @@ MonoBehaviour:
   noiseLayers:
   - name: flat terrain
     renderLayer: 1
-    noiseScale: 3
-    noiseOctaves: 5
-    noiseAmplitudeMult: 4
-    noiseFrequencyMult: 0.05
-    noiseMultiplier: 1000
+    seed: 0
+    scale: 3
+    octaves: 5
+    amplitudeMult: 1
+    frequencyMult: 10
+    multiplier: 1
   - name: hills
-    renderLayer: 0
-    noiseScale: 0
-    noiseOctaves: 0
-    noiseAmplitudeMult: 0
-    noiseFrequencyMult: 0
-    noiseMultiplier: 0
+    renderLayer: 1
+    seed: 0
+    scale: 30
+    octaves: 3
+    amplitudeMult: 4
+    frequencyMult: 1
+    multiplier: 2
+  - name: bigger hills
+    renderLayer: 1
+    seed: 0
+    scale: 100
+    octaves: 3
+    amplitudeMult: 4
+    frequencyMult: 0.9
+    multiplier: 6
   optimizeLoading: 0
 --- !u!4 &617982133
 Transform:
@@ -1521,7 +1531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 617982131}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2139,7 +2149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1218247406
 MonoBehaviour:
   m_ObjectHideFlags: 0
