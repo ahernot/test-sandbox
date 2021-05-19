@@ -1,0 +1,6 @@
+# Layer 1
+scale==3
+octaves==5
+amplitudeMult==1
+frequencyMult==10
+multiplier==1
