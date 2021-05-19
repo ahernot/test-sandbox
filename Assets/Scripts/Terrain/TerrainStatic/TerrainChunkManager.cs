@@ -2,7 +2,7 @@
  Copyright Anatole Hernot, 2021
  All rights reserved
 
- TerrainChunkManager v1.2
+ TerrainChunkManager v1.3
 */
 
 using System.Collections;
@@ -64,7 +64,7 @@ public class TerrainChunkManager : MonoBehaviour
 
     // Noise settings
     [Header("Noise Settings")]
-    public NoiseType[] noiseLayers;
+    public NoiseLayer[] noiseLayers;
     // public List<float[,]> noiseChunks;
 
     // [Space(50)]
@@ -119,7 +119,7 @@ public class TerrainChunkManager : MonoBehaviour
                 this.chunks[i] .layer = 8;
 
                 // Update position and rotation
-                this.chunks[i] .transform.position = new Vector3(xChunkId * this.xChunkSize, 0, zChunkId * this.zChunkSize);
+                this.chunks[i] .transform.position = new Vector3(xChunkId * this.xChunkSize, gameObject.transform.position.y, zChunkId * this.zChunkSize);
                 this.chunks[i] .transform.rotation = Quaternion.identity;
 
                 // Add necessary components
