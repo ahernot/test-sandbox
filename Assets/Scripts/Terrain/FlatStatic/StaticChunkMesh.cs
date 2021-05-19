@@ -114,8 +114,8 @@ public class StaticChunkMesh : MonoBehaviour
         this.zOffset = this.zChunk * this.zChunkSize;
 
         // Initialise vertices' relative positions
-        this.xVerticesRel = new Functions().LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
-        this.zVerticesRel = new Functions().LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
+        this.xVerticesRel = Functions.LinearRange (0, this.xChunkSize, this.xNbPolygons + 1);
+        this.zVerticesRel = Functions.LinearRange (0, this.zChunkSize, this.zNbPolygons + 1);
 
         // Initialise medium mesh parameters
         // Calculate number of polygons per side
