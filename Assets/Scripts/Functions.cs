@@ -2,7 +2,7 @@
  Copyright Anatole Hernot, 2021
  All rights reserved
 
- Functions v1.0
+ Functions v1.1
 */
 
 public static class Functions

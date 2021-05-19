@@ -2,7 +2,7 @@
  Copyright Anatole Hernot, 2021
  All rights reserved
 
- StaticChunkMesh v1.0
+ StaticChunkMesh v1.1
 */
 
 using System;

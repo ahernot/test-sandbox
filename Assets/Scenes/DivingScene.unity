@@ -331,6 +331,26 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2281230642242371585, guid: a4a6deba3c21f44cf853eb52d2a5ab0f, type: 3}
+--- !u!1 &574534310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 02ac7e4e0484748a0b00904c550b2344,
+    type: 3}
+  m_PrefabInstance: {fileID: 1462112298}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &574534314
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574534310}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4955222580206583632, guid: 02ac7e4e0484748a0b00904c550b2344, type: 3}
 --- !u!1001 &584519909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1498,7 +1518,7 @@ MonoBehaviour:
   xReductionRatio: 12
   zReductionRatio: 12
   noiseLayers:
-  - name: flat terrain
+  - name: detail
     renderLayer: 1
     seed: 0
     scale: 3
@@ -1506,7 +1526,7 @@ MonoBehaviour:
     amplitudeMult: 1
     frequencyMult: 10
     multiplier: 1
-  - name: hills
+  - name: bumps
     renderLayer: 1
     seed: 0
     scale: 30
@@ -1514,7 +1534,7 @@ MonoBehaviour:
     amplitudeMult: 4
     frequencyMult: 1
     multiplier: 2
-  - name: bigger hills
+  - name: hills
     renderLayer: 1
     seed: 0
     scale: 100
@@ -2149,7 +2169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1218247406
 MonoBehaviour:
   m_ObjectHideFlags: 0
