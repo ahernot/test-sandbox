@@ -5,9 +5,9 @@
  Functions v1.0
 */
 
-public class Functions
+public static class Functions
 {
-    public float[] LinearRange (float start, float stop, int nbPoints)
+    public static float[] LinearRange (float start, float stop, int nbPoints)
     {
         float[] range = new float [nbPoints];
 
